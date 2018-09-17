@@ -68,9 +68,13 @@ class DB {
             '\tfrom1.cardReceiveTime DESC')
     }
 
+    //wall--获取所有图片
+    getAllCard(){
+        return DAO('select cardId,cardPic,cardLike from postcard where cardReceiveTime is not null and cardPic is not null ORDER BY cardReceiveTime DESC;',[]);
+    }
     //wall--根据搜索框内输入的城市搜索明信片
     getPostCard(city){
-        return DAO('select * from postcard where cardSendRegion=?',[city]);
+        return DAO('select * from postcard where cardSendRegion=? and cardReceiveTime is not null and cardPic is not null ORDER BY cardReceiveTime DESC;\n',[city]);
     }
 
 
