@@ -29,7 +29,7 @@ module.exports = {
             }
             ctx.body = {"code": 200, "message": "ok，明信片收发实时动态", data: realtimeDynamic};
         } catch (e) {
-            ctx.body = {"code": 500, "message": "服务器错误",};
+            ctx.body = {"code": 500, "message": "服务器错误",data:[]};
         }
     },
 

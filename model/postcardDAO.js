@@ -76,6 +76,7 @@ class DB {
     getPostCard(city){
         return DAO('select * from postcard where cardSendRegion=? and cardReceiveTime is not null and cardPic is not null ORDER BY cardReceiveTime DESC;\n',[city]);
     }
+
     //postcard--点击没张照片的详情界面
     getCardInformation(cardId){
         return DAO('SELECT\n' +
