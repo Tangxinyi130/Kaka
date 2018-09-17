@@ -49,13 +49,13 @@ class DB {
     }
     //users === 查询已发送的明信片
     getUserSend(userId) {
-        return DAO("select cardId, cardReceiver, userName, cardReceiveRegion, cardSendTime, cardReceiveTime, cardPic " +
+        return DAO("select cardId, cardReceiver, userNickname, cardReceiveRegion, cardSendTime, cardReceiveTime, cardPic " +
                     "from postcard, userInfo " +
                     "where cardSender = ? and postcard.cardReceiver = userinfo.userId", [userId]);
     }
     //users === 查询已收到的明信片
     getUserReceive(userId) {
-        return DAO("select cardId, cardSender, userName, cardSendRegion, cardSendTime, cardReceiveTime, cardPic " +
+        return DAO("select cardId, cardSender, userNickname, cardSendRegion, cardSendTime, cardReceiveTime, cardPic " +
             "from postcard, userInfo " +
             "where cardReceiver = ? and postcard.cardSender = userinfo.userId and cardReceiveTime is not null", [userId]);
     }

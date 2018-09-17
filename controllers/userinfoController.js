@@ -19,7 +19,7 @@ module.exports = {
             //用户粉丝数
             let userFansNum = await userDAO.countFansNum(ctx.params.userId);
             let synopsis = {
-                userName: userDate[0].userName, //用户姓名
+                userNickname: userDate[0].userNickname, //用户姓名
                 userId: userDate[0].userId, //用户id
                 userHeadPic: userDate[0].userHeadPic,   //用户头像
                 userSex: userDate[0].userSex,   //用户性别

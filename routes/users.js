@@ -1,5 +1,6 @@
 const router = require('koa-router')();
 const userinfoController = require("../controllers/userinfoController");
+const attentionController = require("../controllers/attentionController");
 router.prefix('/users');
 
 //查询指定用户
@@ -65,6 +66,31 @@ router.get("/userWallCollection/:userId", async (ctx, next) => {
 //地区排行榜
 router.get("/mapCharts/:userId", async (ctx, next) => {
     await userinfoController.showMapCharts(ctx, next);
+});
+
+//我的粉丝和我的关注(用户的头像和关注数量和粉丝数量)
+router.get("/attention/:userId", async (ctx, next) => {
+    await attentionController.getAttention(ctx, next);
+});
+
+//关注用户的用户简介
+router.get("/attention/myAttention/:userId", async (ctx, next) => {
+    await attentionController.getAttentionSynopsis(ctx, next);
+});
+
+//粉丝用户的用户简介
+router.get("/attention/myFans/:userId", async (ctx, next) => {
+    await attentionController.getFansSynopsis(ctx, next);
+});
+
+//搜索用户(userId: 登录者id, searchUser: 搜索的用户昵称)
+router.get("/attention/searchUser/:userId/:searchUser", async (ctx, next) => {
+    await attentionController.getUser(ctx, next);
+});
+
+//关注用户(userId: 登录者id, otherId: 准备关注的用户id)
+router.get("/attention/focus/:userId/:otherId", async (ctx, next) => {
+    await attentionController.insertAttention(ctx, next);
 });
 
 module.exports = router;
