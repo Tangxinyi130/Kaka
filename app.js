@@ -10,6 +10,7 @@ const index = require('./routes/index')
 const users = require('./routes/users')
 const wall = require('./routes/wall')
 const send = require('./routes/send')
+const postcards = require('./routes/postcards')
 
 // error handler
 onerror(app)
@@ -39,6 +40,7 @@ app.use(index.routes(), index.allowedMethods())
 app.use(users.routes(), users.allowedMethods())
 app.use(wall.routes(), wall.allowedMethods())
 app.use(send.routes(), send.allowedMethods())
+app.use(postcards.routes(), postcards.allowedMethods())
 
 // error-handling
 app.on('error', (err, ctx) => {

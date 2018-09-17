@@ -77,6 +77,55 @@ class DB {
         return DAO('select * from postcard where cardSendRegion=? and cardReceiveTime is not null and cardPic is not null ORDER BY cardReceiveTime DESC;\n',[city]);
     }
 
-
+    //postcard--点击没张照片的详情界面
+    getCardInformation(cardId){
+        return DAO('SELECT\n' +
+            '\ts.userId,\n' +
+            '\ts.userHeadPic,\n' +
+            '\ts.userNickname,\n' +
+            '\ts.userCity,\n' +
+            '\tr.userId userId1,\n' +
+            '\tr.userHeadPic userHeadPic1,\n' +
+            '\tr.userNickname userNickname1,\n' +
+            '\tr.userCity userCuty1,\n' +
+            '\tcardDistance,\n' +
+            '\tcardPic,\n' +
+            'DAY \n' +
+            'FROM\n' +
+            '\t(\n' +
+            '\tSELECT\n' +
+            '\t\tuserId,\n' +
+            '\t\tuserHeadPic,\n' +
+            '\t\tuserNickname,\n' +
+            '\t\tuserCity,\n' +
+            '\t\tcardReceiver,\n' +
+            '\t\tcardDistance,\n' +
+            '\t\tcardPic,\n' +
+            '\t\tcardId,\n' +
+            '\t\tDATEDIFF( cardReceiveTime, cardSendTime ) AS DAY \n' +
+            '\tFROM\n' +
+            '\t\tuserinfo u\n' +
+            '\t\tLEFT JOIN postcard p ON u.userId = p.cardSender \n' +
+            '\t) s\n' +
+            '\tLEFT JOIN userinfo r ON s.cardReceiver = r.userId \n' +
+            'WHERE\n' +
+            '\ts.cardId = ? ',[cardId]);
+    }
+    //postcard--加载评论区
+    getComment(cardId){
+        return DAO('select commentUserId,commentContent,commentTime from comment where commentCardId=?',[cardId]);
+    }
+    //postcard--添加评论
+    addComment(form){
+        return DAO('insert into comment(commentCardId,commentUserId,commentTime,commentContent) VALUES(?,?,?,?)',[form.commentCardId,form.commentUserId,form.commentTime,form.commentContent]);
+    }
+    //postcard--添加一条点赞
+    addLike(cardId){
+        return DAO('update postcard set cardLike=cardLike+1 where cardId= ?',[cardId]);
+    }
+    //postcard--取消点赞
+    unLike(cardId){
+        return DAO('update postcard set cardLike=cardLike-1 where cardId= ?',[cardId]);
+    }
 }
 module.exports = new DB();
