@@ -83,5 +83,56 @@ module.exports = {
         } catch(e) {
             ctx.body = {"code": 500, "message": "服务器错误", data:[]};
         }
+    },
+    //首页-用户部分数据卡片数据
+    getUserCard:async(ctx,next)=>{
+        try {
+            //用户头像
+            let headPic = await userDAO.getUserHeadPic(ctx.params.userId);
+            //用户昵称
+            let nickName = await userDAO.getUserNickName(ctx.params.userId);
+            //用户发送总数
+            let sendNum = await userDAO.countSendNum(ctx.params.userId);
+            //用户收到总数
+            let receiveNum =await userDAO.countReceiveNum(ctx.params.userId);
+            //我的关注数
+            let attentionNum = await userDAO.countAttentionNum(ctx.params.userId);
+            //我的粉丝数
+            let fansNum = await userDAO.countFansNum(ctx.params.userId);
+            //我的收藏数
+            let collectionNum = await userDAO.countCollectionNum(ctx.params.userId);
+            // 用户卡全部信息
+            let UserCard = {
+                headPic:headPic,
+                nickName:nickName,
+                sendNum:sendNum,
+                receiveNum:receiveNum,
+                attentionNum:attentionNum,
+                fansNum:fansNum,
+                collectionNum:collectionNum
+            }
+            ctx.body = {"code": 200, "message": "ok", data:UserCard};
+        } catch(e) {
+            ctx.body = {"code": 500, "message": "服务器错误", data:e};
+        }
+    },
+    //首页-限制发送数量的进度条【可发送总数】【未确认接收数】
+    statusBar:async(ctx,next)=>{
+        try{
+            //用户已经发送但未确认收获总数
+            let unabsorbedNum = await userDAO.getUnabsorbedNum(ctx.params.userId);
+            //用户一共可以发送未确认的总数
+            let transmitsNum = 5;
+            //可发送数量占比
+            let proportion = (transmitsNum-unabsorbedNum[0].unabsorbedNum);
+            let statusBar ={
+                transmitsNum:transmitsNum,
+                unabsorbedNum:unabsorbedNum,
+                proportion:proportion
+            }
+            ctx.body = {"code": 200, "message": "用户的可发送数和以发送数", data:statusBar};
+        } catch(e) {
+            ctx.body = {"code": 500, "message": "服务器错误"+e.toString(), data:[]};
+         }
     }
 };
