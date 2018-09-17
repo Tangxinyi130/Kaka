@@ -90,5 +90,23 @@ module.exports = {
         }catch (e){
             ctx.body = {'code': 500, "message": "postcard里评论失败！"+e.message, data:[]};
         }
+    },
+    //postcard--用户点赞，点赞数加1
+    addLike:async (ctx,next)=>{
+        try{
+            let likeNum=await postcardDAO.addLike(ctx.params.cardId);
+            ctx.body={'code':200,"message":"ok",data:likeNum};
+        }catch (e){
+            ctx.body={'code':500,"message":"点赞加1！嘿嘿报错了！"+e.message,data:[]};
+        }
+    },
+    //postcard--用户取消点赞，点赞数减1
+    unLike:async (ctx,next)=>{
+        try{
+            let likeNum=await postcardDAO.unLike(ctx.params.cardId);
+            ctx.body={'code':200,"message":"ok",data:likeNum};
+        }catch (e){
+            ctx.body={'code':500,"message":"点赞加1！嘿嘿报错了！"+e.message,data:[]};
+        }
     }
 };

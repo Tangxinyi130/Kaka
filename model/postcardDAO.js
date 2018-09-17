@@ -119,7 +119,13 @@ class DB {
     addComment(form){
         return DAO('insert into comment(commentCardId,commentUserId,commentTime,commentContent) VALUES(?,?,?,?)',[form.commentCardId,form.commentUserId,form.commentTime,form.commentContent]);
     }
-
-
+    //postcard--添加一条点赞
+    addLike(cardId){
+        return DAO('update postcard set cardLike=cardLike+1 where cardId= ?',[cardId]);
+    }
+    //postcard--取消点赞
+    unLike(cardId){
+        return DAO('update postcard set cardLike=cardLike-1 where cardId= ?',[cardId]);
+    }
 }
 module.exports = new DB();
