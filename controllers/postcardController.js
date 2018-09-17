@@ -1,6 +1,6 @@
 const postcardDAO = require('../model/postcardDAO');
 module.exports = {
-    //明信片实时动态-收到最新动态
+    //index--明信片实时动态-收到最新动态
     getNewReceive:async (ctx, next) => {
         try {
             let newRecevie= await postcardDAO.getNewReceive();
@@ -9,7 +9,7 @@ module.exports = {
             ctx.body = {"code": 500, "message": "服务器错误",};
         }
     },
-    //明信片实时动态：发送最新动态
+    //index--明信片实时动态：发送最新动态
     getNewSend:async(ctx,next) =>{
         try {
             let NewSend = await postcardDAO.getNewSend();
@@ -18,7 +18,7 @@ module.exports = {
             ctx.body = {"code": 500, "message": "服务器错误",};
         }
     },
-    //明信片收发实时动态
+    //index--明信片收发实时动态
     realtimeDynamic:async(ctx,next)=>{
         try {
             let NewSend = await postcardDAO.getNewSend();
@@ -32,4 +32,4 @@ module.exports = {
             ctx.body = {"code": 500, "message": "服务器错误",};
         }
     }
-}
+};

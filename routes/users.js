@@ -29,12 +29,7 @@ router.post("/aboutUser/setAboutUser", async (ctx, next) => {
 
 //已发送的明信片
 router.get("/userSend/:userId", async (ctx, next) => {
-  await userinfoController.getUserSend(ctx, next);
-});
-
-//首页-用户数据信息
-router.get("/userCard/:userId",async(ctx,next)=>{
-  await userinfoController.getUserCard(ctx,next);
+    await userinfoController.getUserSend(ctx, next);
 });
 
 module.exports = router;

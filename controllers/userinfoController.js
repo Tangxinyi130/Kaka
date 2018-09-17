@@ -84,7 +84,8 @@ module.exports = {
             ctx.body = {"code": 500, "message": "服务器错误", data:[]};
         }
     },
-    //首页-用户部分数据卡片数据
+
+    //index--首页-用户部分数据卡片数据
     getUserCard:async(ctx,next)=>{
         try {
             //用户头像
@@ -113,10 +114,10 @@ module.exports = {
             }
             ctx.body = {"code": 200, "message": "ok", data:UserCard};
         } catch(e) {
-            ctx.body = {"code": 500, "message": "服务器错误", data:e};
+            ctx.body = {"code": 500, "message": "服务器错误"+e.toString(), data:[]};
         }
     },
-    //首页-限制发送数量的进度条【可发送总数】【未确认接收数】
+    //index--首页-限制发送数量的进度条【可发送总数】【未确认接收数】
     statusBar:async(ctx,next)=>{
         try{
             //用户已经发送但未确认收获总数
