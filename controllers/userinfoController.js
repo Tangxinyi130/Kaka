@@ -84,13 +84,66 @@ module.exports = {
             ctx.body = {"code": 500, "message": e.toString(), data:[]};
         }
     },
-
     //users === 已收到的明信片
     getUserReceive: async (ctx, next) => {
         try {
             let userReceive = await userDAO.getUserReceive(ctx.params.userId);
             ctx.body = {"code": 200, "message": "ok", data:userReceive};
         } catch(e) {
+            ctx.body = {"code": 500, "message": e.toString(), data:[]};
+        }
+    },
+    //users === 查看明信片图片
+    getCardPic: async (ctx, next) => {
+        try {
+            let card = await userDAO.getCardPic(ctx.params.postcardId);
+            ctx.body = {"code": 200, "message": "ok", data:card};
+        } catch(e) {
+            ctx.body = {"code": 500, "message": e.toString(), data:[]};
+        }
+    },
+    //users === 上传明信片图片
+    updateCardPic: async (ctx, next) => {
+        try {
+            await userDAO.updateCardPic(ctx.request.body.userId, ctx.request.body.cardId, ctx.request.body.cardUrl);
+            ctx.body = {"code": 200, "message": "ok", data:[]};
+        } catch(e) {
+            ctx.body = {"code": 500, "message": e.toString(), data:[]};
+        }
+    },
+    //users === 用户的明信片墙，查询收到的明信片图片
+    showUserReceivePic: async (ctx, next) => {
+        try {
+            let wallReceivePic = await userDAO.showUserReceivePic(ctx.params.userId);
+            ctx.body = {"code": 200, "message": "ok", data:wallReceivePic};
+        } catch (e) {
+            ctx.body = {"code": 500, "message": e.toString(), data:[]};
+        }
+    },
+    //users === 用户的明信片墙，查询发送的明信片图片
+    showUserSendPic: async (ctx, next) => {
+        try {
+            let wallSendPic = await userDAO.showUserSendPic(ctx.params.userId);
+            ctx.body = {"code": 200, "message": "ok", data:wallSendPic};
+        } catch (e) {
+            ctx.body = {"code": 500, "message": e.toString(), data:[]};
+        }
+    },
+    //users === 用户的明信片墙，查询收藏的明信片图片
+    showUserCollectionPic: async (ctx, next) => {
+        try {
+            let wallCollectPic = await userDAO.showUserCollectionPic(ctx.params.userId);
+            ctx.body = {"code": 200, "message": "ok", data:wallCollectPic};
+        } catch (e) {
+            ctx.body = {"code": 500, "message": e.toString(), data:[]};
+        }
+    },
+    //users === 地区排行榜
+    showMapCharts: async (ctx, next) => {
+        try {
+            let mapCharts = await userDAO.showMapCharts(ctx.params.userId);
+            ctx.body = {"code": 200, "message": "ok", data:mapCharts};
+        } catch (e) {
             ctx.body = {"code": 500, "message": e.toString(), data:[]};
         }
     },

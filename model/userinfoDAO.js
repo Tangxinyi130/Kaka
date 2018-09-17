@@ -59,6 +59,47 @@ class DB {
             "from postcard, userInfo " +
             "where cardReceiver = ? and postcard.cardSender = userinfo.userId and cardReceiveTime is not null", [userId]);
     }
+    //users === 查看明信片图片
+    getCardPic (postcardId) {
+        return DAO("select cardPic\n" +
+                    "from postcard\n" +
+                    "where cardId = ?", [postcardId]);
+    }
+    //users === 上传图片
+    updateCardPic (userId, postcardId, cardUrl) {
+        return DAO("update postcard\n" +
+                    "set cardPic = ?\n" +
+                    "where cardId = ? and cardReceiver = ? ", [cardUrl, postcardId, userId]);
+                    // cardReceiver为登录的用户，只有收件方为登录的用户才可上传图片
+    }
+    //users === 用户的明信片墙，查询收到的明信片图片
+    showUserReceivePic (userId) {
+        return DAO("select cardId, cardPic\n" +
+                    "from postcard, userInfo\n" +
+                    "where cardReceiver = ? and postcard.cardSender = userinfo.userId and cardReceiveTime is not null " +
+                    "and cardPic is not null", [userId]);
+    }
+    //users === 用户的明信片墙，查询发送的明信片图片
+    showUserSendPic (userId) {
+        return DAO("select cardId, cardPic\n" +
+                    "from postcard, userInfo\n" +
+                    "where cardSender = ? and postcard.cardReceiver = userinfo.userId and cardPic is not null", [userId]);
+    }
+    //users === 用户的明信片墙，查询收藏的明信片图片
+    showUserCollectionPic (userId) {
+        return DAO("select cardId, cardPic\n" +
+                    "from postcard, userInfo, collection\n" +
+                    "where userInfo.userId = collection.collectionUserId and postcard.cardId = collection.collectionCardId\n" +
+                        "and cardPic is not null and userId = ?", [userId]);
+    }
+    //users === 地区排行榜
+    showMapCharts (userId) {
+        return DAO("select cardSendRegion, count(cardId) cardSum\n" +
+                    "from postcard\n" +
+                    "where cardReceiver = ?\n" +
+                    "group by cardSendRegion", [userId]);
+    }
+
 
     //index--获取用户头像
     getUserHeadPic(userId){
