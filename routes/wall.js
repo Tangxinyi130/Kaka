@@ -2,10 +2,14 @@ const router = require('koa-router')()
 const postcardController=require('../controllers/postcardController');
 router.prefix('/wall')
 
-router.get('/:city', async(ctx, next)=>{
-    await postcardController.getPostCard(ctx,next);
+//获取展示墙上的照片信息
+router.get('/', async(ctx, next)=>{
+    await postcardController.getAllCard(ctx,next);
 });
 
-
+//在输入框里输入城市，搜索相关城市的明信片
+router.get('/search/:city', async(ctx, next)=>{
+    await postcardController.getPostCard(ctx,next);
+});
 
 module.exports = router
