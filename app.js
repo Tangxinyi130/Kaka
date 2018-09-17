@@ -9,6 +9,7 @@ const logger = require('koa-logger')
 const index = require('./routes/index')
 const users = require('./routes/users')
 const wall = require('./routes/wall')
+const send = require('./routes/send')
 
 // error handler
 onerror(app)
@@ -37,6 +38,7 @@ app.use(async (ctx, next) => {
 app.use(index.routes(), index.allowedMethods())
 app.use(users.routes(), users.allowedMethods())
 app.use(wall.routes(), wall.allowedMethods())
+app.use(send.routes(), send.allowedMethods())
 
 // error-handling
 app.on('error', (err, ctx) => {
