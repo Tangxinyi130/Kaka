@@ -6,7 +6,7 @@ module.exports = {
             let jsondata = await userDAO.getOneUser(ctx.params.userId);
             ctx.body = {"code": 200, "message": "ok", data:jsondata[0]};
         } catch(e) {
-            ctx.body = {"code": 500, "message": "服务器错误", data:[]};
+            ctx.body = {"code": 500, "message": e.toString(), data:[]};
         }
     },
     //users === 用户简介
@@ -29,7 +29,7 @@ module.exports = {
             };
             ctx.body = {"code": 200, "message": "ok", data:synopsis};
         } catch(e) {
-            ctx.body = {"code": 500, "message": "服务器错误", data:[]};
+            ctx.body = {"code": 500, "message": e.toString(), data:[]};
         }
     },
     //users === 用户详细信息
@@ -51,7 +51,7 @@ module.exports = {
             };
             ctx.body = {"code": 200, "message": "ok", data:introduction};
         } catch (e) {
-            ctx.body = {"code": 500, "message": "服务器错误", data:[]};
+            ctx.body = {"code": 500, "message": e.toString(), data:[]};
         }
     },
     //users === 关于我的
@@ -63,7 +63,7 @@ module.exports = {
             let aboutUser = [{userAboutMe: userDate[0].userAboutMe}];
             ctx.body = {"code": 200, "message": "ok", data:aboutUser};
         } catch(e) {
-            ctx.body = {"code": 500, "message": "服务器错误", data:[]};
+            ctx.body = {"code": 500, "message": e.toString(), data:[]};
         }
     },
     //users === 修改关于我的
@@ -72,7 +72,7 @@ module.exports = {
             await userDAO.updateAboutMe(ctx.request.body.userId, ctx.request.body.newAboutMe);
             ctx.body = {"code": 200, "message": "ok", data:[]};
         } catch(e) {
-            ctx.body = {"code": 500, "message": "服务器错误", data:[]};
+            ctx.body = {"code": 500, "message": e.toString(), data:[]};
         }
     },
     //users === 已发送的明信片
@@ -81,7 +81,17 @@ module.exports = {
             let userSend = await userDAO.getUserSend(ctx.params.userId);
             ctx.body = {"code": 200, "message": "ok", data:userSend};
         } catch(e) {
-            ctx.body = {"code": 500, "message": "服务器错误", data:[]};
+            ctx.body = {"code": 500, "message": e.toString(), data:[]};
+        }
+    },
+
+    //users === 已收到的明信片
+    getUserReceive: async (ctx, next) => {
+        try {
+            let userReceive = await userDAO.getUserReceive(ctx.params.userId);
+            ctx.body = {"code": 200, "message": "ok", data:userReceive};
+        } catch(e) {
+            ctx.body = {"code": 500, "message": e.toString(), data:[]};
         }
     },
 
