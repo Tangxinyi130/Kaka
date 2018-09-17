@@ -12,4 +12,4 @@ router.get('/search/:city', async(ctx, next)=>{
     await postcardController.getPostCard(ctx,next);
 });
 
-module.exports = router
+module.exports = router;

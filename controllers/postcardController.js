@@ -69,6 +69,26 @@ module.exports = {
         }catch (e){
             ctx.body = {'code': 500, "message": "点击明信片没查到信息！", data:[]};
         }
+    },
+    //postcard--添加评论
+    addComment:async (ctx,next)=>{
+        try{
+            let userId=ctx.request.body.commentUserId;
+            let cardId=ctx.request.body.commentCardId;
+            let commentContent=ctx.request.body.commentContent;
+            let commentTime=new Date;
+            console.log(commentTime)
+            let form={
+                commentUserId:userId,
+                commentCardId:cardId,
+                commentContent:commentContent,
+                commentTime:commentTime
+            };
+            let all=await postcardDAO.addComment(form);
+            console.log(all)
+            ctx.body = {'code': 200, "message": "ok", data: all};
+        }catch (e){
+            ctx.body = {'code': 500, "message": "postcard里评论失败！"+e.message, data:[]};
+        }
     }
-
 };

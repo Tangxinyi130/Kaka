@@ -109,7 +109,15 @@ class DB {
             '\tLEFT JOIN userinfo r ON s.cardReceiver = r.userId \n' +
             'WHERE\n' +
             '\ts.cardId = ? ',[cardId]);
-    };
+    }
+    //postcard--加载评论区
+    getComment(cardId){
+        return DAO('select commentUserId,commentContent,commentTime from comment where commentCardId=?',[cardId]);
+    }
+    //postcard--添加评论
+    addComment(form){
+        return DAO('insert into comment(commentCardId,commentUserId,commentTime,commentContent) VALUES(?,?,?,?)',[form.commentCardId,form.commentUserId,form.commentTime,form.commentContent]);
+    }
 
 
 }
