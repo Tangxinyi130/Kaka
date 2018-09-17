@@ -32,4 +32,9 @@ router.get("/userSend/:userId", async (ctx, next) => {
     await userinfoController.getUserSend(ctx, next);
 });
 
+//已收到的明信片
+router.get("/userReceived/:userId", async (ctx, next) => {
+    await userinfoController.getUserReceive(ctx, next);
+});
+
 module.exports = router;

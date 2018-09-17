@@ -53,6 +53,12 @@ class DB {
                     "from postcard, userInfo " +
                     "where cardSender = ? and postcard.cardReceiver = userinfo.userId", [userId]);
     }
+    //users === 查询已收到的明信片
+    getUserReceive(userId) {
+        return DAO("select cardId, cardSender, userName, cardSendRegion, cardSendTime, cardReceiveTime, cardPic " +
+            "from postcard, userInfo " +
+            "where cardReceiver = ? and postcard.cardSender = userinfo.userId and cardReceiveTime is not null", [userId]);
+    }
 
     //index--获取用户头像
     getUserHeadPic(userId){
