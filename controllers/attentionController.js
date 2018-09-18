@@ -98,5 +98,25 @@ module.exports = {
         } catch (e) {
             ctx.body = {"code": 500, "message": e.toString(), data:[]};
         }
+    },
+    //users === 取消关注
+    deleteAttention: async (ctx, next) => {
+        try {
+            await attentionDAO.deleteAttention(ctx.params.userId, ctx.params.otherId);
+            ctx.body = {"code": 200, "message": "ok", data:[]};
+        } catch (e) {
+            ctx.body = {"code": 500, "message": e.toString(), data:[]};
+        }
+    },
+    //users === 关注者收件数排行榜
+    showAttentionList: async (ctx, next) => {
+        try {
+            let attentionList = await attentionDAO.showAttentionList(ctx.params.userId);
+            ctx.body = {"code": 200, "message": "ok", data:attentionList};
+        } catch (e) {
+            ctx.body = {"code": 500, "message": e.toString(), data:[]};
+        }
     }
+
+
 };

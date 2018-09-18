@@ -93,4 +93,35 @@ router.get("/attention/focus/:userId/:otherId", async (ctx, next) => {
     await attentionController.insertAttention(ctx, next);
 });
 
+//取消关注
+router.get("/attention/unfollow/:userId/:otherId", async (ctx, next) => {
+    await attentionController.deleteAttention(ctx, next);
+});
+
+//关注者收件数排行榜(userId: 用户id)
+router.get("/list/:userId", async (ctx, next) => {
+    await attentionController.showAttentionList(ctx, next);
+});
+
+//我的活动(我的商品)(userId: 登录者id)
+router.get("/myActivity/:userId", async (ctx, next) => {
+    await userinfoController.showMyActivity(ctx, next);
+});
+
+//确认收货
+router.get("/myActivity/receiving/:mygoodsId/:userId", async (ctx, next) => {
+    await userinfoController.receivedGoods(ctx, next);
+});
+
+//查询明信片(userId: 登录者id，即收件人id)
+router.post("/searchMyPostcards", async (ctx, next) => {
+    await userinfoController.searchCard(ctx, next);
+});
+
+//设置用户
+router.post("/updata", async (ctx, next) => {
+    await userinfoController.setUsers(ctx, next);
+});
+
+
 module.exports = router;

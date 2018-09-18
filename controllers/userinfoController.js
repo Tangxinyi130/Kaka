@@ -142,12 +142,61 @@ module.exports = {
     showMapCharts: async (ctx, next) => {
         try {
             let mapCharts = await userDAO.showMapCharts(ctx.params.userId);
-            ctx.body = {"code": 200, "message": "ok", data:mapCharts};
+            ctx.body = {"code": 200, "message": "ok", data: mapCharts};
         } catch (e) {
-            ctx.body = {"code": 500, "message": e.toString(), data:[]};
+            ctx.body = {"code": 500, "message": e.toString(), data: []};
         }
     },
-
+    //users === 我的活动(我的商品)
+    showMyActivity: async (ctx, next) => {
+        try {
+            let myActivity = await userDAO.showMyActivity(ctx.params.userId);
+            ctx.body = {"code": 200, "message": "ok", data: myActivity};
+        } catch (e) {
+            ctx.body = {"code": 500, "message": e.toString(), data: []};
+        }
+    },
+    //users === 确认收货
+    receivedGoods: async (ctx, next) => {
+        try {
+            await userDAO.receivedGoods(ctx.params.mygoodsId, ctx.params.userId);
+            ctx.body = {"code": 200, "message": "ok", data: []};
+        } catch (e) {
+            ctx.body = {"code": 500, "message": e.toString(), data: []};
+        }
+    },
+    //users === 查询明信片
+    searchCard: async (ctx, next) => {
+        try {
+            let cards = await userDAO.searchCard(ctx.request.body.userId, ctx.request.body.province, ctx.request.body.city);
+            ctx.body = {"code": 200, "message": "ok", data: cards};
+        } catch (e) {
+            ctx.body = {"code": 500, "message": e.toString(), data: []};
+        }
+    },
+    //users === 设置用户
+    setUsers: async (ctx, next) => {
+        try {
+            await userDAO.setUsers(
+                ctx.request.body.userName,
+                ctx.request.body.userPwd,
+                ctx.request.body.userNickname,
+                ctx.request.body.userSex,
+                ctx.request.body.userEmail,
+                ctx.request.body.userHeadPic,
+                ctx.request.body.userBirthday,
+                ctx.request.body.userProvince,
+                ctx.request.body.userCity,
+                ctx.request.body.userAddress,
+                ctx.request.body.userShippingAddress,
+                ctx.request.body.userId
+            );
+            let user = await userDAO.getOneUser(ctx.request.body.userId);
+            ctx.body = {"code": 200, "message": "ok", data: user};
+        } catch (e) {
+            ctx.body = {"code": 500, "message": e.toString(), data: []};
+        }
+    },
     //index--首页-用户部分数据卡片数据
     getUserCard:async(ctx,next)=>{
         try {
