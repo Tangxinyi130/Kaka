@@ -76,6 +76,12 @@ class DB {
     getPostCard(city){
         return DAO('select * from postcard where cardSendRegion=? and cardReceiveTime is not null and cardPic is not null ORDER BY cardReceiveTime DESC;\n',[city]);
     }
+    //wall--分页
+    getPage(page){
+        const pageNumber=3;
+        let start=(page-1)*pageNumber;
+        return DAO('SELECT * FROM ( SELECT cardId, cardPic, cardLike FROM postcard WHERE cardReceiveTime IS NOT NULL AND cardPic IS NOT NULL ORDER BY cardReceiveTime DESC ) form LIMIT '+start+","+pageNumber,[]);
+    }
 
     //postcard--点击没张照片的详情界面
     getCardInformation(cardId){

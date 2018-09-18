@@ -12,4 +12,9 @@ router.get('/search/:city', async(ctx, next)=>{
     await postcardController.getPostCard(ctx,next);
 });
 
+//分页
+router.get('/walls/:page', async(ctx, next)=>{
+    await postcardController.getPage(ctx,next);
+});
+
 module.exports = router;

@@ -55,6 +55,18 @@ module.exports = {
             ctx.body = {'code': 500, "message": "服务器错误！", data:[]};
         }
     },
+    //wall--根据所选的具体页面来显示具体页面的照片墙
+    getPage:async (ctx,next)=>{
+        try{
+            let jsondata = await postcardDAO.getPage(ctx.params.page);
+            console.log(ctx.params.page);
+            console.log(jsondata)
+            ctx.body = {'code': 200, "message": "ok", data: jsondata};
+        }catch (e){
+            ctx.body = {'code': 500, "message": "服务器错误！", data:[]};
+        }
+    },
+
     //postcard--点击照片墙上的照，显示明信片详情界面
     getCardInformation:async (ctx,next)=>{
         try{
