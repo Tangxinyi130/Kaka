@@ -55,6 +55,18 @@ module.exports = {
             ctx.body = {'code': 500, "message": "服务器错误！", data:[]};
         }
     },
+    //wall--根据所选的具体页面来显示具体页面的照片墙
+    getPage:async (ctx,next)=>{
+        try{
+            let jsondata = await postcardDAO.getPage(ctx.params.page);
+            console.log(ctx.params.page);
+            console.log(jsondata)
+            ctx.body = {'code': 200, "message": "ok", data: jsondata};
+        }catch (e){
+            ctx.body = {'code': 500, "message": "服务器错误！", data:[]};
+        }
+    },
+
     //postcard--点击照片墙上的照，显示明信片详情界面
     getCardInformation:async (ctx,next)=>{
         try{
@@ -107,6 +119,24 @@ module.exports = {
             ctx.body={'code':200,"message":"ok",data:likeNum};
         }catch (e){
             ctx.body={'code':500,"message":"点赞加1！嘿嘿报错了！"+e.message,data:[]};
+        }
+    },
+    //根据输入明信片的id，更新postcard中明信片的照片
+    uploadPic:async (ctx,next)=>{
+        try{
+            await postcardDAO.uploadPic(ctx.params.cardPic,ctx.params.cardId);
+            ctx.body={'code':200,"message":"ok",data:[]};
+        }catch (e){
+            ctx.body={'code':500,"message":"err"+e.message,data:[]};
+        }
+    },
+    //根据输入明信片的id,更新postcad中明信片的接收时间
+    upReceiveTime:async (ctx,next)=>{
+        try{
+            await postcardDAO.upReceiveTime(ctx.params.cardId);
+            ctx.body={'code':200,"message":"ok",data:[]};
+        }catch (e){
+            ctx.body={'code':500,"message":"err"+e.message,data:[]};
         }
     }
 };
