@@ -97,7 +97,46 @@ class DB {
         return DAO("select cardSendRegion, count(cardId) cardSum\n" +
                     "from postcard\n" +
                     "where cardReceiver = ?\n" +
-                    "group by cardSendRegion", [userId]);
+                    "group by cardSendRegion\n" +
+                    "order by count(cardId) desc\n" +
+                    "limit 0, 5", [userId]);
+    }
+    //users === 我的活动(我的商品)
+    showMyActivity (userId) {
+        return DAO("select activityId, activityName, goodsId, goodsName, goodsPrice, goodsPic, goodsDetails, myactivityUserId, mygoodsIsReceived\n" +
+                    "from activity, goods, myactivity, mygoods\n" +
+                    "where goodsActivityId = activityId and myactivityActivityId = activityId and mygoodsGoodsId = goodsId " +
+                    "and myactivityUserId = ?  and mygoodsUserId = ?", [userId, userId]);
+    }
+    //users === 确认收货
+    receivedGoods (mygoodsId, userId) {
+        return DAO("update mygoods\n" +
+                    "set mygoodsIsReceived = 1\n" +
+                    "where mygoodsGoodsId = ? and mygoodsUserId = ?", [mygoodsId, userId]);
+    }
+    //users === 查询明信片
+    searchCard (userId, province, city) {
+        console.log("查询")
+        return DAO("select cardId, cardSender, userNickname, cardSendTime, cardSendRegion\n" +
+                    "from userinfo, postcard\n" +
+                    "where userId = cardSender and cardReceiveTime is null " +
+                    "and cardReceiver = ? and userProvince = ? and userCity = ?", [userId, province, city]);
+    }
+    //users === 设置用户
+    setUsers (userName, userPwd, userNickname, userSex, userEmail, userHeadPic, userBirthday, userProvince, userCity, userAddress, userShippingAddress, userId) {
+        return DAO("update userinfo\n" +
+                    "set userName = ?, \n" +
+                    "   userPwd = ?, \n" +
+                    "   userNickname = ?, \n" +
+                    "   userSex = ?, \n" +
+                    "   userEmail = ?, \n" +
+                    "   userHeadPic = ?, \n" +
+                    "   userBirthday = ?, \n" +
+                    "   userProvince = ?, \n" +
+                    "   userCity = ?, \n" +
+                    "   userAddress = ?, \n" +
+                    "   userShippingAddress = ? \n" +
+                    "where userId = ?", [userName, userPwd, userNickname, userSex, userEmail, userHeadPic, userBirthday, userProvince, userCity, userAddress, userShippingAddress, userId]);
     }
 
 
@@ -113,7 +152,6 @@ class DB {
     countCollectionNum(userId){
         return DAO('SELECT COUNT(collectionUserId) collectionNum FROM collection WHERE collectionUserId = ?',[userId])
     }
-
     //index--用户以发送但未被确认收货的明信片数
     getUnabsorbedNum(userId){
         return DAO('SELECT COUNT(cardSender) unabsorbedNum FROM postcard WHERE cardSender = ?',[userId]);

@@ -133,5 +133,13 @@ class DB {
     unLike(cardId){
         return DAO('update postcard set cardLike=cardLike-1 where cardId= ?',[cardId]);
     }
+    //根据输入明信片的id，更新postcard中明信片的照片
+    uploadPic(cardPic,cardId){
+        return DAO(' UPDATE postcard set cardPic=? where cardId=?',[cardPic,cardId]);
+    }
+    //根据输入明信片的id,更新postcad中明信片的接收时间
+    upReceiveTime(cardId){
+        return DAO('UPDATE postcard set cardReceiveTime=now()where cardId=?',[cardId]);
+    }
 }
 module.exports = new DB();

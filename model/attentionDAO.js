@@ -68,6 +68,24 @@ class DB {
         return DAO("insert into attention(attentionFan, attentionName)\n" +
                     "values(?, ?)", [userFan, userAttention]);
     }
+    //users === 取消关注
+    deleteAttention (userId, userAttentionName) {
+        return DAO("delete from attention\n" +
+                    "where attentionFan = ? and attentionName = ?", [userId, userAttentionName]);
+    }
+    //users === 关注者收件数排行榜
+    showAttentionList (userId) {
+        return DAO("select userId, userNickname, userHeadPic, \n" +
+                    "   (\n" +
+                    "       select count(cardReceiver)\n" +
+                    "       from postcard\n" +
+                    "       where cardReceiver = attentionName and cardReceiveTime is not null\n" +
+                    "   ) as receiveNum\n" +
+                    "from attention, userinfo\n" +
+                    "where attentionName = userId and attentionFan = ?\n" +
+                    "order by receiveNum desc\n" +
+                    "limit 0, 10", [userId]);
+    }
 }
 
 module.exports = new DB();
