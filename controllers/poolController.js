@@ -42,6 +42,4 @@ module.exports = {
             ctx.body = {"code": 200, "message": err.message, data: []}
         }
     }
-
-
 }
