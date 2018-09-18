@@ -11,14 +11,4 @@ router.get('/uploadPic/:cardId/:cardPic',async (ctx,next)=>{
 router.get('/upReceiveTime/:cardId',async (ctx,next)=>{
     await postcardController.upReceiveTime(ctx,next)
 })
-//查寻时间最小的poolTime
-router.get('/delect/selMinTime',async (ctx,next)=>{
-    await  poolCtroller.selMinTime(ctx,next)
-})
-
-//把发送方添加到pool池里
-router.get('/insertSend/:userId',async (ctx,next)=>{
-    await  poolCtroller.insertSend(ctx,next)
-})
-
 module.exports = router
