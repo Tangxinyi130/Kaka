@@ -13,8 +13,7 @@ module.exports={
 
             }
         }
-    }
-    ,
+    },
     updateRegion:async (ctx,next)=>{
         try{
             await poolDAO.updataRegion();
@@ -57,5 +56,4 @@ module.exports={
             }
         }
     }
-
-}
+};
