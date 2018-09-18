@@ -22,4 +22,9 @@ router.get('/address/:activityId', async(ctx, next)=>{
 router.get('/mygoods/:activityId/:goodsId', async(ctx, next)=>{
     await mygoodsController.addMyGoods(ctx,next);
 });
+
+//activity通过年份月份查找相关的活动
+router.get('/:year/:month', async(ctx, next)=>{
+    await activityController.getActivityTime(ctx,next);
+});
 module.exports = router;

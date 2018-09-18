@@ -33,5 +33,21 @@ module.exports={
         }catch (e){
             ctx.body={"code":500,"message":"立即预约页面！错误！"+e.message,data:[]};
         }
+    },
+
+    //activity--根据年份月份获取活动信息
+    getActivityTime:async (ctx,next)=>{
+        try{
+            let year=ctx.params.year;
+            let month=ctx.params.month;
+            let allTime={
+                year:year,
+                month:month
+            };
+            let timeActivity=await activityDAO.getActivityTime(allTime);
+            ctx.body={"code":200,"message":"ok",data:timeActivity};
+        }catch(e){
+            ctx.body={"code":500,"message":"根据年份月份查询活动，错误！",data:timeActivity};
+        }
     }
 }
