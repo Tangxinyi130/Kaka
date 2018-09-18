@@ -43,4 +43,8 @@ router.get('/getReceiveMessage',async (ctx,next)=>{
 router.get('/getMessage/:userId',async (ctx,next)=>{
     await poolCtroller.getMessage(ctx,next)
 })
+//把接收方方从pool池里面删除
+router.get('/delectReceive',async (ctx,next)=>{
+    await poolCtroller.delectReceive(ctx,next)
+})
 module.exports = router
