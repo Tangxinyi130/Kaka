@@ -77,20 +77,7 @@ module.exports = {
             }
         }
     }
-    //将抽到用户的地区明信片的编号加一
-    // updateRegion:async (ctx,next)=>{
-    //     try{
-    //         await poolDAO.updataRegion();
-    //         ctx.body={"code":200,"message":'ok',data:[]}
-    //
-    //     }catch (err) {
-    //         ctx.body={"code":200,
-    //             "message":'服务器错误',
-    //             data:[]
-    //
-    //         }
-    //     }
-    // }
+
     ,
     // 查询当前用户地区明信片编号和数量
     getRegion: async (ctx, next) => {
@@ -105,19 +92,7 @@ module.exports = {
             }
         }
     },
-    // // 查询抽到用户地区明信片编号和数量
-    // getRegion:async (ctx,next)=>{
-    //     try{
-    //         let region=await poolDAO.getRegion();
-    //         console.log(region)
-    //         ctx.body={"code":200,"message":'ok',data:region}
-    //     }catch (err) {
-    //         ctx.body={"code":200,
-    //             "message":'服务器错误',
-    //             data:[]
-    //         }
-    //     }
-    // },
+
 
     //根据获得地区明信片的编号和数量形成明信片的卡的id
     setCarId: async (ctx, next) => {
@@ -190,6 +165,54 @@ module.exports = {
 
         } catch (err) {
             ctx.body = {"code": 200, "message": err.message, data: []}
+        }
+    },
+    //查寻时间最小的poolTime
+    selMinTime: async (ctx, next) => {
+        try {
+           let mintime= await poolDAO.selMinTime();
+            ctx.body = {"code": 200, "message": 'ok', data: mintime[0].poolTime}
+
+        } catch (err) {
+            ctx.body = {
+                "code": 200,
+                "message": '服务器错误',
+                data: []
+
+            }
+        }
+    },
+    //把接收方方从pool池里面删除
+    delectReceive: async (ctx, next) => {
+        try {
+            let mintime= await poolDAO.selMinTime();
+            let mintime1=mintime[0].poolTime;
+            console.log(mintime1)
+            await poolDAO.delectReceive(mintime1);
+            ctx.body = {"code": 200, "message": 'ok', data:[]}
+
+        } catch (err) {
+            ctx.body = {
+                "code": 200,
+                "message": '服务器错误',
+                data: []
+
+            }
+        }
+    },
+    //把发送方添加到pool池里
+    insertSend: async (ctx, next) => {
+        try {
+            await poolDAO.insertSend(ctx.params.userId);
+            ctx.body = {"code": 200, "message": 'ok', data:[]}
+
+        } catch (err) {
+            ctx.body = {
+                "code": 200,
+                "message": '服务器错误',
+                data: []
+
+            }
         }
     }
 

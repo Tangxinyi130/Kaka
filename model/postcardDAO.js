@@ -137,5 +137,9 @@ class DB {
     uploadPic(cardPic,cardId){
         return DAO(' UPDATE postcard set cardPic=? where cardId=?',[cardPic,cardId]);
     }
+    //根据输入明信片的id,更新postcad中明信片的接收时间
+    upReceiveTime(cardId){
+        return DAO('UPDATE postcard set cardReceiveTime=now()where cardId=?',[cardId]);
+    }
 }
 module.exports = new DB();

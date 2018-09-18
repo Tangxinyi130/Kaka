@@ -129,5 +129,14 @@ module.exports = {
         }catch (e){
             ctx.body={'code':500,"message":"err"+e.message,data:[]};
         }
+    },
+    //根据输入明信片的id,更新postcad中明信片的接收时间
+    upReceiveTime:async (ctx,next)=>{
+        try{
+            await postcardDAO.upReceiveTime(ctx.params.cardId);
+            ctx.body={'code':200,"message":"ok",data:[]};
+        }catch (e){
+            ctx.body={'code':500,"message":"err"+e.message,data:[]};
+        }
     }
 };

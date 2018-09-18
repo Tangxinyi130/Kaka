@@ -48,5 +48,17 @@ class DB {
                 postCard.cardReceiveRegion,
             ])
     }
+    //查寻时间最小的poolTime
+    selMinTime(){
+        return DAO('SELECT min(poolTime) poolTime from pool',[])
+    }
+    //把接收方方从pool池里面删除
+    delectReceive(poolTime){
+        return DAO(' DELETE from pool where poolTime=?',[poolTime])
+    }
+    //把发送方添加到pool池里
+    insertSend(userId){
+        return DAO('INSERT into pool(poolUserId,poolTime)VALUES(?,now())',[userId])
+    }
 }
 module.exports=new DB();
