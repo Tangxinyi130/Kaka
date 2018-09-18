@@ -12,7 +12,8 @@ const wall = require('./routes/wall')
 const send = require('./routes/send')
 const postcards = require('./routes/postcards')
 const activity = require('./routes/activity')
-const receive= require('./routes/receive')
+
+
 
 // error handler
 onerror(app)
@@ -44,7 +45,8 @@ app.use(wall.routes(), wall.allowedMethods())
 app.use(send.routes(), send.allowedMethods())
 app.use(postcards.routes(), postcards.allowedMethods())
 app.use(activity.routes(), activity.allowedMethods())
-app.use(receive.routes(), receive.allowedMethods())
+
+
 // error-handling
 app.on('error', (err, ctx) => {
   console.error('server error', err, ctx)
