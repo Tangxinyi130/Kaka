@@ -96,7 +96,7 @@ class DB {
     showMapCharts (userId) {
         return DAO("select cardSendRegion, count(cardId) cardSum\n" +
                     "from postcard\n" +
-                    "where cardReceiver = ?\n" +
+                    "where cardReceiver = ? and cardReceiveTime is not null\n" +
                     "group by cardSendRegion\n" +
                     "order by count(cardId) desc\n" +
                     "limit 0, 5", [userId]);
@@ -138,7 +138,19 @@ class DB {
                     "   userShippingAddress = ? \n" +
                     "where userId = ?", [userName, userPwd, userNickname, userSex, userEmail, userHeadPic, userBirthday, userProvince, userCity, userAddress, userShippingAddress, userId]);
     }
-
+    //users === 用户个人地图的显示
+    showUserMap (userId) {
+        return DAO("select userAddress\n" +
+                    "from userinfo\n" +
+                    "where userId = ?\n", [userId]);
+    }
+    //users === 地图板块的点亮部分，返回所有有明信片的地区和对应该地区的数量
+    showMapCollection (userId) {
+        return DAO("select cardSendRegion, count(cardId) cardSum\n" +
+                    "from postcard\n" +
+                    "where cardReceiver = ? and cardReceiveTime is not null\n" +
+                    "group by cardSendRegion", [userId]);
+    }
 
     //index--获取用户头像
     getUserHeadPic(userId){
