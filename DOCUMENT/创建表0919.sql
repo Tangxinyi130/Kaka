@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS `kaka`.`userinfo` (
   `userTime` DATETIME NULL,
   `userTel` CHAR(11) NULL,
   `userNickname` VARCHAR(32) NULL,
-  `userSex` BIT NULL,
+  `userSex` CHAR(3) NULL,
   `userEmail` VARCHAR(50) NULL,
   `userHeadPic` VARCHAR(100) NULL,
   `userBirthday` DATE NULL,
@@ -45,7 +45,7 @@ ENGINE = InnoDB;
 -- Table `kaka`.`postcard`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `kaka`.`postcard` (
-  `cardId` VARCHAR(9) NOT NULL,
+  `cardId` VARCHAR(20) NOT NULL,
   `cardSender` INT NOT NULL,
   `cardReceiver` INT NOT NULL,
   `cardSendRegion` VARCHAR(60) NULL,
@@ -127,7 +127,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `kaka`.`comment` (
   `commentId` INT NOT NULL AUTO_INCREMENT,
-  `commentCardId` VARCHAR(9) NOT NULL,
+  `commentCardId` VARCHAR(20) NOT NULL,
   `commentUserId` INT NOT NULL,
   `commentTime` DATETIME NULL,
   `commentContent` VARCHAR(100) NULL,
@@ -156,7 +156,7 @@ CREATE TABLE IF NOT EXISTS `kaka`.`activity` (
   `activityStartDate` DATETIME NULL,
   `activityEndDate` DATETIME NULL,
   `activityType` VARCHAR(20) NULL,
-  `activityDetails` VARCHAR(100) NULL,
+  `activityDetails` TEXT NULL,
   PRIMARY KEY (`activityId`))
 ENGINE = InnoDB;
 
@@ -235,7 +235,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `kaka`.`collection` (
   `collectionId` INT NOT NULL AUTO_INCREMENT,
   `collectionUserId` INT NOT NULL,
-  `collectionCardId` VARCHAR(9) NOT NULL,
+  `collectionCardId` VARCHAR(20) NOT NULL,
   PRIMARY KEY (`collectionId`),
   INDEX `collectionUserId_idx` (`collectionUserId` ASC) VISIBLE,
   INDEX `collectionCardId_idx` (`collectionCardId` ASC) VISIBLE,
