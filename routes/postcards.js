@@ -33,4 +33,10 @@ router.get('/uncollect/:cardId', async(ctx, next)=>{
     await collectionController.deleteCollection(ctx,next);
 });
 
+//地图上显示发送方和收取方两地
+router.get("/map/:sendUserId/:receiveUserId", async (ctx, next) => {
+    await postcardController.showPath(ctx, next);
+});
+
+
 module.exports = router;

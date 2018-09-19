@@ -133,7 +133,18 @@ module.exports = {
             ctx.body={'code':500,"message":"点赞加1！嘿嘿报错了！"+e.message,data:[]};
         }
     },
-    //根据输入明信片的id，更新postcard中明信片的照片
+    //postcard === 地图上显示发送方和收取方两地
+    showPath: async (ctx, next) => {
+        try {
+            let path = await postcardDAO.showPath(ctx.params.sendUserId, ctx.params.receiveUserId);
+            ctx.body = {"code": 200, "message": "ok", data: path};
+        } catch (e) {
+            ctx.body = {"code": 500, "message": e.toString(), data: []};
+        }
+    },
+
+
+    //receive --- 根据输入明信片的id，更新postcard中明信片的照片
     uploadPic:async (ctx,next)=>{
         try{
             await postcardDAO.uploadPic(ctx.params.cardPic,ctx.params.cardId);
@@ -142,13 +153,33 @@ module.exports = {
             ctx.body={'code':500,"message":"err"+e.message,data:[]};
         }
     },
-    //实现接收功能,更新了postcard里的接收时间和把发送方添加到池里面
-     Receive:async (ctx,next)=>{
+    //receive --- 实现接收功能,更新了postcard里的接收时间和把发送方添加到池里面
+    receive:async (ctx,next)=>{
         try{
-            await postcardDAO.Receive(ctx.params.cardId);
+            await postcardDAO.receive(ctx.params.cardId);
             ctx.body={'code':200,"message":"ok",data:[]};
         }catch (e){
             ctx.body={'code':500,"message":"err"+e.message,data:[]};
+        }
+    },
+
+    //receive === 提供两个用户的地址，由前端进行距离计算
+    calculateDistance: async (ctx, next) => {
+        try {
+            let path = await postcardDAO.showPath(ctx.params.sendUserId, ctx.params.receiveUserId);
+            ctx.body = {"code": 200, "message": "ok", data: path};
+        } catch (e) {
+            ctx.body = {"code": 500, "message": e.toString(), data: []};
+        }
+    },
+
+    //receive === 获取前端计算完成的距离，插入对应的明信片信息中
+    updateDistance: async (ctx, next) => {
+        try {
+            await postcardDAO.updateDistance(ctx.params.distance, ctx.params.cardId);
+            ctx.body = {"code": 200, "message": "ok", data: []};
+        } catch (e) {
+            ctx.body = {"code": 500, "message": e.toString(), data: []};
         }
     }
 };
