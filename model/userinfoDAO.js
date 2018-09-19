@@ -156,6 +156,10 @@ class DB {
     getUnabsorbedNum(userId){
         return DAO('SELECT COUNT(cardSender) unabsorbedNum FROM postcard WHERE cardSender = ?',[userId]);
     }
+    //index--用户收件数排行前100名
+    getSendRanking(){
+        return DAO('call getRankingSend();')
+    }
 
 }
 

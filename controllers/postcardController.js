@@ -32,6 +32,18 @@ module.exports = {
             ctx.body = {"code": 500, "message": "服务器错误",data:[]};
         }
     },
+    //index--获取最新发布的明信片信息
+    getTenRecentPostcard:async(ctx,next)=>{
+        try{
+           let rencentPostcard = await postcardDAO.getTenRecentPostcard()
+           ctx.body = {"code":200,"message":"最新明信片展示",data:rencentPostcard}
+        }catch(e){
+            ctx.body = {"code":500,"message":"服务器错误"+e.toString(),data:[]}
+        }
+
+    },
+
+
 
     //wall--查询所有的明信片
     getAllCard:async (ctx,next)=>{

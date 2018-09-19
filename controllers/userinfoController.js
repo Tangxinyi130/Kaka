@@ -197,6 +197,8 @@ module.exports = {
             ctx.body = {"code": 500, "message": e.toString(), data: []};
         }
     },
+
+
     //index--首页-用户部分数据卡片数据
     getUserCard:async(ctx,next)=>{
         try {
@@ -247,5 +249,14 @@ module.exports = {
         } catch(e) {
             ctx.body = {"code": 500, "message": "服务器错误"+e.toString(), data:[]};
          }
-    }
+    },
+    //index--首页--用户收件排行榜信息
+    getSendRanking:async(ctx,next)=>{
+        try{
+            let sendRanking = await userDAO.getSendRanking();
+            ctx.body={"code":200,"message":"ok排行榜信息：",data:sendRanking}
+        }catch(e){
+            ctx.body = {"code":500,"message":"服务器错误"+e.toString(),data:[]}
+        }
+    },
 };
