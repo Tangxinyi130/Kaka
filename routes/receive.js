@@ -7,8 +7,9 @@ router.prefix('/receive');
 router.get('/uploadPic/:cardId/:cardPic',async (ctx,next)=>{
     await postcardController.uploadPic(ctx,next)
 })
-//根据输入明信片的id,更新postcad中明信片的接收时间，距离还没写
-router.get('/upReceiveTime/:cardId',async (ctx,next)=>{
-    await postcardController.upReceiveTime(ctx,next)
+//实现接收功能,更新了postcard里的接收时间和把发送方添加到池里面，距离还没写
+router.get('/Receive/:cardId',async (ctx,next)=>{
+    await postcardController.Receive (ctx,next)
 })
+
 module.exports = router

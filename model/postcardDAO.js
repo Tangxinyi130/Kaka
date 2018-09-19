@@ -84,9 +84,9 @@ class DB {
     uploadPic(cardPic,cardId){
         return DAO(' UPDATE postcard set cardPic=? where cardId=?',[cardPic,cardId]);
     }
-    //根据输入明信片的id,更新postcad中明信片的接收时间
-    upReceiveTime(cardId){
-        return DAO(' UPDATE postcard set  cardReceiveTime=now() , cardLike=0 where cardId=?',[cardId]);
+    //实现接收功能,更新了postcard里的接收时间和把发送方添加到池里面
+     Receive(cardId){
+        return DAO('call p_receive(?);',[cardId]);
     }
 }
 module.exports = new DB();
