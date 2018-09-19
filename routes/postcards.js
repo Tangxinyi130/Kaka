@@ -24,4 +24,13 @@ router.get('/unlike/:cardId', async(ctx, next)=>{
     await postcardController.unLike(ctx,next);
 });
 
+//收藏明信片，插入收藏用户id和卡片id
+router.get('/collect/:cardId', async(ctx, next)=>{
+    await collectionController.insertCollection(ctx,next);
+});
+//收藏明信片，删除收藏用户id和卡片id
+router.get('/uncollect/:cardId', async(ctx, next)=>{
+    await collectionController.deleteCollection(ctx,next);
+});
+
 module.exports = router;
