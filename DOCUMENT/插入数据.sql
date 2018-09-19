@@ -18,22 +18,22 @@ insert into userinfo(userName, userPwd, userTime, userTel, userNickname, userSex
 values("cindy", "666", "2018-08-05", "13777858890", "CINDY", 1, "666@qq.com", "1995-03-30", "湖南", "长沙");
 
 insert into userinfo(userName, userPwd, userTime, userTel, userNickname, userSex, userEmail, userBirthday, userProvince, userCity)
-values("热巴", "888", "2018-08-11", "13777858890", "迪丽热巴", 1, "reba@qq.com", "1992-06-03", "新疆", "乌鲁木齐");
+values("迪丽热巴", "888", "2018-08-11", "13777858890", "热巴", 1, "reba@qq.com", "1992-06-03", "新疆", "乌鲁木齐");
 
 insert into userinfo(userName, userPwd, userTime, userTel, userNickname, userSex, userEmail, userBirthday, userProvince, userCity)
-values("昊然", "haoran", "2018-08-23", "13777858888", "刘源", 0, "liuhaoran@qq.com", "1997-10-10", "河南", "平顶山");
+values("刘源", "haoran", "2018-08-23", "13777858888", "昊然", 0, "liuhaoran@qq.com", "1997-10-10", "河南", "平顶山");
 
 insert into userinfo(userName, userPwd, userTime, userTel, userNickname, userSex, userEmail, userBirthday, userProvince, userCity)
-values("磊磊", "wulei", "2018-09-03", "13790858888", "吴磊", 0, "wulei@qq.com", "1999-12-26", "上海", "");
+values("吴磊", "wulei", "2018-09-03", "13790858888", "磊磊", 0, "wulei@qq.com", "1999-12-26", "上海", "");
 
 insert into userinfo(userName, userPwd, userTime, userTel, userNickname, userSex, userEmail, userBirthday, userProvince, userCity)
-values("祖鹅", "zuer", "2018-09-06", "13790855688", "宋祖儿", 1, "zuer@qq.com", "1998-05-23", "天津", "");
+values("宋祖儿", "zuer", "2018-09-06", "13790855688", "祖鹅", 1, "zuer@qq.com", "1998-05-23", "天津", "");
 
 insert into userinfo(userName, userPwd, userTime, userTel, userNickname, userSex, userEmail, userBirthday, userProvince, userCity)
-values("新成", "cheng", "2018-09-17", "13880858888", "张新成", 0, "cheng@qq.com", "1995-08-24", "湖北", "荆州");
+values("张新成", "cheng", "2018-09-17", "13880858888", "新成", 0, "cheng@qq.com", "1995-08-24", "湖北", "荆州");
 
 insert into userinfo(userName, userPwd, userTime, userTel, userNickname, userSex, userEmail, userBirthday, userProvince, userCity)
-values("兰迪", "landi", "2018-09-17", "13790858880", "李兰迪", 1, "landi@qq.com", "1999-09-02", "北京", "");
+values("李兰迪", "landi", "2018-09-17", "13790858880", "兰迪", 1, "landi@qq.com", "1999-09-02", "北京", "");
 
 -- 插入地区编码数据，初始化(全), region
 insert into region
@@ -150,7 +150,7 @@ insert into postcard(cardId, cardSender, cardReceiver, cardSendRegion, cardRecei
 values("JS-00002", 2, 6, "江苏", "湖南", "2018-09-13 11:29:33");
 
 update region set regionNum = regionNum + 1
-where regionName = "湖南";
+where regionName = "江苏";
 
 insert into postcard(cardId, cardSender, cardReceiver, cardSendRegion, cardReceiveRegion, cardSendTime)
 values("SH-00001", 4, 1, "上海", "江苏", "2018-09-13 16:01:39");
@@ -183,6 +183,62 @@ values("BJ-00003", 12, 9, "北京", "上海", "2018-09-14 10:34:12");
 update region set regionNum = regionNum + 1
 where regionName = "北京";
 
+insert into postcard(cardId, cardSender, cardReceiver, cardSendRegion, cardReceiveRegion, cardSendTime)
+values("XJ-00001", 7, 1, "新疆", "江苏", "2018-09-16 20:32:02");
+
+update region set regionNum = regionNum + 1
+where regionName = "新疆";
+
+insert into postcard(cardId, cardSender, cardReceiver, cardSendRegion, cardReceiveRegion, cardSendTime)
+values("SH-00002", 9, 1, "上海", "江苏", "2018-09-16 21:32:02");
+
+update region set regionNum = regionNum + 1
+where regionName = "上海";
+
+insert into postcard(cardId, cardSender, cardReceiver, cardSendRegion, cardReceiveRegion, cardSendTime)
+values("JS-00003", 2, 1, "江苏", "江苏", "2018-09-16 22:32:02");
+
+update region set regionNum = regionNum + 1
+where regionName = "江苏";
+
+
+insert into postcard(cardId, cardSender, cardReceiver, cardSendRegion, cardReceiveRegion, cardSendTime)
+values("SH-00003", 9, 1, "上海", "江苏", "2018-09-17 11:38:45");
+
+update region set regionNum = regionNum + 1
+where regionName = "上海";
+
+insert into postcard(cardId, cardSender, cardReceiver, cardSendRegion, cardReceiveRegion, cardSendTime)
+values("TJ-00001", 10, 1, "天津", "江苏", "2018-09-17 11:39:45");
+
+update region set regionNum = regionNum + 1
+where regionName = "天津";
+
+insert into postcard(cardId, cardSender, cardReceiver, cardSendRegion, cardReceiveRegion, cardSendTime)
+values("TJ-00002", 10, 9, "天津", "上海", "2018-09-17 23:19:45");
+
+update region set regionNum = regionNum + 1
+where regionName = "天津";
+
+
+insert into postcard(cardId, cardSender, cardReceiver, cardSendRegion, cardReceiveRegion, cardSendTime)
+values("HBU-00002", 11, 9, "湖北", "上海", "2018-09-17 23:29:45");
+
+update region set regionNum = regionNum + 1
+where regionName = "湖北";
+
+insert into postcard(cardId, cardSender, cardReceiver, cardSendRegion, cardReceiveRegion, cardSendTime)
+values("HBU-00003", 5, 9, "湖北", "上海", "2018-09-17 23:40:25");
+
+update region set regionNum = regionNum + 1
+where regionName = "湖北";
+
+insert into postcard(cardId, cardSender, cardReceiver, cardSendRegion, cardReceiveRegion, cardSendTime)
+values("HBU-00004", 5, 1, "湖北", "江苏", "2018-09-18 13:00:05");
+
+update region set regionNum = regionNum + 1
+where regionName = "湖北";
+
 -- 已收到
 update postcard
 set cardReceiveTime = "2018-09-14 07:52:43", 
@@ -201,6 +257,13 @@ set cardReceiveTime = "2018-09-14 19:32:37",
 		cardDistance = 1000,
 		cardLike = 0
 where cardId = "SH-00001";
+
+
+update postcard
+set cardReceiveTime = "2018-09-17 08:43:56", 
+		cardDistance = 253,
+		cardLike = 0
+where cardId = "SH-00002";
 
 -- pool数据
 insert into pool(poolUserId, poolTime)

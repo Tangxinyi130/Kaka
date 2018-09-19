@@ -197,7 +197,24 @@ module.exports = {
             ctx.body = {"code": 500, "message": e.toString(), data: []};
         }
     },
-
+    //users === 用户个人地图的显示
+    showUserMap: async (ctx, next) => {
+        try {
+            let address = await userDAO.showUserMap(ctx.params.userId);
+            ctx.body = {"code": 200, "message": "ok", data: address};
+        } catch (e) {
+            ctx.body = {"code": 500, "message": e.toString(), data: []};
+        }
+    },
+    //users === 地图板块的点亮部分，返回所有有明信片的地区和对应该地区的数量
+    showMapCollection: async (ctx, next) => {
+        try {
+            let collection = await userDAO.showMapCollection(ctx.params.userId);
+            ctx.body = {"code": 200, "message": "ok", data: collection};
+        } catch (e) {
+            ctx.body = {"code": 500, "message": e.toString(), data: []};
+        }
+    },
 
     //index--首页-用户部分数据卡片数据
     getUserCard:async(ctx,next)=>{
