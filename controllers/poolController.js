@@ -1,43 +1,29 @@
 var poolDAO = require("../model/poolDAO")
 module.exports = {
-    //获得接受方信息和cardId
-    getMessage: async (ctx, next) => {
-        try {
-
-            let cardId = await poolDAO.setCardId(ctx.params.userId);
-            let cardId1 = cardId[0].cardId;
-
-            let userId = await poolDAO.getUserId();
-            let cardReceiver = userId[0].poolUserId;
-
-            let cardReceiveRegion = await poolDAO.getCardReceiveRegion();
-            let ReceiveMessage = await poolDAO.getReceiveMessage();
-            let ReceiveMessage1 = ReceiveMessage[0];
-
-            let receiveMessage = {};
-            receiveMessage.cardId = cardId1,
-                receiveMessage.cardReceiver = cardReceiver,
-                receiveMessage.cardReceiveRegion = cardReceiveRegion[0].userProvince, receiveMessage.userNickname = ReceiveMessage1.userNickname,
-                receiveMessage.userSex = ReceiveMessage1.userSex,
-                receiveMessage.userEmail = ReceiveMessage1.userEmail,
-                receiveMessage.userHeadPic = ReceiveMessage1.userHeadPic,
-                receiveMessage.userBirthday = ReceiveMessage1.userBirthday,
-                receiveMessage.userProvince = ReceiveMessage1.userProvince,
-                receiveMessage.userCity = ReceiveMessage1.userCity,
-
-
-                ctx.body = {"code": 200, "message": 'ok', data: receiveMessage}
-
-
-        } catch (err) {
-            ctx.body = {"code": 200, "message": err.message, data: []}
-        }
-    },
-    //向明信片卡里面插入抽到的明信片的id,和接收方以及发送方的一些基本信息
+    //完成发送功能，返回接收方一些基本信息和发送的明信片信息
     sendPostcard: async (ctx, next) => {
         try {
-            await poolDAO.sendPostcard(ctx.params.userId);
-            ctx.body = {"code": 200, "message": 'ok', data: []}
+            let count= await poolDAO.limitCount(ctx.params.userId);
+            let count1=count[0];
+            console.log(count1.sum);
+            if(count1.sum<5){
+            let message= await poolDAO.sendPostcard(ctx.params.userId);
+            let  mes=message[0];
+            let ms=mes[0];
+            let receiveMessage = {};
+            receiveMessage.cardReceiver = ms.p_cardReceive,
+              receiveMessage.userNickname =ms.p_cardReceiveNickname,
+                receiveMessage.userSex = ms.p_cardReceiveSex,
+                receiveMessage.userEmail =ms.p_cardReceiveEmail,
+                receiveMessage.userHeadPic =ms.p_cardReceiveHeadPic,
+                receiveMessage.userBirthday =ms.p_cardReceiveBirthday,
+                receiveMessage.userProvince = ms.p_cardReceiveProvince,
+                receiveMessage.userCity = ms.p_cardReceiveCity,
+                    receiveMessage.cardId =ms.p_cardId,
+               ctx.body = {"code": 200, "message": 'ok', data: receiveMessage};
+            }else {
+                ctx.body = {"code": 200, "message": 'ok', data:'超过5次机会了'};
+            }
              } catch (err) {
             ctx.body = {"code": 200, "message": err.message, data: []}
         }
