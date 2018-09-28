@@ -5,7 +5,7 @@ module.exports={
     getCollectionNumber:async (ctx,next)=>{
         try{
             let collectionNumber=await collectionDAO.getCollectionNumber(ctx.params.cardId);
-            let likeNum=await postcardDAO.addLike(ctx.params.cardId);
+            let likeNum=await postcardDAO.getLikeNum(ctx.params.cardId);
             let number={
                 collectionNumber:collectionNumber,
                 likeNum:likeNum
