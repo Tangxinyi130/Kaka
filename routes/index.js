@@ -5,7 +5,6 @@ const userinfoController = require('../controllers/userinfoController');
 router.get("/userCard/:userId",async(ctx,next)=>{
     await userinfoController.getUserCard(ctx,next);
 });
-
 //index--首页-实时动态路由
 router.post('/realtimeDynamic',async(ctx,next)=>{
     await postController.realtimeDynamic(ctx,next);
