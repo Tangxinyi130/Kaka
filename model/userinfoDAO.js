@@ -172,6 +172,14 @@ class DB {
     getSendRanking(){
         return DAO('call getRankingSend();')
     }
+    //登录
+    doLogin(username){
+        return DAO('select userTel from userinfo where userTel=?',[username])
+    }
+    //用户密码
+    userPw(username){
+        return DAO('select userPwd from userinfo where userTel=?',[username])
+    }
 
 }
 

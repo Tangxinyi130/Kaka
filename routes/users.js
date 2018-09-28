@@ -132,5 +132,9 @@ router.get("/map/:userId", async (ctx, next) => {
 router.get("/mapCollection/:userId", async (ctx, next) => {
     await userinfoController.showMapCollection(ctx, next);
 });
+//登录
+router.post("/doLogin", async (ctx, next) => {
+    await userinfoController.doLogin(ctx, next);
+});
 
 module.exports = router;
