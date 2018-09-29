@@ -72,6 +72,10 @@ class DB {
     addComment(form){
         return DAO('insert into comment(commentCardId,commentUserId,commentTime,commentContent) VALUES(?,?,?,?)',[form.commentCardId,form.commentUserId,form.commentTime,form.commentContent]);
     }
+    //查询点赞数量
+    getLikeNum(cardId){
+        return DAO('select cardLike from postcard where cardId=?',[cardId])
+    }
     //postcard--添加一条点赞
     addLike(cardId){
         return DAO('update postcard set cardLike=cardLike+1 where cardId= ?',[cardId]);
@@ -80,13 +84,31 @@ class DB {
     unLike(cardId){
         return DAO('update postcard set cardLike=cardLike-1 where cardId= ?',[cardId]);
     }
-    //根据输入明信片的id，更新postcard中明信片的照片
+    //postcard === 地图上显示发送方和收取方两地
+    showPath(sendUserId, receiveUserId) {
+        return DAO("select userId, userAddress\n" +
+                    "from userinfo\n" +
+                    "where userId = ? or userId = ?", [sendUserId, receiveUserId]);
+    }
+
+
+    //receive --- 根据输入明信片的id，更新postcard中明信片的照片
     uploadPic(cardPic,cardId){
         return DAO(' UPDATE postcard set cardPic=? where cardId=?',[cardPic,cardId]);
     }
-    //根据输入明信片的id,更新postcad中明信片的接收时间
-    upReceiveTime(cardId){
-        return DAO(' UPDATE postcard set  cardReceiveTime=now() , cardLike=0 where cardId=?',[cardId]);
+    //receive --- 实现接收功能,更新了postcard里的接收时间和把发送方添加到池里面
+    receive(cardId){
+        return DAO('call p_receive(?);',[cardId]);
+    }
+
+    //receive === 提供两个用户的地址，由前端进行距离计算
+    //使用showPath的查询语句
+
+    //receive === 获取前端计算完成的距离，插入对应的明信片信息中
+    updateDistance (distance, cardId) {
+        return DAO("update postcard\n" +
+                    "set cardDistance = ?\n" +
+                    "where cardId = ?", [distance, cardId]);
     }
 }
 module.exports = new DB();

@@ -123,5 +123,18 @@ router.post("/updata", async (ctx, next) => {
     await userinfoController.setUsers(ctx, next);
 });
 
+//用户个人地图的显示
+router.get("/map/:userId", async (ctx, next) => {
+    await userinfoController.showUserMap(ctx, next);
+});
+
+//地图板块的点亮部分，返回所有有明信片的地区和对应该地区的数量
+router.get("/mapCollection/:userId", async (ctx, next) => {
+    await userinfoController.showMapCollection(ctx, next);
+});
+//登录
+router.post("/doLogin", async (ctx, next) => {
+    await userinfoController.doLogin(ctx, next);
+});
 
 module.exports = router;

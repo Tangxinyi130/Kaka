@@ -1,25 +1,14 @@
 const DAO=require('../model/DAO')
 class DB {
-    //向明信片卡里面插入抽到的明信片的id,和接收方以及发送方的一些基本信息
+    //判断发送的次数
+    limitCount(userId){
+        return DAO('select count(1) sum from postcard where cardReceiveTime is null and cardSender= ?',[userId])
+    }
+    //完成发送功能，返回接收方一些基本信息和发送的明信片信息
     sendPostcard(userId){
-        return DAO('call p_send(?);',[userId])
-    }
-    //得到被抽到用户的id
-    getUserId(){
-        return DAO('SELECT  * from pool Where poolTime=(SELECT min(poolTime)from pool)',[])
-    }
-    //得到接收者的基本信息
-    getReceiveMessage(){
-        return DAO('SELECT userNickname,userSex,userEmail,userHeadPic,userBirthday,userProvince,userCity from userinfo where userId=(Select pooluserId from pool Where poolTime=(SELECT MIN(poolTime)from pool))',[])
-    }
-    //得到被抽到用户的地区
-    getCardReceiveRegion(){
-        return DAO('SELECT userProvince from userinfo where userId=(Select pooluserId from pool Where poolTime=(SELECT min(poolTime)from pool))',[])
+        return DAO('call pro_send(?);',[userId])
     }
 
-    setCardId(userId){
-        return DAO('SELECT concat(regionId,\'-0000\',regionNum) cardId from region where regionName =( SELECT userProvince from userinfo where userId=?)',[userId])
-    }
 
 }
 module.exports=new DB();

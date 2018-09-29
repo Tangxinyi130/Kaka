@@ -197,7 +197,24 @@ module.exports = {
             ctx.body = {"code": 500, "message": e.toString(), data: []};
         }
     },
-
+    //users === 用户个人地图的显示
+    showUserMap: async (ctx, next) => {
+        try {
+            let address = await userDAO.showUserMap(ctx.params.userId);
+            ctx.body = {"code": 200, "message": "ok", data: address};
+        } catch (e) {
+            ctx.body = {"code": 500, "message": e.toString(), data: []};
+        }
+    },
+    //users === 地图板块的点亮部分，返回所有有明信片的地区和对应该地区的数量
+    showMapCollection: async (ctx, next) => {
+        try {
+            let collection = await userDAO.showMapCollection(ctx.params.userId);
+            ctx.body = {"code": 200, "message": "ok", data: collection};
+        } catch (e) {
+            ctx.body = {"code": 500, "message": e.toString(), data: []};
+        }
+    },
 
     //index--首页-用户部分数据卡片数据
     getUserCard:async(ctx,next)=>{
@@ -258,5 +275,46 @@ module.exports = {
         }catch(e){
             ctx.body = {"code":500,"message":"服务器错误"+e.toString(),data:[]}
         }
+    },
+    //登录
+    doLogin:async(ctx,next)=>{
+        try {
+            /*
+            * 登录验证返回数据
+            *  userUnExsit:false,   用户名是否存在，默认存在
+               loginSucess:false,   登录是否成功，默认不成功
+               passwordWrong:false, 密码是否错误，默认正确
+            * */
+            let data = {
+                userUnExsit:false,
+                loginSucess:false,
+                passwordWrong:false,
+            };
+
+            let {username, password} = ctx.request.body;
+            let Name = await userDAO.doLogin(username);
+            console.log(Name);
+
+            if (Name == "") {
+                data.userUnExsit = true;
+                // ctx.body = '用户名不存在';
+            }
+            else if (Name[0].userTel=== username) {
+                let Pwd = await  userDAO.userPw(username);
+                console.log('数据库里的密码：'+Pwd[0].userPwd);
+                // console.log(adminPwd[0].managerPwd);
+                if (await  Pwd[0].userPwd === password) {
+                    data.loginSucess = true;
+                    // ctx.body = '登陆成功';
+                } else {
+                    data.passwordWrong = true;
+                    // ctx.body = '密码错误';
+                }
+            }
+            ctx.body = {"code": 200, "message": "ok", data: data}
+        } catch (e) {
+            ctx.body = {"code": 500, "message": "服务器错误" + e.toString(), data: []}
+        }
+
     },
 };
