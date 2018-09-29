@@ -12,7 +12,7 @@ const wall = require('./routes/wall')
 const send = require('./routes/send')
 const postcards = require('./routes/postcards')
 const activity = require('./routes/activity')
-
+const manager = require('./routes/manager')
 
 
 // error handler
@@ -46,7 +46,7 @@ app.use(wall.routes(), wall.allowedMethods())
 app.use(send.routes(), send.allowedMethods())
 app.use(postcards.routes(), postcards.allowedMethods())
 app.use(activity.routes(), activity.allowedMethods())
-
+app.use(manager.routes(),manager.allowedMethods())
 
 // error-handling
 app.on('error', (err, ctx) => {
