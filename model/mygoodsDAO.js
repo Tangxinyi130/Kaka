@@ -8,5 +8,17 @@ class DB{
     addMyActivity(activity){
         return DAO("insert into myactivity(myactivityUserId,myactivityActivityId) VALUES(?,?)",[activity.userId,activity.activityId]);
     }
+    //修改收货地址
+    updataAddress(newAddress,userId,activityAddress){
+        return DAO("update  shippingaddress set address=? where shippingAddressUserId=? and address=?;",[newAddress,userId,activityAddress]);
+    }
+//添加收货地址
+    addAddress(userId,activityAddress){
+        return DAO("insert into shippingaddress(shippingAddressUserId,address) values(?,?)",[userId,activityAddress]);
+    }
+//删除收货地址
+    delAddress(userId,activityAddress){
+        return DAO("delete from shippingaddress where shippingAddressUserId=? and address=?;",[userId,activityAddress]);
+    }
 }
 module.exports=new DB();

@@ -1,5 +1,6 @@
 const activityDAO=require('../model/activityDAO');
 const userinfoDAO=require('../model/userinfoDAO');
+const mygoodsDAO=require('../model/mygoodsDAO');
 module.exports={
     //activity--获取活动页面的所有信息
     getAllActivity:async (ctx,next)=>{
@@ -48,6 +49,33 @@ module.exports={
             ctx.body={"code":200,"message":"ok",data:timeActivity};
         }catch(e){
             ctx.body={"code":500,"message":"根据年份月份查询活动，错误！",data:timeActivity};
+        }
+    },
+    //修改收货地址
+    updataAddress:async(ctx,next)=>{
+        try{
+            await mygoodsDAO.updataAddress(ctx.request.body.newAddress,ctx.request.body.userId,ctx.request.body.activityAddress);
+            ctx.body={"code":200,"message":"ok",data:[]}
+        }catch(e){
+            ctx.body = {"code":500,"message":"服务器错误"+e.toString(),data:[]}
+        }
+    },
+//添加收货地址
+    addAddress:async(ctx,next)=>{
+        try{
+           await mygoodsDAO.addAddress(ctx.request.body.userId,ctx.request.body.activityAddress);
+            ctx.body={"code":200,"message":"ok",data:[]}
+        }catch(e){
+            ctx.body = {"code":500,"message":"服务器错误"+e.toString(),data:[]}
+        }
+    },
+//删除收货地址
+    delAddress:async(ctx,next)=>{
+        try{
+            await mygoodsDAO.delAddress(ctx.request.body.userId,ctx.request.body.activityAddress);
+            ctx.body={"code":200,"message":"ok",data:[]}
+        }catch(e){
+            ctx.body = {"code":500,"message":"服务器错误"+e.toString(),data:[]}
         }
     }
 }

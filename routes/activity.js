@@ -27,4 +27,16 @@ router.get('/mygoods/:activityId/:goodsId', async(ctx, next)=>{
 router.get('/:year/:month', async(ctx, next)=>{
     await activityController.getActivityTime(ctx,next);
 });
+//修改收货地址
+router.post('/updataAddress', async(ctx, next)=>{
+    await activityController.updataAddress(ctx,next);
+});
+//添加收货地址
+router.post('/addAddress', async(ctx, next)=>{
+    await activityController.addAddress(ctx,next);
+});
+//删除收货地址
+router.post('/delAddress', async(ctx, next)=>{
+    await activityController.delAddress(ctx,next);
+});
 module.exports = router;
