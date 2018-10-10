@@ -267,7 +267,7 @@ ENGINE = InnoDB;
 -- Table `kaka`.`shippingAddress`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `kaka`.`shippingAddress` (
-  `shippingAddressId` INT NOT NULL,
+  `shippingAddressId` INT NOT NULL AUTO_INCREMENT,
   `shippingAddressUserId` INT NOT NULL,
   `address` VARCHAR(255) NULL,
   PRIMARY KEY (`shippingAddressId`),
