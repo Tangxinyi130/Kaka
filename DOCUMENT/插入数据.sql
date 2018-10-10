@@ -376,17 +376,17 @@ update goods set goodsNum = goodsNum - 2
 where goodsActivityId = 3;
 
 -- mygoods我的商品表
-insert into mygoods(mygoodsUserId, mygoodsGoodsId, mygoodsIsReceived)
-values(9, 1, 0);
+insert into mygoods(mygoodsUserId, mygoodsGoodsId, mygoodsIsReceived,mygoodsDate,mygoodsAddress)
+values(9, 1, 0,'2017-01-09','福建省福州市鼓楼区');
 
-insert into mygoods(mygoodsUserId, mygoodsGoodsId, mygoodsIsReceived)
-values(10, 2, 0);
+insert into mygoods(mygoodsUserId, mygoodsGoodsId, mygoodsIsReceived,mygoodsDate,mygoodsAddress)
+values(10, 2, 0,'2018-10-09','江苏省苏州市');
 
-insert into mygoods(mygoodsUserId, mygoodsGoodsId, mygoodsIsReceived)
-values(11, 1, 0);
+insert into mygoods(mygoodsUserId, mygoodsGoodsId, mygoodsIsReceived,mygoodsDate,mygoodsAddress)
+values(11, 1, 0,'2018-05-08','福建省南平市');
 
-insert into mygoods(mygoodsUserId, mygoodsGoodsId, mygoodsIsReceived)
-values(11, 2, 0);
+insert into mygoods(mygoodsUserId, mygoodsGoodsId, mygoodsIsReceived,mygoodsDate,mygoodsAddress)
+values(11, 2, 0,'2019-10-09','浙江省杭州市');
 
-insert into mygoods(mygoodsUserId, mygoodsGoodsId, mygoodsIsReceived)
-values(12, 1, 0);
+insert into mygoods(mygoodsUserId, mygoodsGoodsId, mygoodsIsReceived,mygoodsDate,mygoodsAddress)
+values(12, 1, 0,'2020-01-09','福建省福州市');
