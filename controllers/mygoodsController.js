@@ -3,13 +3,18 @@ module.exports={
     addMyGoods:async (ctx,next)=>{
         try{
                 const userId=1;
-                let activityId=ctx.params.activityId;
-                let goodsId=ctx.params.goodsId;
+                let activityId=ctx.request.body.activityId;
+                let goodsId=ctx.request.body.goodsId;
+                let goodsAddress=ctx.request.body.goodsAddress;
+                let goodsTime=new Date();
                 let allId={
                     activityId:activityId,
                     goodsId:goodsId,
-                    userId:userId
+                    userId:userId,
+                    goodsTime:goodsTime,
+                    goodsAddress:goodsAddress
                 };
+
                 await mygoodsDAO.addMyGoods(allId);
                 await mygoodsDAO.addMyActivity(allId);
                 ctx.body={"code":200,"message":"ok",data:[]};
