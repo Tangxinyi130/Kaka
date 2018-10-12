@@ -14,6 +14,19 @@ const postcards = require('./routes/postcards')
 const activity = require('./routes/activity')
 const manager = require('./routes/manager')
 
+const cors = require("koa2-cors");
+
+app.use(cors({
+    origin: function (ctx) {
+        return 'http://localhost:8080';
+    },
+    exposeHeaders: ['WWW-Authenticate', 'Server-Authorization'],
+    maxAge: 5,
+    credentials: true,
+    allowMethods: ['GET', 'POST', 'DELETE'],
+    allowHeaders: ['Content-Type', 'Authorization', 'Accept'],
+}));
+
 
 // error handler
 onerror(app)
