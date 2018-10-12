@@ -18,11 +18,6 @@ router.get('/address/:activityId', async(ctx, next)=>{
     await  activityController.getActivityDetail(ctx,next);
 });
 
-//确认支付(两个表中都插入数据)
-// router.get('/mygoods/:activityId/:goodsId', async(ctx, next)=>{
-//     await mygoodsController.addMyGoods(ctx,next);
-// });
-
 //确认支付
 router.post('/mygoods',async(ctx,next)=>{
     await mygoodsController.addMyGoods(ctx,next);
