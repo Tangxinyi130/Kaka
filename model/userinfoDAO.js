@@ -181,6 +181,14 @@ class DB {
         return DAO('select userPwd from userinfo where userTel=?',[username])
     }
 
+
+    //根据手机号查询用户
+    getLoginUser(userTel) {
+        return DAO("select * from userinfo where userTel = ?" , [userTel]);
+    }
+    getUserId(userTel) {
+        return DAO("select userId from userinfo where userTel = ?", [userTel]);
+    }
 }
 
 module.exports = new DB();

@@ -137,4 +137,8 @@ router.post("/doLogin", async (ctx, next) => {
     await userinfoController.doLogin(ctx, next);
 });
 
+//根据登录的手机号查询用户id
+router.post("/getUserId", async (ctx, next) => {
+    await userinfoController.getUserId(ctx, next);
+});
 module.exports = router;
