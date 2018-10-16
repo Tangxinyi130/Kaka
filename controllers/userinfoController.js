@@ -293,28 +293,55 @@ module.exports = {
 
             let {username, password} = ctx.request.body;
             let Name = await userDAO.doLogin(username);
-            console.log(Name);
+            // console.log(Name);
 
             if (Name == "") {
                 data.userUnExsit = true;
+                // console.log("用户名错误")
+                ctx.body = {"code": 200, "message": "ok", data: 1}
+
                 // ctx.body = '用户名不存在';
             }
             else if (Name[0].userTel=== username) {
                 let Pwd = await  userDAO.userPw(username);
-                console.log('数据库里的密码：'+Pwd[0].userPwd);
+                // console.log('数据库里的密码：'+Pwd[0].userPwd);
                 // console.log(adminPwd[0].managerPwd);
                 if (await  Pwd[0].userPwd === password) {
                     data.loginSucess = true;
+
+                    //=======================
+                    console.log("已运行")
+                    let loginUser = await userDAO.getLoginUser(username);
+                    ctx.session.user = loginUser[0];
+                    console.log(loginUser[0]);
+
+                    // console.log(ctx.session.user);
+                    ctx.body = {"code": 200, "message": "ok", data: 3}
+                    //=======================
+
                     // ctx.body = '登陆成功';
                 } else {
                     data.passwordWrong = true;
+                    // console.log("密码错误")
+                    ctx.body = {"code": 200, "message": "ok", data: 2}
                     // ctx.body = '密码错误';
                 }
             }
-            ctx.body = {"code": 200, "message": "ok", data: data}
+            // ctx.body = {"code": 200, "message": "ok", data: data}
         } catch (e) {
             ctx.body = {"code": 500, "message": "服务器错误" + e.toString(), data: []}
         }
 
+    },
+
+    //根据手机号查询登录的用户id
+    getUserId:async (ctx, next) => {
+        try {
+            let id = await userDAO.getUserId(ctx.request.body.userTel);
+            console.log("myId: " + id[0].userId);
+            ctx.body = {"code": 200, "message": "ok", data: id[0]};
+        } catch (e) {
+            ctx.body = {"code": 500, "message": e.toString(), data:[]};
+        }
     },
 };
