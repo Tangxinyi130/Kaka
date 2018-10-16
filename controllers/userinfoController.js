@@ -313,7 +313,6 @@ module.exports = {
                     console.log("已运行")
                     let loginUser = await userDAO.getLoginUser(username);
                     ctx.session.user = loginUser[0];
-                    
                     console.log(loginUser[0]);
 
                     // console.log(ctx.session.user);
