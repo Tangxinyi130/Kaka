@@ -1,4 +1,11 @@
 const userDAO = require("../model/userinfoDAO");
+const formidable = require("formidable");
+const path = require("path");
+const fs = require("fs");
+const moment = require("moment");
+const multer = require('koa-multer');//加载koa-multer模块
+
+
 module.exports = {
     //users === 查询指定用户
     getOneUser: async (ctx, next) => {
@@ -188,7 +195,6 @@ module.exports = {
                 ctx.request.body.userProvince,
                 ctx.request.body.userCity,
                 ctx.request.body.userAddress,
-                ctx.request.body.userShippingAddress,
                 ctx.request.body.userId
             );
             let user = await userDAO.getOneUser(ctx.request.body.userId);
@@ -215,6 +221,37 @@ module.exports = {
             ctx.body = {"code": 500, "message": e.toString(), data: []};
         }
     },
+
+    //users === 设置用户头像
+    setUserHeadPic: async (ctx, next) => {
+        try {
+            // console.log("进入设置头像")
+            //
+            // // var pic = "";
+            // // var now = moment(new Date()).format("YYYYMMDDHHMMSS");
+            // // var form = new formidable.IncomingForm();
+            // //
+            // // form.uploadDir = "../public/headpics";  //设置文件存放路径
+            // // form.parse(ctx, function (err, fields, files) {
+            // //     console.log(fields);
+            // //     console.log("fewifeow")
+            // //     var filename = files.headpic.name;
+            // //     var src = path.join(__dirname, files.headpic.path);
+            // //     var fileDes = path.basename(filename, path.extname(filename)) + now + path.extname(filename);
+            // //     pic = fileDes;
+            // //     fs.rename(src, path.join(path.parse(src).dir, fileDes));
+            // // })
+            // HttpContext.Current.Request("myname")
+
+            await userDAO.setUserHeadPic(ctx.req.file.filename, 1);
+            console.log(ctx.req);
+            console.log(ctx.req.body);
+            ctx.body = {"code": 200, "message": "ok", data: []};
+        } catch (e) {
+            ctx.body = {"code": 500, "message": e.toString(), data: []};
+        }
+    },
+
 
     //index--首页-用户部分数据卡片数据
     getUserCard:async(ctx,next)=>{
