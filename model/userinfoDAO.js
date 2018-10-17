@@ -123,7 +123,7 @@ class DB {
                     "and cardReceiver = ? and userProvince = ? and userCity = ?", [userId, province, city]);
     }
     //users === 设置用户
-    setUsers (userName, userPwd, userNickname, userSex, userEmail, userHeadPic, userBirthday, userProvince, userCity, userAddress, userShippingAddress, userId) {
+    setUsers (userName, userPwd, userNickname, userSex, userEmail, userHeadPic, userBirthday, userProvince, userCity, userAddress, userId) {
         return DAO("update userinfo\n" +
                     "set userName = ?, \n" +
                     "   userPwd = ?, \n" +
@@ -134,9 +134,8 @@ class DB {
                     "   userBirthday = ?, \n" +
                     "   userProvince = ?, \n" +
                     "   userCity = ?, \n" +
-                    "   userAddress = ?, \n" +
-                    "   userShippingAddress = ? \n" +
-                    "where userId = ?", [userName, userPwd, userNickname, userSex, userEmail, userHeadPic, userBirthday, userProvince, userCity, userAddress, userShippingAddress, userId]);
+                    "   userAddress = ? \n" +
+                    "where userId = ?", [userName, userPwd, userNickname, userSex, userEmail, userHeadPic, userBirthday, userProvince, userCity, userAddress, userId]);
     }
     //users === 用户个人地图的显示
     showUserMap (userId) {
@@ -151,6 +150,15 @@ class DB {
                     "where cardReceiver = ? and cardReceiveTime is not null\n" +
                     "group by cardSendRegion", [userId]);
     }
+    //users === 上传用户头像
+    setUserHeadPic (src, userId) {
+        return DAO("update userinfo\n" +
+                    "set userHeadPic = ?\n" +
+                    "where userId = ?\n", [src, userId]);
+    }
+
+
+
 
     //index--获取用户头像
     getUserHeadPic(userId){

@@ -1,4 +1,5 @@
 const router = require('koa-router')();
+const moment = require("moment");
 const userinfoController = require("../controllers/userinfoController");
 const attentionController = require("../controllers/attentionController");
 router.prefix('/users');
@@ -141,4 +142,40 @@ router.post("/doLogin", async (ctx, next) => {
 router.post("/getUserId", async (ctx, next) => {
     await userinfoController.getUserId(ctx, next);
 });
+
+//设置用户头像
+// router.post("/setUserHeadPic", async (ctx, next) => {
+//     await userinfoController.setUserHeadPic(ctx, next);
+// });
+
+
+
+const multer = require('koa-multer');//加载koa-multer模块
+//文件上传
+//配置
+var storage = multer.diskStorage({
+    //文件保存路径
+    destination: function (req, file, cb) {
+        cb(null, '../public/headpics/')
+    },
+    //修改文件名称
+    filename: function (req, file, cb) {
+        var now = moment(new Date()).format("YYYYMMDDHHmmss");
+        // console.log(moment(new Date().toLocaleString()).format("YYYYMMDDHHmmss"));
+        var fileFormat = (file.originalname).split(".");
+        cb(null, fileFormat[0] + "_" + now + "." + fileFormat[fileFormat.length - 1]);
+    }
+})
+//加载配置
+var upload = multer({ storage: storage });
+//路由
+router.post('/setUserHeadPic', upload.single('file'), async (ctx, next) => {
+    ctx.body = {
+        filename: ctx.req.file.filename//返回文件名
+
+    }
+    await userinfoController.setUserHeadPic(ctx, next);
+})
+
+
 module.exports = router;
