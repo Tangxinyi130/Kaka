@@ -123,19 +123,19 @@ class DB {
                     "and cardReceiver = ? and userProvince = ? and userCity = ?", [userId, province, city]);
     }
     //users === 设置用户
-    setUsers (userName, userPwd, userNickname, userSex, userEmail, userHeadPic, userBirthday, userProvince, userCity, userAddress, userId) {
+    setUsers (userName, userPwd, userNickname, userSex, userEmail, userBirthday, userProvince, userCity, userPostcode, userAddress, userId) {
         return DAO("update userinfo\n" +
                     "set userName = ?, \n" +
                     "   userPwd = ?, \n" +
                     "   userNickname = ?, \n" +
                     "   userSex = ?, \n" +
                     "   userEmail = ?, \n" +
-                    "   userHeadPic = ?, \n" +
                     "   userBirthday = ?, \n" +
                     "   userProvince = ?, \n" +
                     "   userCity = ?, \n" +
+                    "   userPostcode = ?, \n" +
                     "   userAddress = ? \n" +
-                    "where userId = ?", [userName, userPwd, userNickname, userSex, userEmail, userHeadPic, userBirthday, userProvince, userCity, userAddress, userId]);
+                    "where userId = ?", [userName, userPwd, userNickname, userSex, userEmail, userBirthday, userProvince, userCity, userPostcode, userAddress, userId]);
     }
     //users === 用户个人地图的显示
     showUserMap (userId) {
