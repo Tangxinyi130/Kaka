@@ -2,10 +2,22 @@ const activityDAO=require('../model/activityDAO');
 const userinfoDAO=require('../model/userinfoDAO');
 const mygoodsDAO=require('../model/mygoodsDAO');
 module.exports={
-    //activity--获取活动页面的所有信息
+    //activity--获取活动页面的所有信息 1、包括哪些年份 2、每年中所有月份
     getAllActivity:async (ctx,next)=>{
         try{
-            let jsondata=await activityDAO.getAllActivity();
+            let allData=await activityDAO.getAllActivity();
+            let activityYear=await activityDAO.getActivityYear();
+            let activityMonth=[];
+            for(let i=0;i<activityYear.length;i++){
+                console.log(activityYear[i].activityYear)
+                activityMonth[i]=await activityDAO.getActivityMon(activityYear[i].activityYear);
+            }
+            console.log(activityMonth);
+            let jsondata={
+                allData:allData,
+                activityYear:activityYear,
+                activityMonth:activityMonth
+            }
             ctx.body={"code":200,"message":"ok",data:jsondata};
         }catch (e){
             ctx.body={"code":500,"message":"活动主界面所有信息！错误！",data:[]};
