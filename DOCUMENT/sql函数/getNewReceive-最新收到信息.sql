@@ -5,8 +5,10 @@ BEGIN
 	from1.userId AS cardSenderId,
 	from1.userNickname cardSenderName,
 	from1.cardSendRegion,
+	from1.userHeadPic AS senderHeadPic,
 	from1.cardReceiver AS cardReceiverId,
 	userinfo.userNickname AS cardReceiverName,
+	userinfo.userHeadPic AS receiverHeadPic,
 	from1.cardReceiveRegion,
 	from1.cardSendTime,
 	from1.cardReceiveTime
@@ -17,6 +19,7 @@ FROM
 		userNickname,
 		cardSendRegion,
 		cardReceiver,
+		userHeadPic,
 		cardId,
 		cardSendTime,
 		cardReceiveRegion,
