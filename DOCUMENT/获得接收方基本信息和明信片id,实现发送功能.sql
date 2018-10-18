@@ -78,7 +78,7 @@ begin
 				values(p_cardId, p_userId, p_cardReceive, p_cardSendRegion, p_cardReceiveRegion, now());
 				 -- 把接收方从最小的poolTime里删除
 				  DELETE from pool where poolId=p_poolId;
-				select p_cardReceive ,p_cardReceiveNickname ,p_cardReceiveSex, p_cardReceiveHeadPic,p_cardReceiveEmail ,p_cardReceiveHeadPic p_cardReceiveBirthday ,p_cardReceiveProvince, p_cardReceiveCity,p_cardId;
+				select p_cardReceive ,p_cardReceiveNickname ,p_cardReceiveSex, p_cardReceiveHeadPic,p_cardReceiveEmail , p_cardReceiveBirthday ,p_cardReceiveProvince, p_cardReceiveCity,p_cardId;
 			 
 	if t_error = 1 then
 		rollback;

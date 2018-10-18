@@ -19,7 +19,9 @@ module.exports = {
                 receiveMessage.userBirthday =ms.p_cardReceiveBirthday,
                 receiveMessage.userProvince = ms.p_cardReceiveProvince,
                 receiveMessage.userCity = ms.p_cardReceiveCity,
-                    receiveMessage.cardId =ms.p_cardId,
+                receiveMessage.cardId =ms.p_cardId,
+
+
                ctx.body = {"code": 200, "message": 'ok', data: receiveMessage};
             }else {
                 ctx.body = {"code": 200, "message": 'ok', data:'超过5次机会了'};
