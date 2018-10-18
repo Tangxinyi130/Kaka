@@ -67,7 +67,7 @@ module.exports = {
             //用户个人信息
             let userDate = await userDAO.getOneUser(ctx.params.userId);
             //"关于我的"信息
-            let aboutUser = [{userAboutMe: userDate[0].userAboutMe}];
+            let aboutUser = {userAboutMe: userDate[0].userAboutMe};
             ctx.body = {"code": 200, "message": "ok", data:aboutUser};
         } catch(e) {
             ctx.body = {"code": 500, "message": e.toString(), data:[]};
@@ -184,19 +184,32 @@ module.exports = {
     //users === 设置用户
     setUsers: async (ctx, next) => {
         try {
+            console.log(ctx.request.body.userName);
+            console.log(ctx.request.body.userPwd),
+            console.log(ctx.request.body.userNickname),
+            console.log(ctx.request.body.userSex),
+            console.log(ctx.request.body.userEmail),
+            console.log(ctx.request.body.userBirthday.substring(0, 10)),
+            console.log(ctx.request.body.userProvince),
+            console.log(ctx.request.body.userCity),
+            console.log(ctx.request.body.userPostcode),
+            console.log(ctx.request.body.userAddress),
+            console.log(ctx.request.body.userId)
             await userDAO.setUsers(
                 ctx.request.body.userName,
                 ctx.request.body.userPwd,
                 ctx.request.body.userNickname,
                 ctx.request.body.userSex,
                 ctx.request.body.userEmail,
-                ctx.request.body.userHeadPic,
-                ctx.request.body.userBirthday,
+                ctx.request.body.userBirthday.substring(0, 10),
                 ctx.request.body.userProvince,
                 ctx.request.body.userCity,
+                ctx.request.body.userPostcode,
                 ctx.request.body.userAddress,
                 ctx.request.body.userId
             );
+            // console.log("进行了设置")
+
             let user = await userDAO.getOneUser(ctx.request.body.userId);
             ctx.body = {"code": 200, "message": "ok", data: user};
         } catch (e) {
@@ -207,7 +220,7 @@ module.exports = {
     showUserMap: async (ctx, next) => {
         try {
             let address = await userDAO.showUserMap(ctx.params.userId);
-            ctx.body = {"code": 200, "message": "ok", data: address};
+            ctx.body = {"code": 200, "message": "ok", data: address[0]};
         } catch (e) {
             ctx.body = {"code": 500, "message": e.toString(), data: []};
         }
@@ -242,10 +255,8 @@ module.exports = {
             // //     fs.rename(src, path.join(path.parse(src).dir, fileDes));
             // // })
             // HttpContext.Current.Request("myname")
-
-            await userDAO.setUserHeadPic(ctx.req.file.filename, 1);
-            console.log(ctx.req);
-            console.log(ctx.req.body);
+            let src = "http://localhost:3000/headpics/" + ctx.req.file.filename;
+            await userDAO.setUserHeadPic(src, ctx.req.body.id);
             ctx.body = {"code": 200, "message": "ok", data: []};
         } catch (e) {
             ctx.body = {"code": 500, "message": e.toString(), data: []};
