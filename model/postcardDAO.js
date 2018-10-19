@@ -8,6 +8,10 @@ class DB {
     getNewReceive(){
         return DAO('call getNewReceive();')
     }
+    // index --实时动态-最新
+    getDynamic(){
+        return DAO('	select * from view_senddynamic union all select * from view_receivedynamic ORDER BY dynamicTime')
+    }
     //index--首页推荐最新的十张明信片墙
     getTenRecentPostcard(){
         return DAO('call getTenRecentPCard();')
