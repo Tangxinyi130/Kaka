@@ -19,6 +19,10 @@ class DB {
     getAllCard(){
         return DAO('select cardId,cardPic,cardLike from postcard where cardReceiveTime is not null and cardPic is not null ORDER BY cardReceiveTime DESC;',[]);
     }
+    //获取所有城市id和城市名
+    getAllCity(){
+        return DAO('select regionId,regionName from region');
+    }
     //wall--根据搜索框内输入的城市搜索明信片
     getPostCard(city){
         return DAO('select * from postcard where cardSendRegion=? and cardReceiveTime is not null and cardPic is not null ORDER BY cardReceiveTime DESC;\n',[city]);
