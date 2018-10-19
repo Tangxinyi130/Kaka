@@ -8,10 +8,11 @@ BEGIN
 		from1.userHeadPic AS senderHeadPic,
 		from1.cardReceiver AS cardReceiverId,
 		userinfo.userNickname AS cardReceiverName,
-		from1.cardReceiveRegion,
 		userinfo.userHeadPic AS receiverHeadPic,
+		from1.cardReceiveRegion,
 		from1.cardSendTime,
-		from1.cardReceiveTime
+		from1.cardReceiveTime,
+		'发送' AS state
 	FROM
 		(
 		SELECT
