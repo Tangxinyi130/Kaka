@@ -11,7 +11,8 @@ BEGIN
 	userinfo.userHeadPic AS receiverHeadPic,
 	from1.cardReceiveRegion,
 	from1.cardSendTime,
-	from1.cardReceiveTime
+	from1.cardReceiveTime,
+	'收到' AS state
 FROM
 	(
 	SELECT

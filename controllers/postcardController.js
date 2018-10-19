@@ -21,12 +21,7 @@ module.exports = {
     //index--明信片收发实时动态
     realtimeDynamic:async(ctx,next)=>{
         try {
-            let NewSend = await postcardDAO.getNewSend();
-            let NewReceive = await postcardDAO.getNewReceive();
-            let realtimeDynamic = {
-                newSend:NewSend,
-                newReceive:NewReceive
-            }
+            let realtimeDynamic = await postcardDAO.getDynamic();
             ctx.body = {"code": 200, "message": "ok，明信片收发实时动态", data: realtimeDynamic};
         } catch (e) {
             ctx.body = {"code": 500, "message": "服务器错误",data:[]};
