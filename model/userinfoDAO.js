@@ -99,7 +99,7 @@ class DB {
                     "where cardReceiver = ? and cardReceiveTime is not null\n" +
                     "group by cardSendRegion\n" +
                     "order by count(cardId) desc\n" +
-                    "limit 0, 5", [userId]);
+                    "limit 0, 8", [userId]);
     }
     //users === 我的活动(我的商品)
     showMyActivity (userId) {
