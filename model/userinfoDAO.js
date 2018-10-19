@@ -174,7 +174,7 @@ class DB {
     }
     //index--用户以发送但未被确认收货的明信片数
     getUnabsorbedNum(userId){
-        return DAO('SELECT COUNT(cardSender) unabsorbedNum FROM postcard WHERE cardSender = ?',[userId]);
+        return DAO('\tSELECT COUNT(cardSender) unabsorbedNum FROM postcard WHERE cardSender = ? AND cardReceiveTime IS NULL;',[userId]);
     }
     //index--用户收件数排行前100名
     getSendRanking(){

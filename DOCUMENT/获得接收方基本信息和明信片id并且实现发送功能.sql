@@ -1,4 +1,4 @@
-create procedure pro_send(
+create procedure p_shiyan(
    p_userId int
  
 )
@@ -13,14 +13,7 @@ begin
 	  declare p_cardReceive int;
 	  declare p_cardSendRegion varchar(60);
 	  declare p_cardReceiveRegion varchar(60);
-		 -- -------------------------------------
-		declare p_cardReceiveNickname varchar(32);
-			declare p_cardReceiveSex  char(3);
-			declare p_cardReceiveEmail  varchar(50);
-				declare p_cardReceiveHeadPic  varchar(100);
-					declare p_cardReceiveBirthday date;
-						declare p_cardReceiveProvince  varchar(30);
-							declare p_cardReceiveCity  varchar(30);
+		declare p_cardReceiveUserNickname varchar(32);
 	  declare continue handler for sqlexception set t_error = 1;
 	 start transaction;
 	    
@@ -51,23 +44,6 @@ begin
 						select  poolId into p_poolId 
 						from pool where poolUserId!=p_userId 
 						order by poolTime asc limit 1;
-							-- 得到被抽到用户的基本信息
-					SELECT  userNickname into p_cardReceiveNickname 
-					from userinfo where userId=p_cardReceive;
-					SELECT userSex into p_cardReceiveSex 
-					from userinfo where userId=p_cardReceive;
-						SELECT userEmail into  p_cardReceiveEmail 
-					from userinfo where userId=p_cardReceive;
-				 --  -------------------------------------
-				 	SELECT userHeadPic into  p_cardReceiveHeadPic 
-					from userinfo where userId=p_cardReceive;
-						SELECT userBirthday  into  p_cardReceiveBirthday 
-					from userinfo where userId=p_cardReceive;
-						SELECT userProvince into  p_cardReceiveProvince  
-					from userinfo where userId=p_cardReceive;
-						SELECT userCity into  p_cardReceiveCity 
-					from userinfo where userId=p_cardReceive;
-				
 						 
 				-- 得到发送用户的地区
 				SELECT userProvince into p_cardSendRegion from userinfo where userId=p_userId;
@@ -78,7 +54,9 @@ begin
 				values(p_cardId, p_userId, p_cardReceive, p_cardSendRegion, p_cardReceiveRegion, now());
 				 -- 把接收方从最小的poolTime里删除
 				  DELETE from pool where poolId=p_poolId;
-				select p_cardReceive ,p_cardReceiveNickname ,p_cardReceiveSex, p_cardReceiveHeadPic,p_cardReceiveEmail , p_cardReceiveBirthday ,p_cardReceiveProvince, p_cardReceiveCity,p_cardId;
+					-- 得到被抽到用户的基本信息
+					SELECT  userNickname into p_cardReceiveUserNickname from userinfo where userId=p_cardReceive;
+				 select p_cardReceive, p_poolId,p_cardReceiveUserNickname;
 			 
 	if t_error = 1 then
 		rollback;
@@ -86,4 +64,4 @@ begin
 	  commit;
 	end if;
 end;
- call pro_send(4);
+ call p_shiyan(4);
