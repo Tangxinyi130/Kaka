@@ -43,7 +43,12 @@ module.exports = {
     //wall--查询所有的明信片
     getAllCard:async (ctx,next)=>{
         try{
-            let all=await postcardDAO.getAllCard();
+            let allPicture=await postcardDAO.getAllCard();
+            let allCity=await postcardDAO.getAllCity();
+            let all={
+                allPicture:allPicture,
+                allCity:allCity
+            }
             console.log(all)
             ctx.body = {'code': 200, "message": "ok", data: all};
         }catch (e){
