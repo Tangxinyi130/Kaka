@@ -23,6 +23,10 @@ class DB {
     getAllCard(){
         return DAO('select cardId,cardPic,cardLike from postcard where cardReceiveTime is not null and cardPic is not null ORDER BY cardReceiveTime DESC;',[]);
     }
+    //获取所有城市id和城市名
+    getAllCity(){
+        return DAO('select regionId,regionName from region');
+    }
     //wall--根据搜索框内输入的城市搜索明信片
     getPostCard(city){
         return DAO('select * from postcard where cardSendRegion=? and cardReceiveTime is not null and cardPic is not null ORDER BY cardReceiveTime DESC;\n',[city]);
@@ -99,6 +103,10 @@ class DB {
     //receive --- 根据输入明信片的id，更新postcard中明信片的照片
     uploadPic(cardPic,cardId){
         return DAO(' UPDATE postcard set cardPic=? where cardId=?',[cardPic,cardId]);
+    }
+    //查看输入的明信片的id在数据库中是否存在
+    exist(cardId){
+        return DAO('select count(1) sum from postcard where cardId=? and cardReceiveTime is null;',[cardId]);
     }
     //receive --- 实现接收功能,更新了postcard里的接收时间和把发送方添加到池里面
     receive(cardId){

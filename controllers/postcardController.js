@@ -43,7 +43,12 @@ module.exports = {
     //wall--查询所有的明信片
     getAllCard:async (ctx,next)=>{
         try{
-            let all=await postcardDAO.getAllCard();
+            let allPicture=await postcardDAO.getAllCard();
+            let allCity=await postcardDAO.getAllCity();
+            let all={
+                allPicture:allPicture,
+                allCity:allCity
+            }
             console.log(all)
             ctx.body = {'code': 200, "message": "ok", data: all};
         }catch (e){
@@ -151,8 +156,20 @@ module.exports = {
     //receive --- 实现接收功能,更新了postcard里的接收时间和把发送方添加到池里面
     receive:async (ctx,next)=>{
         try{
-            await postcardDAO.receive(ctx.params.cardId);
-            ctx.body={'code':200,"message":"ok",data:[]};
+            //查看所输入的明信片在数据库中是否存在
+            let rpc= await postcardDAO.exist(ctx.params.cardId);
+            let rpc1=rpc[0];
+            console.log(rpc1.sum);
+            let t= {};
+            t.receivecards=rpc1.sum;
+            if(rpc1.sum>0){
+                await postcardDAO.receive(ctx.params.cardId);
+                ctx.body={'code':200,"message":"ok",data:t};
+            }else {
+                ctx.body={'code':200,"message":"ok",data:t};
+            }
+            //进行接收操作
+
         }catch (e){
             ctx.body={'code':500,"message":"err"+e.message,data:[]};
         }
