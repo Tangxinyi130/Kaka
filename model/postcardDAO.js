@@ -8,6 +8,10 @@ class DB {
     getNewReceive(){
         return DAO('call getNewReceive();')
     }
+    // index --实时动态-最新
+    getDynamic(){
+        return DAO('	select * from view_senddynamic union all select * from view_receivedynamic ORDER BY dynamicTime')
+    }
     //index--首页推荐最新的十张明信片墙
     getTenRecentPostcard(){
         return DAO('call getTenRecentPCard();')
@@ -18,6 +22,10 @@ class DB {
     //wall--获取所有图片
     getAllCard(){
         return DAO('select cardId,cardPic,cardLike from postcard where cardReceiveTime is not null and cardPic is not null ORDER BY cardReceiveTime DESC;',[]);
+    }
+    //获取所有城市id和城市名
+    getAllCity(){
+        return DAO('select regionId,regionName from region');
     }
     //wall--根据搜索框内输入的城市搜索明信片
     getPostCard(city){

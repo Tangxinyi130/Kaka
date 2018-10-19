@@ -21,12 +21,7 @@ module.exports = {
     //index--明信片收发实时动态
     realtimeDynamic:async(ctx,next)=>{
         try {
-            let NewSend = await postcardDAO.getNewSend();
-            let NewReceive = await postcardDAO.getNewReceive();
-            let realtimeDynamic = {
-                newSend:NewSend,
-                newReceive:NewReceive
-            }
+            let realtimeDynamic = await postcardDAO.getDynamic();
             ctx.body = {"code": 200, "message": "ok，明信片收发实时动态", data: realtimeDynamic};
         } catch (e) {
             ctx.body = {"code": 500, "message": "服务器错误",data:[]};
@@ -48,7 +43,12 @@ module.exports = {
     //wall--查询所有的明信片
     getAllCard:async (ctx,next)=>{
         try{
-            let all=await postcardDAO.getAllCard();
+            let allPicture=await postcardDAO.getAllCard();
+            let allCity=await postcardDAO.getAllCity();
+            let all={
+                allPicture:allPicture,
+                allCity:allCity
+            }
             console.log(all)
             ctx.body = {'code': 200, "message": "ok", data: all};
         }catch (e){
