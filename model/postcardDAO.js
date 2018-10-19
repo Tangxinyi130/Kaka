@@ -96,6 +96,10 @@ class DB {
     uploadPic(cardPic,cardId){
         return DAO(' UPDATE postcard set cardPic=? where cardId=?',[cardPic,cardId]);
     }
+    //查看输入的明信片的id在数据库中是否存在
+    exist(cardId){
+        return DAO('select count(1) sum from postcard where cardId=? and cardReceiveTime is null;',[cardId]);
+    }
     //receive --- 实现接收功能,更新了postcard里的接收时间和把发送方添加到池里面
     receive(cardId){
         return DAO('call p_receive(?);',[cardId]);

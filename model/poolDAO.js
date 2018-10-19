@@ -1,5 +1,9 @@
 const DAO=require('../model/DAO')
 class DB {
+    //判断发送池里面有没有数据
+    poolCount(){
+        return DAO('select count(1) sum from pool')
+    }
     //判断发送的次数
     limitCount(userId){
         return DAO('select count(1) sum from postcard where cardReceiveTime is null and cardSender= ?',[userId])
@@ -8,7 +12,5 @@ class DB {
     sendPostcard(userId){
         return DAO('call pro_send(?);',[userId])
     }
-
-
 }
 module.exports=new DB();
