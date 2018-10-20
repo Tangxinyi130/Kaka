@@ -109,7 +109,7 @@ module.exports = {
                 commentTime:commentTime
             };
             let all=await postcardDAO.addComment(form);
-            console.log(all)
+            console.log(from)
             ctx.body = {'code': 200, "message": "ok", data: all};
         }catch (e){
             ctx.body = {'code': 500, "message": "postcard里评论失败！"+e.message, data:[]};
@@ -157,7 +157,7 @@ module.exports = {
     receive:async (ctx,next)=>{
         try{
             //查看所输入的明信片在数据库中是否存在
-            let rpc= await postcardDAO.exist(ctx.params.cardId);
+            let rpc= await postcardDAO.exist(ctx.params.cardId,ctx.params.userId);
             let rpc1=rpc[0];
             console.log(rpc1.sum);
             let t= {};

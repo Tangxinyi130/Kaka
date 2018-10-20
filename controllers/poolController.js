@@ -25,7 +25,7 @@ module.exports = {
     limitTimes: async (ctx, next) => {
         try {
             //得到pool池里面的数据的总数
-            let poolsum= await poolDAO.poolCount();
+            let poolsum= await poolDAO.poolCount(ctx.params.userId);
             let poolsum1=poolsum[0];
             //得到用户已经发送的次数
             let count= await poolDAO.limitCount(ctx.params.userId);

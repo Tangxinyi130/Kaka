@@ -8,7 +8,7 @@ router.get('/uploadPic/:cardId/:cardPic',async (ctx,next)=>{
     await postcardController.uploadPic(ctx,next)
 });
 //实现接收功能,更新了postcard里的接收时间和把发送方添加到池里面，距离还没写
-router.get('/doReceive/:cardId',async (ctx,next)=>{
+router.get('/doReceive/:cardId/:userId',async (ctx,next)=>{
     await postcardController.receive(ctx,next)
 });
 
