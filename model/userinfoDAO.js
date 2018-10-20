@@ -115,12 +115,12 @@ class DB {
                     "where mygoodsGoodsId = ? and mygoodsUserId = ?", [mygoodsId, userId]);
     }
     //users === 查询明信片
-    searchCard (userId, province, city) {
+    searchCard (userId, province) {
         console.log("查询")
         return DAO("select cardId, cardSender, userNickname, cardSendTime, cardSendRegion\n" +
                     "from userinfo, postcard\n" +
                     "where userId = cardSender and cardReceiveTime is null " +
-                    "and cardReceiver = ? and userProvince = ? and userCity = ?", [userId, province, city]);
+                    "and cardReceiver = ? and userProvince = ?", [userId, province]);
     }
     //users === 设置用户
     setUsers (userName, userPwd, userNickname, userSex, userEmail, userBirthday, userProvince, userCity, userPostcode, userAddress, userId) {
@@ -174,7 +174,7 @@ class DB {
     }
     //index--用户以发送但未被确认收货的明信片数
     getUnabsorbedNum(userId){
-        return DAO('SELECT COUNT(cardSender) unabsorbedNum FROM postcard WHERE cardSender = ?',[userId]);
+        return DAO('\tSELECT COUNT(cardSender) unabsorbedNum FROM postcard WHERE cardSender = ? AND cardReceiveTime IS NULL;',[userId]);
     }
     //index--用户收件数排行前100名
     getSendRanking(){

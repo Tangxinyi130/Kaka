@@ -175,7 +175,7 @@ module.exports = {
     //users === 查询明信片
     searchCard: async (ctx, next) => {
         try {
-            let cards = await userDAO.searchCard(ctx.request.body.userId, ctx.request.body.province, ctx.request.body.city);
+            let cards = await userDAO.searchCard(ctx.request.body.userId, ctx.request.body.province);
             ctx.body = {"code": 200, "message": "ok", data: cards};
         } catch (e) {
             ctx.body = {"code": 500, "message": e.toString(), data: []};
