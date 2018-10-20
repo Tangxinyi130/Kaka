@@ -392,4 +392,15 @@ module.exports = {
             ctx.body = {"code": 500, "message": e.toString(), data:[]};
         }
     },
+
+
+    //根据明信片查看收发用户id
+    getTwoUser: async (ctx, next) => {
+        try {
+            let user = await userDAO.getTwoUser(ctx.params.cardId);
+            ctx.body = {"code": 200, "message": "ok", data: user[0]};
+        } catch (e) {
+            ctx.body = {"code": 500, "message": e.toString(), data:[]};
+        }
+    }
 };
