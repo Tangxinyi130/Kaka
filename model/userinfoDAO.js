@@ -180,6 +180,16 @@ class DB {
     getSendRanking(){
         return DAO('call getRankingSend();')
     }
+    //index-- 全网站总用户数量
+    getUsersNum(){
+        return DAO('SELECT COUNT(userId) AS usersCount FROM userinfo')
+    }
+    //index-- 参与本网站的城市总数
+    getTotalOfCity(){
+        return DAO('SELECT COUNT(DISTINCT userProvince) AS cityTotal FROM  userinfo')
+    }
+
+
     //登录
     doLogin(username){
         return DAO('select userTel from userinfo where userTel=?',[username])

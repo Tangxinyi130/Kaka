@@ -1,4 +1,5 @@
 const userDAO = require("../model/userinfoDAO");
+const postcardDAO = require("../model/postcardDAO");
 const formidable = require("formidable");
 const path = require("path");
 const fs = require("fs");
@@ -323,6 +324,30 @@ module.exports = {
         }catch(e){
             ctx.body = {"code":500,"message":"服务器错误"+e.toString(),data:[]}
         }
+    },
+
+    //index -- 首页网站信息
+    getWebInfomation:async(ctx,next)=>{
+        try{
+            let receivedNum = await postcardDAO.getReceivedNum();
+            let recentReceivedNum = await postcardDAO.getRecentReceivedNum();
+            let travelingCardNum = await postcardDAO.getTravelingCardNum();
+            let distanceTotal = await postcardDAO.getTotalOfcardDistance();
+            let usersNum = await userDAO.getUsersNum();
+            let cityTotal = await userDAO.getTotalOfCity();
+            let information= {
+                receivedNum:receivedNum,
+                recentReceivedNum:recentReceivedNum,
+                travelingCardNum:travelingCardNum,
+                distanceTotal:distanceTotal,
+                usersNum:usersNum,
+                cityTotal:cityTotal,
+            }
+            ctx.body={"code":200,"message":"ok排行榜信息：",data:information};
+        }catch (e) {
+            ctx.body = {"code":500,"message":"服务器错误"+e.toString(),data:[]};
+        }
+
     },
     //登录
     doLogin:async(ctx,next)=>{
