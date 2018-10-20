@@ -1,2 +1,5 @@
 .idea/
 node_modules/
+public/activityPic/
+public/headpics/
+public/postcards/
