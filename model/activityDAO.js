@@ -2,8 +2,9 @@ const DAO=require('../model/DAO');
 class DB{
     //activity--获取所有活动信息
     getAllActivity(){
-        return DAO('select * from activity ORDER BY activityEndDate DESC',[]);
+        return DAO('select * from activity a left join goods g on a.activityId=g.goodsActivityId ORDER BY activityEndDate DESC;',[]);
     }
+
     //activity--或取所有活动的年份
     getActivityYear(){
         return DAO('select activityYear from (select activityId,MONTH(activityStartDate) activityMonth,year(activityStartDate) activityYear from activity ) time GROUP BY activityYear ORDER BY activityYear DESC ')
