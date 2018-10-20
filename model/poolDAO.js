@@ -1,8 +1,8 @@
 const DAO=require('../model/DAO')
 class DB {
     //判断发送池里面有没有数据
-    poolCount(){
-        return DAO('select count(1) sum from pool')
+    poolCount(userId){
+        return DAO('select count(1) sum from pool where poolUserId<>?',[userId])
     }
     //判断发送的次数
     limitCount(userId){
