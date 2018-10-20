@@ -2,7 +2,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getRankingSend`()
 BEGIN
 	SELECT
 	userId,
-	userName,
+	userNickname,
 	userCity,
 	userHeadPic,
 	receiverNum,
@@ -11,7 +11,7 @@ FROM
 	(
 	SELECT
 		userinfo.userId,
-		userinfo.userName,
+		userinfo.userNickname,
 		userinfo.userCity,
 		userinfo.userHeadPic,
 		result.receiverNum
