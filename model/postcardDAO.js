@@ -16,6 +16,22 @@ class DB {
     getTenRecentPostcard(){
         return DAO('call getTenRecentPCard();')
     }
+    //index -- 正在路上的明信片数量
+    getTravelingCardNum(){
+        return DAO('SELECT COUNT(cardId) AS travelingCardNum FROM postcard WHERE cardReceiveTime IS NULL')
+    }
+    //index--已收到的明信片总数
+    getReceivedNum(){
+        return DAO('SELECT COUNT(cardId) AS receivedNum FROM postcard WHERE cardReceiveTime IS NOT NULL')
+    }
+    //index -- 过去一小时收到的明信片总量
+    getRecentReceivedNum(){
+        return DAO('SELECT COUNT(cardId) AS recentReceivedNum FROM postcard WHERE cardReceiveTime IS NOT NULL  AND cardReceiveTime > DATE_SUB( NOW(), INTERVAL 1 DAY) ')
+    }
+    //index -- 明信片漂流的总公里数
+    getTotalOfcardDistance(){
+        return DAO('SELECT SUM(cardDistance) AS distanceTotal FROM postcard WHERE cardReceiveTime IS NOT NULL AND cardDistance IS NOT  NULL')
+    }
 
 
 

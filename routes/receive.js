@@ -46,13 +46,18 @@ router.post('/uploadfile',async function (ctx, next) {
         console.log(str);
         console.log(fields);
         console.log("mydata:   " + fields.mydata);
-        postcardDAO.uploadPic(str, fields.mydata);
-        ctx.body={'code':200,"message":"ok",data:[]};
-        //根据fileds.mydata获取上传表单元素的数据，执行写入数据库的操作
-        if(err){
-            ctx.body={'code':500,"message":"err"+err.message,data:[]};
+        try {
+            await postcardDAO.uploadPic(str, fields.mydata);
+            ctx.body={"code":200, "message":"ok", data:[]};
+        } catch (e) {
+            ctx.body={"code":500, "message":"err"+e.message, data:[]};
         }
+        //
+        // //根据fileds.mydata获取上传表单元素的数据，执行写入数据库的操作
     })
+    // if(err){
+    //     ctx.body={'code':500,"message":"err"+err.message,data:[]};
+    // }
 })
 
 

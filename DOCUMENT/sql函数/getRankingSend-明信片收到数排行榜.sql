@@ -3,7 +3,7 @@ BEGIN
 	SELECT
 	userId,
 	userNickname,
-	userCity,
+	userProvince,
 	userHeadPic,
 	receiverNum,
 	( @rowno := @rowno + 1 ) AS ranking
@@ -12,7 +12,7 @@ FROM
 	SELECT
 		userinfo.userId,
 		userinfo.userNickname,
-		userinfo.userCity,
+		userinfo.userProvince,
 		userinfo.userHeadPic,
 		result.receiverNum
 	FROM
