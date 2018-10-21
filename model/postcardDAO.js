@@ -80,6 +80,7 @@ class DB {
     addComment(form){
         return DAO('insert into comment(commentCardId,commentUserId,commentTime,commentContent) VALUES(?,?,?,?)',[form.commentCardId,form.commentUserId,form.commentTime,form.commentContent]);
     }
+
     //查询点赞数量
     getLikeNum(cardId){
         return DAO('select cardLike from postcard where cardId=?',[cardId])
