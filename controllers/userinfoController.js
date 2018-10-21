@@ -105,7 +105,7 @@ module.exports = {
     getCardPic: async (ctx, next) => {
         try {
             let card = await userDAO.getCardPic(ctx.params.postcardId);
-            ctx.body = {"code": 200, "message": "ok", data:card};
+            ctx.body = {"code": 200, "message": "ok", data:card[0]};
         } catch(e) {
             ctx.body = {"code": 500, "message": e.toString(), data:[]};
         }
@@ -239,23 +239,6 @@ module.exports = {
     //users === 设置用户头像
     setUserHeadPic: async (ctx, next) => {
         try {
-            // console.log("进入设置头像")
-            //
-            // // var pic = "";
-            // // var now = moment(new Date()).format("YYYYMMDDHHMMSS");
-            // // var form = new formidable.IncomingForm();
-            // //
-            // // form.uploadDir = "../public/headpics";  //设置文件存放路径
-            // // form.parse(ctx, function (err, fields, files) {
-            // //     console.log(fields);
-            // //     console.log("fewifeow")
-            // //     var filename = files.headpic.name;
-            // //     var src = path.join(__dirname, files.headpic.path);
-            // //     var fileDes = path.basename(filename, path.extname(filename)) + now + path.extname(filename);
-            // //     pic = fileDes;
-            // //     fs.rename(src, path.join(path.parse(src).dir, fileDes));
-            // // })
-            // HttpContext.Current.Request("myname")
             let src = "http://localhost:3000/headpics/" + ctx.req.file.filename;
             await userDAO.setUserHeadPic(src, ctx.req.body.id);
             ctx.body = {"code": 200, "message": "ok", data: []};
@@ -417,4 +400,15 @@ module.exports = {
             ctx.body = {"code": 500, "message": e.toString(), data:[]};
         }
     },
+
+
+    //根据明信片查看收发用户id
+    getTwoUser: async (ctx, next) => {
+        try {
+            let user = await userDAO.getTwoUser(ctx.params.cardId);
+            ctx.body = {"code": 200, "message": "ok", data: user[0]};
+        } catch (e) {
+            ctx.body = {"code": 500, "message": e.toString(), data:[]};
+        }
+    }
 };

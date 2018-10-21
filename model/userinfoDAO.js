@@ -207,6 +207,15 @@ class DB {
     getUserId(userTel) {
         return DAO("select userId from userinfo where userTel = ?", [userTel]);
     }
+
+    //根据明信片查看收发用户id
+    getTwoUser (cardId) {
+        return DAO("select cardSender, cardReceiver from postcard where cardId = ?", [cardId]);
+    }
+
+
+
+
 }
 
 module.exports = new DB();
