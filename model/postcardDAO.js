@@ -49,7 +49,7 @@ class DB {
     }
     //wall--分页
     getPage(page){
-        const pageNumber=3;
+        const pageNumber=9;
         let start=(page-1)*pageNumber;
         return DAO('SELECT * FROM ( SELECT cardId, cardPic, cardLike FROM postcard WHERE cardReceiveTime IS NOT NULL AND cardPic IS NOT NULL ORDER BY cardReceiveTime DESC ) form LIMIT '+start+","+pageNumber,[]);
     }
