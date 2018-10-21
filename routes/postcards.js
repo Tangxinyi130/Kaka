@@ -3,11 +3,11 @@ const postcardController=require('../controllers/postcardController');
 const collectionController=require('../controllers/collectionController');
 router.prefix('/postcards')
 
-//获取展示墙上的照片信息
+//获取展示墙上的照片信息，以及该卡片被评论的内容
 router.get('/:cardId', async(ctx, next)=>{
     await postcardController.getCardInformation(ctx,next);
 });
-//postcard里评论图片的内容
+//postcard里添加评论图片的内容
 router.post('/addcomment', async(ctx, next)=>{
     await postcardController.addComment(ctx,next);
 });

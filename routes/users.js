@@ -149,6 +149,12 @@ router.post("/getUserId", async (ctx, next) => {
 //     await userinfoController.setUserHeadPic(ctx, next);
 // });
 
+//根据明信片查看收发用户id
+router.get("/getTwoUser/:cardId", async (ctx, next) => {
+    await userinfoController.getTwoUser(ctx, next);
+})
+
+
 
 
 const multer = require('koa-multer');//加载koa-multer模块
