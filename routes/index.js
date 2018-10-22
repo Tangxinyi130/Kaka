@@ -16,11 +16,14 @@ router.get('/statusBar/:userId',async(ctx,next)=>{
 //index--首页-用户收件排行榜
 router.post('/rankingSend',async(ctx,next)=>{
     await userinfoController.getSendRanking(ctx,next);
-})
+});
 //index--首页-最新的明信片推荐墙
 router.post('/recentPostcards',async(ctx,next)=>{
     await postController.getTenRecentPostcard(ctx,next);
-})
-
+});
+//index--首页-网站信息
+router.get('/information',async(ctx,next)=>{
+    await userinfoController.getWebInfomation(ctx,next);
+});
 
 module.exports = router;

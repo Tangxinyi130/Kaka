@@ -16,6 +16,22 @@ class DB {
     getTenRecentPostcard(){
         return DAO('call getTenRecentPCard();')
     }
+    //index -- 正在路上的明信片数量
+    getTravelingCardNum(){
+        return DAO('SELECT COUNT(cardId) AS travelingCardNum FROM postcard WHERE cardReceiveTime IS NULL')
+    }
+    //index--已收到的明信片总数
+    getReceivedNum(){
+        return DAO('SELECT COUNT(cardId) AS receivedNum FROM postcard WHERE cardReceiveTime IS NOT NULL')
+    }
+    //index -- 过去一小时收到的明信片总量
+    getRecentReceivedNum(){
+        return DAO('SELECT COUNT(cardId) AS recentReceivedNum FROM postcard WHERE cardReceiveTime IS NOT NULL  AND cardReceiveTime > DATE_SUB( NOW(), INTERVAL 1 DAY) ')
+    }
+    //index -- 明信片漂流的总公里数
+    getTotalOfcardDistance(){
+        return DAO('SELECT SUM(cardDistance) AS distanceTotal FROM postcard WHERE cardReceiveTime IS NOT NULL AND cardDistance IS NOT  NULL')
+    }
 
 
 
@@ -33,7 +49,7 @@ class DB {
     }
     //wall--分页
     getPage(page){
-        const pageNumber=3;
+        const pageNumber=9;
         let start=(page-1)*pageNumber;
         return DAO('SELECT * FROM ( SELECT cardId, cardPic, cardLike FROM postcard WHERE cardReceiveTime IS NOT NULL AND cardPic IS NOT NULL ORDER BY cardReceiveTime DESC ) form LIMIT '+start+","+pageNumber,[]);
     }
@@ -80,6 +96,7 @@ class DB {
     addComment(form){
         return DAO('insert into comment(commentCardId,commentUserId,commentTime,commentContent) VALUES(?,?,?,?)',[form.commentCardId,form.commentUserId,form.commentTime,form.commentContent]);
     }
+
     //查询点赞数量
     getLikeNum(cardId){
         return DAO('select cardLike from postcard where cardId=?',[cardId])

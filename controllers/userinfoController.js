@@ -1,4 +1,5 @@
 const userDAO = require("../model/userinfoDAO");
+const postcardDAO = require("../model/postcardDAO");
 const formidable = require("formidable");
 const path = require("path");
 const fs = require("fs");
@@ -185,17 +186,17 @@ module.exports = {
     //users === 设置用户
     setUsers: async (ctx, next) => {
         try {
-            console.log(ctx.request.body.userName);
-            console.log(ctx.request.body.userPwd),
-            console.log(ctx.request.body.userNickname),
-            console.log(ctx.request.body.userSex),
-            console.log(ctx.request.body.userEmail),
-            console.log(ctx.request.body.userBirthday.substring(0, 10)),
-            console.log(ctx.request.body.userProvince),
-            console.log(ctx.request.body.userCity),
-            console.log(ctx.request.body.userPostcode),
-            console.log(ctx.request.body.userAddress),
-            console.log(ctx.request.body.userId)
+            // console.log(ctx.request.body.userName);
+            // console.log(ctx.request.body.userPwd),
+            // console.log(ctx.request.body.userNickname),
+            // console.log(ctx.request.body.userSex),
+            // console.log(ctx.request.body.userEmail),
+            // console.log(ctx.request.body.userBirthday.substring(0, 10)),
+            // console.log(ctx.request.body.userProvince),
+            // console.log(ctx.request.body.userCity),
+            // console.log(ctx.request.body.userPostcode),
+            // console.log(ctx.request.body.userAddress),
+            // console.log(ctx.request.body.userId)
             await userDAO.setUsers(
                 ctx.request.body.userName,
                 ctx.request.body.userPwd,
@@ -307,6 +308,30 @@ module.exports = {
         }catch(e){
             ctx.body = {"code":500,"message":"服务器错误"+e.toString(),data:[]}
         }
+    },
+
+    //index -- 首页网站信息
+    getWebInfomation:async(ctx,next)=>{
+        try{
+            let receivedNum = await postcardDAO.getReceivedNum();
+            let recentReceivedNum = await postcardDAO.getRecentReceivedNum();
+            let travelingCardNum = await postcardDAO.getTravelingCardNum();
+            let distanceTotal = await postcardDAO.getTotalOfcardDistance();
+            let usersNum = await userDAO.getUsersNum();
+            let cityTotal = await userDAO.getTotalOfCity();
+            let information= {
+                receivedNum:receivedNum,
+                recentReceivedNum:recentReceivedNum,
+                travelingCardNum:travelingCardNum,
+                distanceTotal:distanceTotal,
+                usersNum:usersNum,
+                cityTotal:cityTotal,
+            }
+            ctx.body={"code":200,"message":"ok排行榜信息：",data:information};
+        }catch (e) {
+            ctx.body = {"code":500,"message":"服务器错误"+e.toString(),data:[]};
+        }
+
     },
     //登录
     doLogin:async(ctx,next)=>{

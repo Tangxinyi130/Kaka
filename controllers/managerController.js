@@ -1,5 +1,6 @@
 const managerDAO = require('../model/managerDAO');
 const goodsDAO = require('../model/goodsDAO');
+const myactivityDAO =require('../model/myactivityDAO');
 module.exports = {
     //后台管理登录
     doLogin:async(ctx,next)=> {
@@ -64,16 +65,28 @@ module.exports = {
     //按活动id删除某篇活动
     deleteActivity:async(ctx,next)=>{
         try{
-            let activityId = ctx.request.body.activityId;
-            console.log(activityId);
+            let info={};
+            let activityId = ctx.params.activityId;
             let type = await managerDAO.getActivityTypeById(activityId);
-            //如果删除的文章是商品类，则先删除商品信息
-            if(type[0].activityType=='商品'){
-                await goodsDAO.deleteGoodsByActivityId(activityId);
+            let myactivity = await  myactivityDAO.getMyactivityByAcId(activityId);
+            //如果用户参与了该项活动，则不允许删除
+            if(myactivity.length==0){
+                //如果删除的文章是商品类，则先删除商品信息
+                if(type[0].activityType=='商品'){
+                    //删除相关商品
+                    await goodsDAO.deleteGoodsByActivityId(activityId);
+                    //删除文章
+                    await managerDAO.deleteActivity(activityId);
+                    info.delete = "success";
+                }else if(type[0].activityType=='公告'){
+                    await managerDAO.deleteActivity(activityId);
+                    info.delete = "success";
+                }
+            }else {
+                info.reject = "reject";
+                info.delete = "fail";
             }
-            //删除文章
-            await managerDAO.deleteActivity(activityId);
-            ctx.body = {code:200,"message":"删除成功",data:[]}
+            ctx.body = {code:200,"message":"删除成功",data:info}
         }catch(e){
             ctx.body = {code:500,"message":"服务器出错"+e.toString(),data:[]}
         }

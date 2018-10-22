@@ -32,7 +32,7 @@ router.post('/activityManagerment/classfic',async(ctx,next)=>{
     await managerController.getActivityClassify(ctx,next);
 });
 //按文章id删除一篇文章
-router.post('/activityManagerment/delete',async(ctx,next)=>{
+router.get('/activityManagerment/delete/:activityId',async(ctx,next)=>{
     await managerController.deleteActivity(ctx,next);
 });
 //修改已发布过的文章
