@@ -158,6 +158,7 @@ module.exports = {
     showMyActivity: async (ctx, next) => {
         try {
             let myActivity = await userDAO.showMyActivity(ctx.params.userId);
+            console.log("个人活动的信息"+myActivity);
             ctx.body = {"code": 200, "message": "ok", data: myActivity};
         } catch (e) {
             ctx.body = {"code": 500, "message": e.toString(), data: []};

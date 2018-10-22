@@ -191,4 +191,5 @@ router.get("/getTel/:tel", async (ctx, next) => {
 router.get("/insertUser/:tel/:pwd", async (ctx, next) => {
     await regionController.insertUser(ctx, next);
 });
+
 module.exports = router;

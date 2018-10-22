@@ -24,6 +24,9 @@ module.exports = {
     //限制发送的次数和判断pool池里面是否有数据
     limitTimes: async (ctx, next) => {
         try {
+            //得到地址为空的用户的数量
+            let useraddress= await poolDAO.userAddress(ctx.params.userId);
+            let useraddress1=useraddress[0];
             //得到pool池里面的数据的总数
             let poolsum= await poolDAO.poolCount(ctx.params.userId);
             let poolsum1=poolsum[0];
@@ -34,6 +37,7 @@ module.exports = {
             let t= {};
             t.times= count1.sum;
             t.pooltimes=poolsum1.sum;
+            t.addresscount=useraddress1.sum;
             ctx.body = {"code": 200, "message": 'ok', data:t};
 
         } catch (err) {
