@@ -185,17 +185,17 @@ module.exports = {
     //users === 设置用户
     setUsers: async (ctx, next) => {
         try {
-            console.log(ctx.request.body.userName);
-            console.log(ctx.request.body.userPwd),
-            console.log(ctx.request.body.userNickname),
-            console.log(ctx.request.body.userSex),
-            console.log(ctx.request.body.userEmail),
-            console.log(ctx.request.body.userBirthday.substring(0, 10)),
-            console.log(ctx.request.body.userProvince),
-            console.log(ctx.request.body.userCity),
-            console.log(ctx.request.body.userPostcode),
-            console.log(ctx.request.body.userAddress),
-            console.log(ctx.request.body.userId)
+            // console.log(ctx.request.body.userName);
+            // console.log(ctx.request.body.userPwd),
+            // console.log(ctx.request.body.userNickname),
+            // console.log(ctx.request.body.userSex),
+            // console.log(ctx.request.body.userEmail),
+            // console.log(ctx.request.body.userBirthday.substring(0, 10)),
+            // console.log(ctx.request.body.userProvince),
+            // console.log(ctx.request.body.userCity),
+            // console.log(ctx.request.body.userPostcode),
+            // console.log(ctx.request.body.userAddress),
+            // console.log(ctx.request.body.userId)
             await userDAO.setUsers(
                 ctx.request.body.userName,
                 ctx.request.body.userPwd,
