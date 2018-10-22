@@ -49,7 +49,7 @@ class DB {
     }
     //wall--分页
     getPage(page){
-        const pageNumber=3;
+        const pageNumber=12;
         let start=(page-1)*pageNumber;
         return DAO('SELECT * FROM ( SELECT cardId, cardPic, cardLike FROM postcard WHERE cardReceiveTime IS NOT NULL AND cardPic IS NOT NULL ORDER BY cardReceiveTime DESC ) form LIMIT '+start+","+pageNumber,[]);
     }
@@ -96,6 +96,7 @@ class DB {
     addComment(form){
         return DAO('insert into comment(commentCardId,commentUserId,commentTime,commentContent) VALUES(?,?,?,?)',[form.commentCardId,form.commentUserId,form.commentTime,form.commentContent]);
     }
+
     //查询点赞数量
     getLikeNum(cardId){
         return DAO('select cardLike from postcard where cardId=?',[cardId])

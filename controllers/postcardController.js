@@ -37,9 +37,6 @@ module.exports = {
         }
 
     },
-
-
-
     //wall--查询所有的明信片
     getAllCard:async (ctx,next)=>{
         try{

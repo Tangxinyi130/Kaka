@@ -2,6 +2,7 @@ const router = require('koa-router')();
 const moment = require("moment");
 const userinfoController = require("../controllers/userinfoController");
 const attentionController = require("../controllers/attentionController");
+const regionController = require("../controllers/regionController");
 router.prefix('/users');
 
 //查询指定用户
@@ -182,6 +183,13 @@ router.post('/setUserHeadPic', upload.single('file'), async (ctx, next) => {
     }
     await userinfoController.setUserHeadPic(ctx, next);
 })
-
+//查看该手机号是否被注册过了，该手机号在数据库中是否存在
+router.get("/getTel/:tel", async (ctx, next) => {
+    await regionController.getTel(ctx, next);
+});
+//如果手机没有被注册过，将手机号和密码存到数据库中
+router.get("/insertUser/:tel/:pwd", async (ctx, next) => {
+    await regionController.insertUser(ctx, next);
+});
 
 module.exports = router;
