@@ -55,8 +55,8 @@ module.exports = {
     //按活动类型分类列出统一类的所有文章信息
     getActivityClassify:async(ctx,next)=>{
         try{
-            let classify = ctx.request.body.classfic;
-            let classifyInfo = await managerDAO.getActivityClassify(ctx.request.body.classfic);
+            let classify = ctx.params.dif;
+            let classifyInfo = await managerDAO.getActivityClassify(classify);
             ctx.body={"code":200,"message":classify+"类的文章",data:classifyInfo}
         }catch(e){
             ctx.body={"code":500,"message":"服务器错误"+e.toString(),data:[]}
