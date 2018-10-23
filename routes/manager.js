@@ -28,7 +28,7 @@ router.post('/activityManagerment',async(ctx,next)=>{
     await managerController.getAllActivity(ctx,next);
 });
 //按活动类型分类列出活动信息
-router.post('/activityManagerment/classfic',async(ctx,next)=>{
+router.get('/activityManagerment/classfic/:dif',async(ctx,next)=>{
     await managerController.getActivityClassify(ctx,next);
 });
 //按文章id删除一篇文章
