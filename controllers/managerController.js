@@ -97,8 +97,8 @@ module.exports = {
         try{
             let activityEdit = ctx.request.body;
             console.log(activityEdit);
-            await managerDAO.activityEdit(activityEdit.acName,activityEdit.acStartDate,activityEdit.acType,activityEdit.acDetails);
-            ctx.body = {code:200,"message":"插入成功,插入的数据是：",data:activityEdit}
+            let success = await managerDAO.activityEdit(activityEdit.acName,activityEdit.acStartDate,activityEdit.acType,activityEdit.acDetails);
+            ctx.body = {code:200,"message":"插入成功,插入的数据是：",data:success}
         }catch(e){
             ctx.body = {code:500,"message":"服务器出错"+e.toString(),data:[]}
         }
