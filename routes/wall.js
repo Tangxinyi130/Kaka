@@ -7,6 +7,9 @@ router.get('/', async(ctx, next)=>{
     await postcardController.getAllCard(ctx,next);
 });
 
+router.get('/search/:city/:page', async(ctx, next)=>{
+    await postcardController.getCityPage(ctx,next);
+});
 //在输入框里输入城市，搜索相关城市的明信片
 router.get('/search/:city', async(ctx, next)=>{
     await postcardController.getPostCard(ctx,next);

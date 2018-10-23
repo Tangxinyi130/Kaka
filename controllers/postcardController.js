@@ -53,6 +53,21 @@ module.exports = {
         }
 
     },
+    //根据城市页数查找
+    getCityPage:async (ctx,next)=>{
+      try{
+          let city=ctx.params.city;
+          let page=ctx.params.page;
+          let data={
+              city:city,
+              page:page
+          }
+          let jsondata = await postcardDAO.getCityPage(data);
+          ctx.body = {'code': 200, "message": "ok", data: jsondata};
+      }catch (e) {
+          ctx.body = {'code': 500, "message": "城市和页数错！", data:[]};
+      }
+    },
     //wall--根据输入的省份查询明信片
     getPostCard:async (ctx,next)=> {
         console.log(ctx.params.city)
