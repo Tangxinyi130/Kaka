@@ -34,7 +34,6 @@ router.post('/uploadfile',async function (ctx, next) {
     var filename = "";
     var src = "";
     var fileDes = "";
-
     form.parse(ctx.req, async function (err, fields, files) {
         // console.log(files)
         //根据files.filename.name获取上传文件名，执行后续写入数据库的操作
@@ -42,7 +41,7 @@ router.post('/uploadfile',async function (ctx, next) {
         src = path.join(__dirname, files.filename.path);
         fileDes = path.basename(filename, path.extname(filename)) + moment(new Date()).format("YYYYMMDDHHMMSS") + path.extname(filename);
         fs.rename(src, path.join(path.parse(src).dir, fileDes));
-        let str = `http://localhost:3000/postcardpic/${fileDes}`;
+        let str = `/postcardpic/${fileDes}`;
         console.log(str);
         console.log(fields);
         console.log("mydata:   " + fields.mydata);
