@@ -26,7 +26,21 @@ module.exports = {
     //users === 关注用户的信息简介
     getAttentionSynopsis: async (ctx, next) => {
         try {
+            //页面显示的用户的关注情况
             let attentionSynopsis = await attentionDAO.getAttentionSynopsis(ctx.params.userId);
+            //登录的用户的关注情况
+            let loginAttention = await attentionDAO.getAttentionSynopsis(ctx.params.loginId);
+
+            let attentionLength = attentionSynopsis.length;
+            let loginAttentionLength = loginAttention.length;
+            for (let i = 0; i < attentionLength; i++) {
+                attentionSynopsis[i].isAttention = false;
+                for (let j = 0; j < loginAttentionLength; j++) {
+                    if (attentionSynopsis[i].userId == loginAttention[j].userId) {
+                        attentionSynopsis[i].isAttention = true;
+                    }
+                }
+            }
             ctx.body = {"code": 200, "message": "ok", data:attentionSynopsis};
         } catch (e) {
             ctx.body = {"code": 500, "message": e.toString(), data:[]};
@@ -35,26 +49,32 @@ module.exports = {
     //users === 粉丝用户的信息简介(isAttention表示用户是否互关，显示不同的按钮)
     getFansSynopsis: async (ctx, next) => {
         try {
+            /**
+             * 1.获取页面显示的用户的粉丝情况（按钮未定，仅获取该用户的粉丝信息）
+             * 2.获取登录用户的关注者信息
+             * 3.判断页面显示用户的粉丝是否是登陆的用户的关注者，添加isAttention，确定按钮是“关注”或“取消关注”
+             *
+             * ctx.params.userId: 页面显示的用户id
+             * ctx.params.loginId: 登录的用户id
+             *
+             */
+            //页面显示的用户的粉丝情况
             let fansSynopsis = await attentionDAO.getFansSynopsis(ctx.params.userId);
-            //查询attention表
-            let attention = await attentionDAO.getAttention();
-            //添加isAttention，判断用户是否互关
-            let attentionLength = attention.length;
-            for (let i = 0; i < attentionLength; i++) {
-                attention[i].isAttention = false;
-                for (let j = 0; j < attentionLength; j++) {
-                    //attentionFan和attentionName相互交换，判断是否在attention表中存在
-                    if (attention[i].attentionName == attention[j].attentionFan && attention[i].attentionFan == attention[j].attentionName) {
-                        attention[i].isAttention = true;
-                    }
-                }
-            }
+            //登录的用户的粉丝情况
+            let loginAttention = await attentionDAO.getAttentionSynopsis(ctx.params.loginId);
+
+            /**
+             * 现在判断用户是否关注，从loginAttention中的用户直接判断，attentionFan是loginId，attentionName是loginAttention中查出的用户
+             * fansSynopsis中的用户是否是loginAttention中的用户，若是，则isAttention为true， 若不是，则isAttention为false
+             */
+
+            let loginAttentionLength = loginAttention.length;
             let fansSynopsisLength = fansSynopsis.length;
-            //将对应的用户粉丝的信息查出后，将查询出的用户与处理过的attention记录进行判断，添加对应的isAttention属性
             for (let i = 0; i < fansSynopsisLength; i++) {
-                for (let j = 0; j < attentionLength; j++) {
-                    if (fansSynopsis[i].userId == attention[j].attentionFan) {
-                        fansSynopsis[i].isAttention = attention[j].isAttention;
+                fansSynopsis[i].isAttention = false;
+                for (let j = 0; j < loginAttentionLength; j++) {
+                    if (fansSynopsis[i].userId == loginAttention[j].userId) {
+                        fansSynopsis[i].isAttention = true;
                     }
                 }
             }
