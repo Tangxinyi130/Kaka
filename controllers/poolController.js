@@ -88,7 +88,6 @@ module.exports = {
                 from: '2602121448@qq.com', // 同上面user
                 // to: '1405496640@qq.com',
                 to: sendemail1,
-
                 subject: '即将接收你的明信片的用户的基本信息', // Subject line
                 text: '成功了么', // plaintext body
                 html: '<b>接收方id:</b>'+receiveid1.poolUserId+'<br>'
@@ -97,9 +96,10 @@ module.exports = {
                     + '<b>接收方生日:</b>'+formatDate(receiveidmasg1.userBirthday)+'<br>'
                     + '<b>接收方地址:</b>'+receiveidmasg1.userAddress+'<br>'
                     // + '<b>发送方邮箱:</b>'+sendemail1
-                    + '<b>接收方邮箱:</b>'+receiveemail
+                    + '<b>接收方邮编:</b>'+receiveidmasg1.userPostcode
                 // html body
             };
+            console.log("邮件")
             transporter.sendMail(mailOptions, function(error, info){
                 if(error){
                     console.log(error);

@@ -26,7 +26,7 @@ class DB {
     }
     //得到接收方的信息
     getreceivemsg(userId){
-        return DAO('select userName,userSex,userBirthday,userAddress,userEmail from userinfo where userId=(select poolUserId from pool where poolUserId!=? order by poolTime asc limit 1)',[userId])
+        return DAO('select userName,userSex,userBirthday,userAddress,userEmail,userPostcode from userinfo where userId=(select poolUserId from pool where poolUserId!=? order by poolTime asc limit 1)',[userId])
     }
     //完成发送功能，返回接收方一些基本信息和发送的明信片信息
     sendPostcard(userId){
