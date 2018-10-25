@@ -20,7 +20,7 @@ class DB{
     //activity--根据年份月份查询相关的活动
     getActivityTime(time){
         return DAO("select * from (select activityId,activityName,activityDetails,activityStartDate,activityEndDate,activityType\n" +
-            ",MONTH(activityStartDate) activityMonth,year(activityStartDate) activityYear from activity) time where activityYear=? and activityMonth=?",[time.year,time.month])
+            ",MONTH(activityStartDate) activityMonth,year(activityStartDate) activityYear from activity) time left join goods g on time.activityId=g.goodsActivityId where activityYear=? and activityMonth=?",[time.year,time.month])
     }
 }
 module.exports=new DB();

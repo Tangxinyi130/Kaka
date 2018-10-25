@@ -51,14 +51,14 @@ class DB {
     getUserSend(userId) {
         return DAO("select cardId, cardReceiver, userNickname, cardReceiveRegion, cardSendTime, cardReceiveTime, cardPic " +
                     "from postcard, userInfo " +
-                    "where cardSender = ? and postcard.cardReceiver = userinfo.userId" +
+                    "where cardSender = ? and postcard.cardReceiver = userinfo.userId " +
                     "order by cardSendTime desc", [userId]);
     }
     //users === 查询已收到的明信片
     getUserReceive(userId) {
         return DAO("select cardId, cardSender, userNickname, cardSendRegion, cardSendTime, cardReceiveTime, cardPic " +
             "from postcard, userInfo " +
-            "where cardReceiver = ? and postcard.cardSender = userinfo.userId and cardReceiveTime is not null" +
+            "where cardReceiver = ? and postcard.cardSender = userinfo.userId and cardReceiveTime is not null " +
             "order by cardReceiveTime desc", [userId]);
     }
     //users === 查看明信片图片

@@ -222,12 +222,6 @@ router.post('/uploadfile',async function (ctx, next) {
         try {
             setTimeout(() => {}, 20);
             await userDAO.setUserHeadPic(str, fields.mydata);
-            // await userDAO.setUsers(fields.name, fields.password,
-            //                         fields.nickname, fields.sex,
-            //                         fields.email, fields.birthday,
-            //                         fields.selected, fields.citySelected,
-            //                         fields.postcode, fields.address, fields.id)
-
             ctx.body={"code":200, "message":"ok", data:[]};
         } catch (e) {
             ctx.body={"code":500, "message":"err"+e.message, data:[]};
@@ -248,6 +242,12 @@ router.get("/getTel/:tel", async (ctx, next) => {
 //如果手机没有被注册过，将手机号和密码存到数据库中
 router.get("/insertUser/:tel/:pwd", async (ctx, next) => {
     await regionController.insertUser(ctx, next);
+});
+
+
+//判断用户是否关注某用户
+router.get("/isAttention/:loginId/:otherId", async (ctx, next) => {
+   await attentionController.isAttention(ctx, next);
 });
 
 module.exports = router;

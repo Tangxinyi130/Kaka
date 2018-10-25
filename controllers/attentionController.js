@@ -136,7 +136,18 @@ module.exports = {
         } catch (e) {
             ctx.body = {"code": 500, "message": e.toString(), data:[]};
         }
+    },
+    //postcards === 判断登录者是否关注该用户
+    isAttention: async (ctx, next) => {
+        try {
+            console.log("id:  " + ctx.params.loginId);
+            console.log("otherid:  " + ctx.params.otherId)
+            let select = await attentionDAO.isAttention(ctx.params.loginId, ctx.params.otherId);
+            console.log("select:  " + select[0].sum);
+            ctx.body = {"code": 200, "message": "ok", data:select[0]};
+        } catch (e) {
+            ctx.body = {"code": 500, "message": e.toString(), data:[]};
+        }
     }
-
 
 };
