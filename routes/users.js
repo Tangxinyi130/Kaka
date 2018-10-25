@@ -3,6 +3,10 @@ const moment = require("moment");
 const userinfoController = require("../controllers/userinfoController");
 const attentionController = require("../controllers/attentionController");
 const regionController = require("../controllers/regionController");
+const userDAO = require("../model/userinfoDAO");
+const formidable = require("formidable")
+const path = require("path")
+const fs = require("fs")
 router.prefix('/users');
 
 //查询指定用户
@@ -76,12 +80,12 @@ router.get("/attention/:userId", async (ctx, next) => {
 });
 
 //关注用户的用户简介
-router.get("/attention/myAttention/:userId", async (ctx, next) => {
+router.get("/attention/myAttention/:userId/:loginId", async (ctx, next) => {
     await attentionController.getAttentionSynopsis(ctx, next);
 });
 
 //粉丝用户的用户简介
-router.get("/attention/myFans/:userId", async (ctx, next) => {
+router.get("/attention/myFans/:userId/:loginId", async (ctx, next) => {
     await attentionController.getFansSynopsis(ctx, next);
 });
 
@@ -154,35 +158,83 @@ router.get("/getTwoUser/:cardId", async (ctx, next) => {
     await userinfoController.getTwoUser(ctx, next);
 })
 
+// router.post("/uploadInfo", async (ctx, next) =>  {
+//     var form = new formidable.IncomingForm();
+//     // form.uploadDir = '../public/headpics';   //设置文件存放路径
+//     form.multiples = true;  //设置上传多文件
+//     // var filename = "";
+//     // var src = "";
+//     // var fileDes = "";
+//     console.log("aaaaaa");
+//     form.parse(ctx.req, async function (err, fields) {
+//         // console.log(files)
+//         //根据files.filename.name获取上传文件名，执行后续写入数据库的操作
+//         // filename = files.filename.name;
+//         // src = path.join(__dirname, files.filename.path);
+//         // fileDes = path.basename(filename, path.extname(filename)) + moment(new Date()).format("YYYYMMDDHHMMSS") + path.extname(filename);
+//         // fs.rename(src, path.join(path.parse(src).dir, fileDes));
+//         // console.log(fileDes);
+//         // let str = `http://localhost:3000/headpics/${fileDes}`;
+//         // console.log(str);
+//         console.log(fields);
+//         // console.log("mydata:   " + fields.mydata);
+//         try {
+//             // setTimeout(() => {}, 20);
+//             // await userDAO.setUserHeadPic(str, fields.mydata);
+//             console.log(fields);
+//             await userDAO.setUsers(fields.name, fields.password,
+//                                     fields.nickname, fields.sex,
+//                                     fields.email, fields.birthday,
+//                                     fields.selected, fields.citySelected,
+//                                     fields.postcode, fields.address, fields.id)
+//
+//             ctx.body={"code":200, "message":"ok", data:[]};
+//         } catch (e) {
+//             ctx.body={"code":500, "message":"err"+e.message, data:[]};
+//         }
+//         //
+//         // //根据fileds.mydata获取上传表单元素的数据，执行写入数据库的操作
+//     })
+// })
 
 
 
-const multer = require('koa-multer');//加载koa-multer模块
-//文件上传
-//配置
-var storage = multer.diskStorage({
-    //文件保存路径
-    destination: function (req, file, cb) {
-        cb(null, '../public/headpics/')
-    },
-    //修改文件名称
-    filename: function (req, file, cb) {
-        var now = moment(new Date()).format("YYYYMMDDHHmmss");
-        // console.log(moment(new Date().toLocaleString()).format("YYYYMMDDHHmmss"));
-        var fileFormat = (file.originalname).split(".");
-        cb(null, fileFormat[0] + "_" + now + "." + fileFormat[fileFormat.length - 1]);
-    }
+//上传文件的路由
+router.post('/uploadfile',async function (ctx, next) {
+    var form = new formidable.IncomingForm();
+    form.uploadDir = '../public/headpics';   //设置文件存放路径
+    // form.multiples = true;  //设置上传多文件
+    var filename = "";
+    var src = "";
+    var fileDes = "";
+    form.parse(ctx.req, async function (err, fields, files) {
+        // console.log(files)
+        //根据files.filename.name获取上传文件名，执行后续写入数据库的操作
+        filename = files.filename.name;
+        src = path.join(__dirname, files.filename.path);
+        fileDes = path.basename(filename, path.extname(filename)) + moment(new Date()).format("YYYYMMDDHHMMSS") + path.extname(filename);
+        fs.rename(src, path.join(path.parse(src).dir, fileDes));
+        console.log(fileDes);
+        let str = `/headpics/${fileDes}`;
+        console.log(str);
+        console.log(fields);
+        console.log("mydata:   " + fields.mydata);
+        try {
+            setTimeout(() => {}, 20);
+            await userDAO.setUserHeadPic(str, fields.mydata);
+            ctx.body={"code":200, "message":"ok", data:[]};
+        } catch (e) {
+            ctx.body={"code":500, "message":"err"+e.message, data:[]};
+        }
+        //
+        // //根据fileds.mydata获取上传表单元素的数据，执行写入数据库的操作
+    })
+    // if(err){
+    //     ctx.body={'code':500,"message":"err"+err.message,data:[]};
+    // }
 })
-//加载配置
-var upload = multer({ storage: storage });
-//路由
-router.post('/setUserHeadPic', upload.single('file'), async (ctx, next) => {
-    ctx.body = {
-        filename: ctx.req.file.filename//返回文件名
 
-    }
-    await userinfoController.setUserHeadPic(ctx, next);
-})
+
 //查看该手机号是否被注册过了，该手机号在数据库中是否存在
 router.get("/getTel/:tel", async (ctx, next) => {
     await regionController.getTel(ctx, next);
@@ -190,6 +242,12 @@ router.get("/getTel/:tel", async (ctx, next) => {
 //如果手机没有被注册过，将手机号和密码存到数据库中
 router.get("/insertUser/:tel/:pwd", async (ctx, next) => {
     await regionController.insertUser(ctx, next);
+});
+
+
+//判断用户是否关注某用户
+router.get("/isAttention/:loginId/:otherId", async (ctx, next) => {
+   await attentionController.isAttention(ctx, next);
 });
 
 module.exports = router;
