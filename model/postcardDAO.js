@@ -137,9 +137,12 @@ class DB {
             "WHERE\n" +
             "\ts.cardId = ?;\n",[cardId]);
     }
-    //获取评论内容
+
     getComment(cardId){
-        return DAO('select * from comment where commentCardId=? ORDER BY commentTime DESC',[cardId]);
+        return DAO("select commentUserId, userHeadPic, userNickname, commentContent, commentTime\n" +
+                    "from comment, userinfo\n" +
+                    "where commentCardId = ? and commentUserId = userId\n" +
+                    "order by commentTime desc", [cardId]);
     }
     //postcard--添加评论
     addComment(form){
