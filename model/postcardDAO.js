@@ -137,9 +137,9 @@ class DB {
             "WHERE\n" +
             "\ts.cardId = ?;\n",[cardId]);
     }
-
+    //获取评论内容
     getComment(cardId){
-        return DAO('select commentUserId,commentContent,commentTime from comment where commentCardId=?',[cardId]);
+        return DAO('select * from comment where commentCardId=? ORDER BY commentTime DESC',[cardId]);
     }
     //postcard--添加评论
     addComment(form){
