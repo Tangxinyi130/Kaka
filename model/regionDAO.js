@@ -7,7 +7,7 @@ class DB {
     }
     //向数据库中插入信息
    insertUser(tel,pwd){
-        return DAO("insert into userinfo(userTel,userPwd)values(?,?);",[tel,pwd])
+        return DAO("insert into userinfo(userTel,userPwd,userHeadPic,userTime)values(?,?,'/headpics/default.jpg',now());",[tel,pwd])
    }
 }
 
