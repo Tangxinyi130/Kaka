@@ -139,7 +139,10 @@ class DB {
     }
 
     getComment(cardId){
-        return DAO('select commentUserId,commentContent,commentTime from comment where commentCardId=?',[cardId]);
+        return DAO("select commentUserId, userHeadPic, userNickname, commentContent, commentTime\n" +
+                    "from comment, userinfo\n" +
+                    "where commentCardId = ? and commentUserId = userId\n" +
+                    "order by commentTime desc", [cardId]);
     }
     //postcard--添加评论
     addComment(form){
