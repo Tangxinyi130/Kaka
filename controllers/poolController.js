@@ -64,6 +64,7 @@ module.exports = {
                 d = d < 10 ? ('0' + d) : d;
                 return y + '-' + m + '-' + d;
             };
+            // console.log(ctx.params.cardId);
             //获得接收方的id
             let receiveid= await poolDAO.getreceive(ctx.params.userId);
             let receiveid1=receiveid[0];
@@ -74,7 +75,7 @@ module.exports = {
             let sendemail= await poolDAO.sendEmail(ctx.params.userId);
             let sendemail1=sendemail[0].userEmail;
             //获得接收用户的邮箱
-            let receiveemail=receiveidmasg1.userEmail
+            // let receiveemail=receiveidmasg1.userEmail
             var nodemailer = require('nodemailer');
             var transporter = nodemailer.createTransport({
                 host: "smtp.qq.com", // 主机
@@ -96,8 +97,8 @@ module.exports = {
                     + '<b>接收方性别:</b>'+receiveidmasg1.userSex+'<br>'
                     + '<b>接收方生日:</b>'+formatDate(receiveidmasg1.userBirthday)+'<br>'
                     + '<b>接收方地址:</b>'+receiveidmasg1.userAddress+'<br>'
-                    // + '<b>发送方邮箱:</b>'+sendemail1
-                    + '<b>接收方邮编:</b>'+receiveidmasg1.userPostcode
+                    + '<b>接收方邮编:</b>'+receiveidmasg1.userPostcode+'<br>'
+                    + '<b>明信片ID:</b>'+ctx.params.cardId
                 // html body
             };
             console.log("邮件")

@@ -86,6 +86,13 @@ class DB {
                     "order by receiveNum desc\n" +
                     "limit 0, 10", [userId]);
     }
+
+    //postcards === 判断登录者是否关注该用户
+    isAttention (loginId, otherId) {
+        return DAO ("select count(attentionFan) sum\n" +
+                    "from attention\n" +
+                    "where attentionFan = ? and attentionName = ?", [loginId, otherId]);
+    }
 }
 
 module.exports = new DB();
