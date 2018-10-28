@@ -15,11 +15,26 @@ module.exports={
             ctx.body={"code":500,"message":"明信片被收藏数量！",data:[]};
         }
     },
+    checkCollection: async (ctx,next)=>{
+        try{
+            let cardId=ctx.params.cardId;
+            let userId=ctx.params.userId;
+            let data1={
+                cardId:cardId,
+                userId:userId
+            };
+            let json=await collectionDAO.checkCollection(data1);
+            ctx.body={"code":200,"message":"ok",data:json};
+        }catch (e){
+            ctx.body={"code":500,"message":"明信片被收藏数量！",data:[]};
+        }
+    },
     //postcard--插入被收藏的明信片信息
     insertCollection:async (ctx,next)=>{
         try{
-            const userId=11;
+            // const userId=11;
             let cardId=ctx.params.cardId;
+            let userId=ctx.params.userId;
             let insertData={
                 userId:userId,
                 cardId:cardId
@@ -33,8 +48,9 @@ module.exports={
     //postcard--删除取消收藏的明信片信息
     deleteCollection:async (ctx,next)=>{
         try{
-            const userId=11;
+            // const userId=11;
             let cardId=ctx.params.cardId;
+            let userId=ctx.params.userId;
             let insertData={
                 userId:userId,
                 cardId:cardId

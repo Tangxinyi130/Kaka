@@ -114,17 +114,16 @@ module.exports = {
             let commentContent=ctx.request.body.commentContent;
             let commentTime=new Date;
             console.log(commentTime)
-            let form={
+            const form1={
                 commentUserId:userId,
                 commentCardId:cardId,
                 commentContent:commentContent,
                 commentTime:commentTime
             };
-            let all=await postcardDAO.addComment(form);
-            console.log(from)
+            let all=await postcardDAO.addComment(form1);
             ctx.body = {'code': 200, "message": "ok", data: all};
         }catch (e){
-            ctx.body = {'code': 500, "message": "postcard里评论失败！"+e.message, data:[]};
+            ctx.body = {'code': 500, "message": "postcard里评论失败！"+e.message, data:all};
         }
     },
     //postcard--用户点赞，点赞数加1
