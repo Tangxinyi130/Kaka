@@ -95,7 +95,7 @@ class DB {
                     "from postcard, userInfo, collection\n" +
                     "where userInfo.userId = collection.collectionUserId and postcard.cardId = collection.collectionCardId\n" +
                         "and cardPic is not null and userId = ?\n" +
-                    "order by cardReceiveTime desc", [userId]);
+                    "order by collectionId desc", [userId]);
     }
     //users === 地区排行榜
     showMapCharts (userId) {
