@@ -4,6 +4,10 @@ class DB {
     getCollectionNumber(cardId){
         return DAO('select count(1) number from collection where collectionCardId=?', [cardId]);
     }
+    //postcard--查询收藏表
+    checkCollection(data){
+        return DAO('select * from collection where collectionUserId=? and collectionCardId=?',[data.userId,data.cardId]);
+    }
     //postcard--添加卡片收藏数据
     insertCollection(data){
         return DAO('insert into collection(collectionUserId,collectionCardId) VALUES(?,?)',[data.userId,data.cardId]);

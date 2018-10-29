@@ -79,20 +79,23 @@ class DB {
         return DAO("select cardId, cardPic\n" +
                     "from postcard, userInfo\n" +
                     "where cardReceiver = ? and postcard.cardSender = userinfo.userId and cardReceiveTime is not null " +
-                    "and cardPic is not null", [userId]);
+                    "and cardPic is not null\n" +
+                    "order by cardReceiveTime desc ", [userId]);
     }
     //users === 用户的明信片墙，查询发送的明信片图片
     showUserSendPic (userId) {
         return DAO("select cardId, cardPic\n" +
                     "from postcard, userInfo\n" +
-                    "where cardSender = ? and postcard.cardReceiver = userinfo.userId and cardPic is not null", [userId]);
+                    "where cardSender = ? and postcard.cardReceiver = userinfo.userId and cardPic is not null\n" +
+                    "order by cardSendTime desc ", [userId]);
     }
     //users === 用户的明信片墙，查询收藏的明信片图片
     showUserCollectionPic (userId) {
         return DAO("select cardId, cardPic\n" +
                     "from postcard, userInfo, collection\n" +
                     "where userInfo.userId = collection.collectionUserId and postcard.cardId = collection.collectionCardId\n" +
-                        "and cardPic is not null and userId = ?", [userId]);
+                        "and cardPic is not null and userId = ?\n" +
+                    "order by collectionId desc", [userId]);
     }
     //users === 地区排行榜
     showMapCharts (userId) {

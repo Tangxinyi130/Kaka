@@ -145,8 +145,8 @@ class DB {
                     "order by commentTime desc", [cardId]);
     }
     //postcard--添加评论
-    addComment(form){
-        return DAO('insert into comment(commentCardId,commentUserId,commentTime,commentContent) VALUES(?,?,?,?)',[form.commentCardId,form.commentUserId,form.commentTime,form.commentContent]);
+    addComment(form1){
+        return DAO('insert into comment(commentCardId,commentUserId,commentTime,commentContent) VALUES(?,?,?,?)',[form1.commentCardId,form1.commentUserId,form1.commentTime,form1.commentContent]);
     }
 
     //查询点赞数量
