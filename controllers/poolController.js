@@ -7,6 +7,10 @@ module.exports = {
             let  mes=message[0];
             let ms=mes[0];
             let receiveMessage = {};
+            // *************************************
+            receiveMessage.receiveFans = ms.p_countFans,
+                receiveMessage.receiveAttion =ms.p_countAttention,
+                // ************************
             receiveMessage.cardReceiver = ms.p_cardReceive,
               receiveMessage.userNickname =ms.p_cardReceiveNickname,
                 receiveMessage.userSex = ms.p_cardReceiveSex,
