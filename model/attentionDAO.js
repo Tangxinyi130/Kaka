@@ -20,7 +20,8 @@ class DB {
                     "       true\n" +
                     "   ) as isAttention\n" +
                     "from attention, userinfo\n" +
-                    "where attentionName = userId and attentionFan = ?", [userId]);
+                    "where attentionName = userId and attentionFan = ?\n" +
+                    "order by attentionId desc", [userId]);
     }
     //users === 粉丝用户的信息简介
     getFansSynopsis (userId) {
@@ -38,7 +39,8 @@ class DB {
                     "       where attentionName = userId\n" +
                     "   ) as thisUserFansCount\n" +
                     "from attention, userinfo\n" +
-                    "where attentionFan = userId and attentionName = ?", [userId]);
+                    "where attentionFan = userId and attentionName = ?\n" +
+                    "order by attentionId desc", [userId]);
     }
     //users === 查询attention表(用于判断用户之间是否互关)
     getAttention () {

@@ -50,14 +50,14 @@ class DB {
     //users === 查询已发送的明信片
     getUserSend(userId) {
         return DAO("select cardId, cardReceiver, userNickname, cardReceiveRegion, cardSendTime, cardReceiveTime, cardPic " +
-                    "from postcard, userInfo " +
+                    "from postcard, userinfo " +
                     "where cardSender = ? and postcard.cardReceiver = userinfo.userId " +
                     "order by cardSendTime desc", [userId]);
     }
     //users === 查询已收到的明信片
     getUserReceive(userId) {
         return DAO("select cardId, cardSender, userNickname, cardSendRegion, cardSendTime, cardReceiveTime, cardPic " +
-            "from postcard, userInfo " +
+            "from postcard, userinfo " +
             "where cardReceiver = ? and postcard.cardSender = userinfo.userId and cardReceiveTime is not null " +
             "order by cardReceiveTime desc", [userId]);
     }
@@ -92,8 +92,8 @@ class DB {
     //users === 用户的明信片墙，查询收藏的明信片图片
     showUserCollectionPic (userId) {
         return DAO("select cardId, cardPic\n" +
-                    "from postcard, userInfo, collection\n" +
-                    "where userInfo.userId = collection.collectionUserId and postcard.cardId = collection.collectionCardId\n" +
+                    "from postcard, userinfo, collection\n" +
+                    "where userinfo.userId = collection.collectionUserId and postcard.cardId = collection.collectionCardId\n" +
                         "and cardPic is not null and userId = ?\n" +
                     "order by collectionId desc", [userId]);
     }
@@ -106,19 +106,19 @@ class DB {
                     "order by count(cardId) desc\n" +
                     "limit 0, 8", [userId]);
     }
-    //users === 我的活动(我的商品)
-    showMyActivity (userId) {
-        return DAO("select activityId, activityName, goodsId, goodsName, goodsPrice, goodsPic, goodsDetails, myactivityUserId, mygoodsIsReceived\n" +
-                    "from activity, goods, myactivity, mygoods\n" +
-                    "where goodsActivityId = activityId and myactivityActivityId = activityId and mygoodsGoodsId = goodsId " +
-                    "and myactivityUserId = ?  and mygoodsUserId = ?", [userId, userId]);
-    }
-    //users === 确认收货
-    receivedGoods (mygoodsId, userId) {
-        return DAO("update mygoods\n" +
-                    "set mygoodsIsReceived = 1\n" +
-                    "where mygoodsGoodsId = ? and mygoodsUserId = ?", [mygoodsId, userId]);
-    }
+    // //users === 我的活动(我的商品)
+    // showMyActivity (userId) {
+    //     return DAO("select activityId, activityName, goodsId, goodsName, goodsPrice, goodsPic, goodsDetails, myactivityUserId, mygoodsIsReceived\n" +
+    //                 "from activity, goods, myactivity, mygoods\n" +
+    //                 "where goodsActivityId = activityId and myactivityActivityId = activityId and mygoodsGoodsId = goodsId " +
+    //                 "and myactivityUserId = ?  and mygoodsUserId = ?", [userId, userId]);
+    // }
+    // //users === 确认收货
+    // receivedGoods (mygoodsId, userId) {
+    //     return DAO("update mygoods\n" +
+    //                 "set mygoodsIsReceived = 1\n" +
+    //                 "where mygoodsGoodsId = ? and mygoodsUserId = ?", [mygoodsId, userId]);
+    // }
     //users === 查询明信片
     searchCard (userId, province) {
         console.log("查询")
@@ -153,7 +153,8 @@ class DB {
         return DAO("select cardSendRegion, count(cardId) cardSum\n" +
                     "from postcard\n" +
                     "where cardReceiver = ? and cardReceiveTime is not null\n" +
-                    "group by cardSendRegion", [userId]);
+                    "group by cardSendRegion\n" +
+                    "order by cardSum desc ", [userId]);
     }
     //users === 上传用户头像
     setUserHeadPic (src, userId) {
