@@ -1,6 +1,7 @@
 const router = require('koa-router')();
 const postController = require('../controllers/postcardController');
 const userinfoController = require('../controllers/userinfoController');
+const collectionController = require('../controllers/collectionController');
 //index--首页-用户数据信息
 router.get("/userCard/:userId",async(ctx,next)=>{
     await userinfoController.getUserCard(ctx,next);
@@ -24,6 +25,10 @@ router.post('/recentPostcards',async(ctx,next)=>{
 //index--首页-网站信息
 router.get('/information',async(ctx,next)=>{
     await userinfoController.getWebInfomation(ctx,next);
+});
+//index--首页-网站信息
+router.get('/getCollection/:userId',async(ctx,next)=>{
+    await collectionController.getCollection(ctx,next);
 });
 
 module.exports = router;

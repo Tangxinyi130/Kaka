@@ -7,6 +7,10 @@ module.exports = {
             let  mes=message[0];
             let ms=mes[0];
             let receiveMessage = {};
+            // *************************************
+            receiveMessage.receiveFans = ms.p_countFans,
+                receiveMessage.receiveAttion =ms.p_countAttention,
+                // ************************
             receiveMessage.cardReceiver = ms.p_cardReceive,
               receiveMessage.userNickname =ms.p_cardReceiveNickname,
                 receiveMessage.userSex = ms.p_cardReceiveSex,
@@ -90,7 +94,8 @@ module.exports = {
                 from: '2602121448@qq.com', // 同上面user
                 // to: '1405496640@qq.com',
                 to: sendemail1,
-                subject: '即将接收你的明信片的用户的基本信息', // Subject line
+                // subject: '即将接收你的明信片的用户的基本信息', // Subject line
+                subject: "【拾·笺】 明信片ID：" + ctx.params.cardId,
                 text: '成功了么', // plaintext body
                 html: '<b>接收方id:</b>'+receiveid1.poolUserId+'<br>'
                     + '<b>接收方姓名:</b>'+receiveidmasg1.userName+'<br>'
