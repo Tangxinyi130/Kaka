@@ -1,6 +1,8 @@
 const managerDAO = require('../model/managerDAO');
 const goodsDAO = require('../model/goodsDAO');
 const myactivityDAO =require('../model/myactivityDAO');
+const formidable = require("formidable");
+const path = require('path');
 module.exports = {
     //后台管理登录
     doLogin:async(ctx,next)=> {
@@ -128,6 +130,27 @@ module.exports = {
         }catch(e){
             ctx.body = {code:500,"message":"服务器出错"+e.toString(),data:[]};
         }
-    }
+    },
+    uploadActivityImage:async(ctx,next)=>{
+        const form = new formidable.IncomingForm();
+        form.uploadDir = '../public/activityEdit';
+        form.keepExtensions = true;
+        let urlImages = [];
+        return new Promise(function(resolve,reject){
+            form.parse(ctx.req,function(err,fields,files){
+                if(err) reject(err.message)
+                console.log('获取数据文件了......')
+                // if(err){console.log(err); return;}
+                for(name in files){
+                    urlImages.push(path.parse(files[name].path).base);
+                }
+                console.log(urlImages);
+                resolve(urlImages)
+            })
+        }).then((data)=>{
+            //按wangeditor格式，输出结果，把上传的文件名返回
+            ctx.body = {errno:0,data:data};
+        })
+    },
 
 };

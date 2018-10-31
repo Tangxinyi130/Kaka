@@ -39,5 +39,8 @@ router.get('/activityManagerment/delete/:activityId',async(ctx,next)=>{
 router.post('/activityManagerment/update',async(ctx,next)=>{
     await managerController.updateActivity(ctx,next);
 });
+router.post('/activityImageUpload',async(ctx,next)=>{
+    await managerController.uploadActivityImage(ctx,next);
+})
 
 module.exports = router;
