@@ -103,7 +103,8 @@ module.exports = {
                 from: '2602121448@qq.com', // 同上面user
                 // to: '1405496640@qq.com',
                 to: sendemail1,
-                subject: '即将接收你的明信片的用户的基本信息', // Subject line
+                // subject: '即将接收你的明信片的用户的基本信息', // Subject line
+                subject: "【拾·笺】 明信片ID：" + ctx.params.cardId,
                 text: '成功了么', // plaintext body
                 html:
                       '<b>接收方呢称:</b>'+ctx.params.remsNickname+'<br>'

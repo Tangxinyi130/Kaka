@@ -195,20 +195,13 @@ module.exports = {
     //users === 设置用户
     setUsers: async (ctx, next) => {
         try {
-            // console.log(ctx.request.body.userName);
-            // console.log(ctx.request.body.userPwd),
-            // console.log(ctx.request.body.userNickname),
-            // console.log(ctx.request.body.userSex),
-            // console.log(ctx.request.body.userEmail),
-            // console.log(ctx.request.body.userBirthday.substring(0, 10)),
-            // console.log(ctx.request.body.userProvince),
-            // console.log(ctx.request.body.userCity),
-            // console.log(ctx.request.body.userPostcode),
-            // console.log(ctx.request.body.userAddress),
-            // console.log(ctx.request.body.userId)
+            const hash=crypto.createHash("md5");
+            hash.update(ctx.request.body.userPwd);
+            var npwd=hash.digest("hex");
             await userDAO.setUsers(
                 ctx.request.body.userName,
-                ctx.request.body.userPwd,
+                npwd,
+                // ctx.request.body.userPwd,
                 ctx.request.body.userNickname,
                 ctx.request.body.userSex,
                 ctx.request.body.userEmail,
@@ -219,8 +212,7 @@ module.exports = {
                 ctx.request.body.userAddress,
                 ctx.request.body.userId
             );
-            // console.log("进行了设置")
-
+            console.log("进行了设置")
             let user = await userDAO.getOneUser(ctx.request.body.userId);
             ctx.body = {"code": 200, "message": "ok", data: user};
         } catch (e) {
