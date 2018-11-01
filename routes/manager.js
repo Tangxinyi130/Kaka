@@ -1,7 +1,8 @@
 const router = require('koa-router')();
 const managerController = require('../controllers/managerController');
 const goodsController = require('../controllers/goodsController');
-
+const formidable = require("formidable");
+const path = require('path');
 router.prefix('/manager');
 //后台管理登录
 router.post('/doLogin', async (ctx, next) => {
@@ -40,7 +41,25 @@ router.post('/activityManagerment/update',async(ctx,next)=>{
     await managerController.updateActivity(ctx,next);
 });
 router.post('/activityImageUpload',async(ctx,next)=>{
-    await managerController.uploadActivityImage(ctx,next);
+    const form = new formidable.IncomingForm();
+    form.uploadDir = '../public/activityEdit';
+    form.keepExtensions = true;
+    let urlImages = [];
+    return new Promise(function(resolve,reject){
+        form.parse(ctx.req,function(err,fields,files){
+            if(err) reject(err.message)
+            console.log('获取数据文件了......')
+            // if(err){console.log(err); return;}
+            for(name in files){
+                urlImages.push(path.parse(files[name].path).base);
+            }
+            console.log(urlImages);
+            resolve(urlImages)
+        })
+    }).then((data)=>{
+        //按wangeditor格式，输出结果，把上传的文件名返回
+        ctx.body = {errno:0,data:data};
+    })
 })
 
 module.exports = router;
