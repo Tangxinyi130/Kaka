@@ -11,7 +11,7 @@ router.get('/sendPostcard/:userId',async (ctx,next)=>{
     await poolCtroller.sendPostcard(ctx,next)
 })
 //向发送方发送邮件
-router.get('/sendEmail/:userId/:cardId',async (ctx,next)=>{
+router.get('/sendEmail/:userId/:cardId/:remsNickname/:userSex/:userBirthday/:receiveDetailAddress/:receiveCode/:userEmail',async (ctx,next)=>{
     await poolCtroller.sendEmail(ctx,next)
 })
 module.exports = router

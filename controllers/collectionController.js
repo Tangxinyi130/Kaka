@@ -60,5 +60,15 @@ module.exports={
         }catch (e){
             ctx.body={"code":500,"message":"删除收藏的数据！",data:[]};
         }
+    },
+    //index
+    getCollection:async(ctx,next)=>{
+        try{
+            let userId = ctx.params.userId;
+            let collection = await collectionDAO.getCollection(userId);
+            ctx.body={"code":200,"message":"ok",data:collection};
+        }catch (e) {
+            ctx.body={"code":500,"message":"服务器错误！",data:[]};
+        }
     }
 };

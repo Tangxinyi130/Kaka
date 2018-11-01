@@ -7,6 +7,8 @@ module.exports = {
             let  mes=message[0];
             let ms=mes[0];
             let receiveMessage = {};
+            receiveMessage.receiveDetailAddress= ms.p_detailAddress,
+                receiveMessage.receiveCode =ms.p_receiveCode,
             // *************************************
             receiveMessage.receiveFans = ms.p_countFans,
                 receiveMessage.receiveAttion =ms.p_countAttention,
@@ -20,6 +22,8 @@ module.exports = {
                 receiveMessage.userProvince = ms.p_cardReceiveProvince,
                 receiveMessage.userCity = ms.p_cardReceiveCity,
                 receiveMessage.cardId =ms.p_cardId,
+                console.log("我是cardId"+ms.p_cardId);
+                console.log("我是card其他信息"+ms.p_cardReceiveCity);
                 ctx.body = {"code": 200, "message": 'ok', data:receiveMessage};
              } catch (err) {
             ctx.body = {"code": 200, "message": err.message, data: []}
@@ -28,6 +32,7 @@ module.exports = {
     //限制发送的次数和判断pool池里面是否有数据
     limitTimes: async (ctx, next) => {
         try {
+
             //获得用户的邮箱
             let sendemail= await poolDAO.sendEmail(ctx.params.userId);
             let sendemail1=sendemail[0];
@@ -68,18 +73,22 @@ module.exports = {
                 d = d < 10 ? ('0' + d) : d;
                 return y + '-' + m + '-' + d;
             };
-            // console.log(ctx.params.cardId);
-            //获得接收方的id
-            let receiveid= await poolDAO.getreceive(ctx.params.userId);
-            let receiveid1=receiveid[0];
-            //获得接收方的信息
-            let receivemsg= await poolDAO.getreceivemsg(ctx.params.userId);
-            let receiveidmasg1=receivemsg[0];
+            //获得接收方的基本信息
+            console.log("我是接收方的昵称"+ctx.params.remsNickname);
+            console.log(ctx.params.cardId);
+            //获得发送方的性别
+            console.log(ctx.params.userSex);
+            //获得发送方的生日
+            console.log(ctx.params.userBirthday);
+            //获得发送放的地址
+            console.log(ctx.params.receiveDetailAddress);
+            //获得发送方的邮编
+            console.log(ctx.params.receiveCode);
+            //获得接收方的邮箱
+            console.log(ctx.params.userEmail);
             //获得发送用户的邮箱
             let sendemail= await poolDAO.sendEmail(ctx.params.userId);
             let sendemail1=sendemail[0].userEmail;
-            //获得接收用户的邮箱
-            // let receiveemail=receiveidmasg1.userEmail
             var nodemailer = require('nodemailer');
             var transporter = nodemailer.createTransport({
                 host: "smtp.qq.com", // 主机
@@ -97,13 +106,14 @@ module.exports = {
                 // subject: '即将接收你的明信片的用户的基本信息', // Subject line
                 subject: "【拾·笺】 明信片ID：" + ctx.params.cardId,
                 text: '成功了么', // plaintext body
-                html: '<b>接收方id:</b>'+receiveid1.poolUserId+'<br>'
-                    + '<b>接收方姓名:</b>'+receiveidmasg1.userName+'<br>'
-                    + '<b>接收方性别:</b>'+receiveidmasg1.userSex+'<br>'
-                    + '<b>接收方生日:</b>'+formatDate(receiveidmasg1.userBirthday)+'<br>'
-                    + '<b>接收方地址:</b>'+receiveidmasg1.userAddress+'<br>'
-                    + '<b>接收方邮编:</b>'+receiveidmasg1.userPostcode+'<br>'
-                    + '<b>明信片ID:</b>'+ctx.params.cardId
+                html:
+                      '<b>接收方呢称:</b>'+ctx.params.remsNickname+'<br>'
+                    + '<b>接收方性别:</b>'+ctx.params.userSex+'<br>'
+                    + '<b>接收方生日:</b>'+ctx.params.userBirthday+'<br>'
+                    + '<b>接收方地址:</b>'+ctx.params.receiveDetailAddress+'<br>'
+                    + '<b>明信片ID:</b>'+ctx.params.cardId+'<br>'
+                    + '<b>接收方邮编:</b>'+ctx.params.receiveCode+'<br>'
+                    + '<b>接收方的邮箱:</b>'+ctx.params.userEmail+'<br>'
                 // html body
             };
             console.log("邮件")

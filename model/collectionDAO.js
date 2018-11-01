@@ -16,5 +16,9 @@ class DB {
     deleteCollection(data){
         return DAO("delete from collection where collectionUserId=? and collectionCardId=?",[data.userId,data.cardId])
     }
+    //index--查询所有收藏表
+    getCollection(userId){
+        return DAO("SELECT * FROM collection where collectionUserId=?",[userId]);
+    }
 }
 module.exports = new DB();

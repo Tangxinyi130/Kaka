@@ -122,10 +122,18 @@ class DB {
     //users === 查询明信片
     searchCard (userId, province) {
         console.log("查询")
-        return DAO("select cardId, cardSender, userNickname, cardSendTime, cardSendRegion\n" +
+        return DAO("select cardId, cardSender,userHeadPic, userNickname, cardSendTime, cardSendRegion\n" +
                     "from userinfo, postcard\n" +
                     "where userId = cardSender and cardReceiveTime is null " +
                     "and cardReceiver = ? and userProvince = ?", [userId, province]);
+    }
+    // ===查询发送给用户自己的明信片
+    searchUserCard (userId) {
+        console.log("查询")
+        return DAO("select cardId, cardSender,userHeadPic, userNickname, cardSendTime, cardSendRegion\n" +
+            "from userinfo, postcard\n" +
+            "where userId = cardSender and cardReceiveTime is null " +
+            "and cardReceiver = ?", [userId]);
     }
     //users === 设置用户
     setUsers (userName, userNickname, userSex, userEmail, userBirthday, userProvince, userCity, userPostcode, userAddress, userId) {
