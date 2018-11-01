@@ -186,13 +186,12 @@ module.exports = {
     //users === 设置用户
     setUsers: async (ctx, next) => {
         try {
-            const hash=crypto.createHash("md5");
-            hash.update(ctx.request.body.userPwd);
-            var npwd=hash.digest("hex");
+            // const hash=crypto.createHash("md5");
+            // hash.update(ctx.request.body.userPwd);
+            // var npwd=hash.digest("hex");
+            console.log("开始设置用户");
             await userDAO.setUsers(
                 ctx.request.body.userName,
-                npwd,
-                // ctx.request.body.userPwd,
                 ctx.request.body.userNickname,
                 ctx.request.body.userSex,
                 ctx.request.body.userEmail,
@@ -229,16 +228,16 @@ module.exports = {
         }
     },
 
-    //users === 设置用户头像
-    setUserHeadPic: async (ctx, next) => {
-        try {
-            let src = "http://localhost:3000/headpics/" + ctx.req.file.filename;
-            await userDAO.setUserHeadPic(src, ctx.req.body.id);
-            ctx.body = {"code": 200, "message": "ok", data: []};
-        } catch (e) {
-            ctx.body = {"code": 500, "message": e.toString(), data: []};
-        }
-    },
+    // //users === 设置用户头像
+    // setUserHeadPic: async (ctx, next) => {
+    //     try {
+    //         let src = "http://localhost:3000/headpics/" + ctx.req.file.filename;
+    //         await userDAO.setUserHeadPic(src, ctx.req.body.id);
+    //         ctx.body = {"code": 200, "message": "ok", data: []};
+    //     } catch (e) {
+    //         ctx.body = {"code": 500, "message": e.toString(), data: []};
+    //     }
+    // },
 
 
     //index--首页-用户部分数据卡片数据
@@ -386,6 +385,42 @@ module.exports = {
             ctx.body = {"code": 500, "message": "服务器错误" + e.toString(), data: []}
         }
 
+    },
+
+    //设置密码，判断旧密码是否正确
+    getUserOldPwd: async (ctx, next) => {
+        try {
+            let pwd = await userDAO.getUserOldPwd(ctx.request.body.userId);
+            let oldpwd = pwd[0].userPwd;
+
+            const hash = crypto.createHash("md5");
+            hash.update(ctx.request.body.oldpwd);
+            let inputpwd = hash.digest("hex");
+
+            if (oldpwd == inputpwd) {
+                //data返回1时，输入的旧密码正确
+                ctx.body = {"code": 200, "message": "ok", data: 1};
+            } else {
+                //data返回0时，输入的旧密码错误
+                ctx.body = {"code": 200, "message": "ok", data: 0};
+            }
+        } catch (e) {
+            ctx.body = {"code": 500, "message": e.toString(), data: []}
+        }
+    },
+
+    //设置密码，修改密码
+    setUserNewPwd: async (ctx, next) => {
+        try {
+            const hash = crypto.createHash("md5");
+            hash.update(ctx.request.body.userPwd);
+            let newPwd = hash.digest("hex");
+
+            await userDAO.setUserNewPwd(newPwd, ctx.request.body.userId);
+            ctx.body = {"code": 200, "message": "ok", data: []};
+        } catch (e) {
+            ctx.body = {"code": 500, "message": e.toString(), data: []};
+        }
     },
 
     //根据手机号查询登录的用户id
