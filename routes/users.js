@@ -123,6 +123,10 @@ router.get("/myActivity/receiving/:mygoodsId/:userId", async (ctx, next) => {
 router.post("/searchMyPostcards", async (ctx, next) => {
     await userinfoController.searchCard(ctx, next);
 });
+//查询发送给用户自己的明信片
+router.post("/UserPostcards", async (ctx, next) => {
+    await userinfoController.searchUserCard(ctx, next);
+});
 
 //设置用户
 router.post("/updata", async (ctx, next) => {
@@ -148,54 +152,21 @@ router.post("/getUserId", async (ctx, next) => {
     await userinfoController.getUserId(ctx, next);
 });
 
-//设置用户头像
-// router.post("/setUserHeadPic", async (ctx, next) => {
-//     await userinfoController.setUserHeadPic(ctx, next);
-// });
 
 //根据明信片查看收发用户id
 router.get("/getTwoUser/:cardId", async (ctx, next) => {
     await userinfoController.getTwoUser(ctx, next);
-})
+});
 
-// router.post("/uploadInfo", async (ctx, next) =>  {
-//     var form = new formidable.IncomingForm();
-//     // form.uploadDir = '../public/headpics';   //设置文件存放路径
-//     form.multiples = true;  //设置上传多文件
-//     // var filename = "";
-//     // var src = "";
-//     // var fileDes = "";
-//     console.log("aaaaaa");
-//     form.parse(ctx.req, async function (err, fields) {
-//         // console.log(files)
-//         //根据files.filename.name获取上传文件名，执行后续写入数据库的操作
-//         // filename = files.filename.name;
-//         // src = path.join(__dirname, files.filename.path);
-//         // fileDes = path.basename(filename, path.extname(filename)) + moment(new Date()).format("YYYYMMDDHHMMSS") + path.extname(filename);
-//         // fs.rename(src, path.join(path.parse(src).dir, fileDes));
-//         // console.log(fileDes);
-//         // let str = `http://localhost:3000/headpics/${fileDes}`;
-//         // console.log(str);
-//         console.log(fields);
-//         // console.log("mydata:   " + fields.mydata);
-//         try {
-//             // setTimeout(() => {}, 20);
-//             // await userDAO.setUserHeadPic(str, fields.mydata);
-//             console.log(fields);
-//             await userDAO.setUsers(fields.name, fields.password,
-//                                     fields.nickname, fields.sex,
-//                                     fields.email, fields.birthday,
-//                                     fields.selected, fields.citySelected,
-//                                     fields.postcode, fields.address, fields.id)
-//
-//             ctx.body={"code":200, "message":"ok", data:[]};
-//         } catch (e) {
-//             ctx.body={"code":500, "message":"err"+e.message, data:[]};
-//         }
-//         //
-//         // //根据fileds.mydata获取上传表单元素的数据，执行写入数据库的操作
-//     })
-// })
+//重设密码，判断输入的密码是否是旧密码
+router.post("/getUserOldPwd", async (ctx, next) => {
+   await userinfoController.getUserOldPwd(ctx, next);
+});
+
+//重设密码，修改新密码
+router.post("/setUserNewPwd", async (ctx, next) => {
+   await userinfoController.setUserNewPwd(ctx, next);
+});
 
 
 

@@ -122,16 +122,23 @@ class DB {
     //users === 查询明信片
     searchCard (userId, province) {
         console.log("查询")
-        return DAO("select cardId, cardSender, userNickname, cardSendTime, cardSendRegion\n" +
+        return DAO("select cardId, cardSender,userHeadPic, userNickname, cardSendTime, cardSendRegion\n" +
                     "from userinfo, postcard\n" +
                     "where userId = cardSender and cardReceiveTime is null " +
                     "and cardReceiver = ? and userProvince = ?", [userId, province]);
     }
+    // ===查询发送给用户自己的明信片
+    searchUserCard (userId) {
+        console.log("查询")
+        return DAO("select cardId, cardSender,userHeadPic, userNickname, cardSendTime, cardSendRegion\n" +
+            "from userinfo, postcard\n" +
+            "where userId = cardSender and cardReceiveTime is null " +
+            "and cardReceiver = ?", [userId]);
+    }
     //users === 设置用户
-    setUsers (userName, userPwd, userNickname, userSex, userEmail, userBirthday, userProvince, userCity, userPostcode, userAddress, userId) {
+    setUsers (userName, userNickname, userSex, userEmail, userBirthday, userProvince, userCity, userPostcode, userAddress, userId) {
         return DAO("update userinfo\n" +
                     "set userName = ?, \n" +
-                    "   userPwd = ?, \n" +
                     "   userNickname = ?, \n" +
                     "   userSex = ?, \n" +
                     "   userEmail = ?, \n" +
@@ -140,7 +147,7 @@ class DB {
                     "   userCity = ?, \n" +
                     "   userPostcode = ?, \n" +
                     "   userAddress = ? \n" +
-                    "where userId = ?", [userName, userPwd, userNickname, userSex, userEmail, userBirthday, userProvince, userCity, userPostcode, userAddress, userId]);
+                    "where userId = ?", [userName, userNickname, userSex, userEmail, userBirthday, userProvince, userCity, userPostcode, userAddress, userId]);
     }
     //users === 用户个人地图的显示
     showUserMap (userId) {
@@ -200,9 +207,20 @@ class DB {
     doLogin(username){
         return DAO('select userTel from userinfo where userTel=?',[username])
     }
-    //用户密码
+    //登录，根据手机号查询用户密码
     userPw(username){
         return DAO('select userPwd from userinfo where userTel=?',[username])
+    }
+
+    //设置，根据用户ID查询用户密码
+    getUserOldPwd(userId) {
+        return DAO("select userPwd from userinfo where userId = ? ", [userId]);
+    }
+    //设置，设置新密码
+    setUserNewPwd(userPwd, userId) {
+        return DAO("update userinfo " +
+                    "set userPwd = ? " +
+                    "where userId = ?", [userPwd, userId]);
     }
 
 
