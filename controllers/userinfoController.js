@@ -183,6 +183,15 @@ module.exports = {
             ctx.body = {"code": 500, "message": e.toString(), data: []};
         }
     },
+    //users === 查询发送给用户自己的明信片
+    searchUserCard: async (ctx, next) => {
+        try {
+            let usercards = await userDAO.searchUserCard(ctx.request.body.userId);
+            ctx.body = {"code": 200, "message": "ok", data: usercards};
+        } catch (e) {
+            ctx.body = {"code": 500, "message": e.toString(), data: []};
+        }
+    },
     //users === 设置用户
     setUsers: async (ctx, next) => {
         try {

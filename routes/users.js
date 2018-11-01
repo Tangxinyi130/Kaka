@@ -123,6 +123,10 @@ router.get("/myActivity/receiving/:mygoodsId/:userId", async (ctx, next) => {
 router.post("/searchMyPostcards", async (ctx, next) => {
     await userinfoController.searchCard(ctx, next);
 });
+//查询发送给用户自己的明信片
+router.post("/UserPostcards", async (ctx, next) => {
+    await userinfoController.searchUserCard(ctx, next);
+});
 
 //设置用户
 router.post("/updata", async (ctx, next) => {
