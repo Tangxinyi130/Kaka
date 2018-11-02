@@ -1,8 +1,10 @@
 const managerDAO = require('../model/managerDAO');
 const goodsDAO = require('../model/goodsDAO');
+const moment = require("moment");
 const myactivityDAO =require('../model/myactivityDAO');
 const formidable = require("formidable");
 const path = require('path');
+const fs = require("fs")
 module.exports = {
     //后台管理登录
     doLogin:async(ctx,next)=> {
@@ -96,14 +98,40 @@ module.exports = {
     //活动发布-公告类文章
     //acName,acStartDate,acType,acDetails
     activityEdit:async(ctx,next)=>{
-        try{
-            let activityEdit = ctx.request.body;
-            console.log(activityEdit);
-            let success = await managerDAO.activityEdit(activityEdit.acName,activityEdit.acStartDate,activityEdit.acType,activityEdit.acDetails);
-            ctx.body = {code:200,"message":"插入成功,插入的数据是：",data:success}
-        }catch(e){
-            ctx.body = {code:500,"message":"服务器出错"+e.toString(),data:[]}
-        }
+        var form = new formidable.IncomingForm();
+        form.uploadDir = '../public/activityEdit';
+        var filename = "";
+        var src = "";
+        var fileDes ="";
+        form.parse(ctx.req,async function (err, fields, files){
+            filename = files.filename.name;
+            src = path.join(__dirname,files.filename.path);
+            fileDes = path.basename(filename,path.extname(filename)) + moment(new Date()).format("YYYYMMDDHHMMSS") + path.extname(filename);
+            fs.rename(src, path.join(path.parse(src).dir, fileDes));
+            console.log("文件名")
+            console.log(fileDes);
+            let str = `/activityEdit/${fileDes}`;
+            console.log(str);
+            console.log(fields);
+            // console.log("acName"+fields.acName);
+            try {
+                // setTimeout(()=>{},50);
+                let success = await managerDAO.activityEdit(fields.acName,fields.acStartDate,fields.acType,fields.acDetails,str);
+                ctx.body = {code:200,"message":"插入成功,插入的数据是：",data:success};
+            }catch(e){
+                ctx.body = {code:500,"message":"服务器出错"+e.toString(),data:[]};
+            }
+        })
+
+
+        // try{
+        //     let activityEdit = ctx.request.body;
+        //     console.log(activityEdit);
+        //     let success = await managerDAO.activityEdit(activityEdit.acName,activityEdit.acStartDate,activityEdit.acType,activityEdit.acDetails,activityEdit.acImage);
+        //     ctx.body = {code:200,"message":"插入成功,插入的数据是：",data:success}
+        // }catch(e){
+        //     ctx.body = {code:500,"message":"服务器出错"+e.toString(),data:[]}
+        // }
     },
     //活动发布-商品类文章(acName,acStartDate,acEndDate,acType,acDetails)
     activityGoodsEdit:async(ctx,next)=>{
@@ -149,6 +177,52 @@ module.exports = {
             })
         }).then((data)=>{
             //按wangeditor格式，输出结果，把上传的文件名返回
+            ctx.body = {errno:0,data:data};
+        })
+    },
+    uploadActivityOneImage:async(ctx,next)=>{
+        // var form = new formidable.IncomingForm();
+        // form.uploadDir = '../public/activityEdit';   //设置文件存放路径
+        // var filename = "";
+        // var src = "";
+        // var fileDes = "";
+        // form.parse(ctx.req, async function (err, fields, files) {
+        //     // console.log(files)
+        //     //根据files.filename.name获取上传文件名，执行后续写入数据库的操作
+        //     filename = files.filename.name;
+        //     src = path.join(__dirname, files.filename.path);
+        //     fileDes = path.basename(filename, path.extname(filename)) + moment(new Date()).format("YYYYMMDDHHMMSS") + path.extname(filename);
+        //     fs.rename(src, path.join(path.parse(src).dir, fileDes));
+        //     console.log(fileDes);
+        //     let str = `/headpics/${fileDes}`;
+        //     console.log(str);
+        //     console.log(fields);
+        //     console.log("mydata:   " + fields.mydata);
+        //     try {
+        //
+        //         await userDAO.setUserHeadPic(str, fields.mydata);
+        //         ctx.body={"code":200, "message":"ok", data:[]};
+        //     } catch (e) {
+        //         ctx.body={"code":500, "message":"err"+e.message, data:[]};
+        //     }
+        // })
+
+        const form = new formidable.IncomingForm();
+        form.uploadDir = '../public/activityEdit';
+        form.keepExtensions = true;
+        let urlImages = [];
+        return new Promise(function(resolve,reject){
+            form.parse(ctx.req,function(err,fields,files){
+                if(err) reject(err.message)
+                console.log('获取数据文件了......')
+                // if(err){console.log(err); return;}
+                for(name in files){
+                    urlImages.push(path.parse(files[name].path).base);
+                }
+                console.log(urlImages);
+                resolve(urlImages)
+            })
+        }).then((data)=>{
             ctx.body = {errno:0,data:data};
         })
     },

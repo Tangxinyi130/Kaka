@@ -42,5 +42,8 @@ router.post('/activityManagerment/update',async(ctx,next)=>{
 router.post('/activityImageUpload',async(ctx,next)=>{
     await managerController.uploadActivityImage(ctx,next);
 })
+router.post('/activityOneImageUpload',async(ctx,next)=>{
+   await managerController.uploadActivityOneImage(ctx,next);
+});
 
 module.exports = router;

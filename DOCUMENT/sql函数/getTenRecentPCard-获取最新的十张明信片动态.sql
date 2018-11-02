@@ -3,7 +3,8 @@ BEGIN
 SELECT
 	cardId,
 	cardPic,
-	cardReceiveTime
+	cardReceiveTime,
+	cardLike
 FROM
 	postcard
 WHERE
@@ -11,6 +12,6 @@ WHERE
 	AND cardPic IS NOT NULL
 ORDER BY
 	cardReceiveTime DESC
-	LIMIT 10;
+	LIMIT 12;
 
 END

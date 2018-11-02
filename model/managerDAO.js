@@ -25,8 +25,8 @@ class DB {
         return DAO('DELETE FROM activity WHERE activityId = ?',[activityId]);
     }
     //活动发布-公告类文章
-    activityEdit(acName,acStartDate,acType,acDetails){
-        return DAO('insert into activity(activityName, activityStartDate, activityType, activityDetails) values(?,?,?,?)',[acName,acStartDate,acType,acDetails]);
+    activityEdit(acName,acStartDate,acType,acDetails,acImage){
+        return DAO('insert into activity(activityName, activityStartDate, activityType, activityDetails,activityImage) values(?,?,?,?,?)',[acName,acStartDate,acType,acDetails,acImage]);
     }
     //活动发布-商品类文章
     activityGoodsEdit(acName,acStartDate,acEndDate,acType,acDetails){
