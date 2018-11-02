@@ -2,7 +2,7 @@ const DAO=require('../model/DAO');
 class DB{
     //activity--获取所有活动信息
     getAllActivity(){
-        return DAO('select * from activity a left join goods g on a.activityId=g.goodsActivityId ORDER BY activityEndDate DESC;',[]);
+        return DAO('select * from activity a left join goods g on a.activityId=g.goodsActivityId ORDER BY activityStartDate DESC;',[]);
     }
 
     //activity--或取所有活动的年份
@@ -19,7 +19,7 @@ class DB{
     }
     //activity--根据年份月份查询相关的活动
     getActivityTime(time){
-        return DAO("select * from (select activityId,activityName,activityDetails,activityStartDate,activityEndDate,activityType\n" +
+        return DAO("select * from (select activityId,activityName,activityDetails,activityStartDate,activityEndDate,activityImage,activityType\n" +
             ",MONTH(activityStartDate) activityMonth,year(activityStartDate) activityYear from activity) time left join goods g on time.activityId=g.goodsActivityId where activityYear=? and activityMonth=?",[time.year,time.month])
     }
 }

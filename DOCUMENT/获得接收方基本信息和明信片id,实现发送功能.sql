@@ -1,4 +1,4 @@
-create procedure pro_send(
+CREATE DEFINER=`root`@`localhost` PROCEDURE `pro_send`(
    p_userId int
 
 )
@@ -25,6 +25,8 @@ begin
 		declare p_countFans int;
 		-- 得到接收者的关注数
 		declare p_countAttention int;
+		declare p_detailAddress varchar(255);
+		declare p_receiveCode char(6);
 	  declare continue handler for sqlexception set t_error = 1;
 	 start transaction;
 
@@ -72,6 +74,12 @@ begin
 					from userinfo where userId=p_cardReceive;
 						SELECT userCity into  p_cardReceiveCity
 					from userinfo where userId=p_cardReceive;
+					-- 得到接收方的具体地址
+					select userAddress into p_detailAddress
+					from userinfo where userId=p_cardReceive;
+					-- 得到接收方的邮编
+					select userPostcode into p_receiveCode
+					from userinfo where userId=p_cardReceive;
 					-- -----------------------------------------------
 				 -- 得到接收者用户的粉丝数
 		select count(attentionFan) into p_countFans from attention where attentionName=p_cardReceive;
@@ -87,11 +95,11 @@ begin
 				values(p_cardId, p_userId, p_cardReceive, p_cardSendRegion, p_cardReceiveRegion, now());
 				 -- 把接收方从最小的poolTime里删除
 				  DELETE from pool where poolId=p_poolId;
-				select p_cardReceive ,p_cardReceiveNickname ,p_cardReceiveSex, p_cardReceiveHeadPic,p_cardReceiveEmail , p_cardReceiveBirthday ,p_cardReceiveProvince, p_cardReceiveCity,p_cardId,p_countFans,p_countAttention;
+				select p_cardReceive ,p_cardReceiveNickname ,p_cardReceiveSex, p_cardReceiveHeadPic,p_cardReceiveEmail , p_cardReceiveBirthday ,p_cardReceiveProvince, p_cardReceiveCity,p_cardId,p_countFans,p_countAttention,p_receiveCode,p_detailAddress;
 
 	if t_error = 1 then
 		rollback;
 	else
 	  commit;
 	end if;
-end;
+end
