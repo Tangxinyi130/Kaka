@@ -96,7 +96,7 @@ module.exports = {
         }
     },
     //活动发布-公告类文章
-    //acName,acStartDate,acType,acDetails
+    //acName,acStartDate,acType,acDetails,acImage
     activityEdit:async(ctx,next)=>{
         var form = new formidable.IncomingForm();
         form.uploadDir = '../public/activityEdit';
@@ -143,21 +143,55 @@ module.exports = {
             ctx.body = {code:500,"message":"服务器出错"+e.toString(),data:[]}
         }
     },
+    getActivityById:async(ctx,next)=>{
+      try{
+          let activityMessage = await managerDAO.getActivityById(ctx.params.activityId);
+          ctx.body = {code:200,"message":"查询成功数据是：",data:activityMessage};
+      }catch (e) {
+          ctx.body={code:500,"message":"服务器错误"+e.toString(),data:[]};
+      }
+    },
     //修改已经发布的过的文章
     updateActivity:async(ctx,next)=>{
-        try {
-            let activity = ctx.request.body;
-            let activityType = activity.acType;
-            if(activityType=='商品'){
-                await managerDAO.updateGoodsActivity(activity.acId,activity.acName,activity.acStartDate,activity.acEndDate,activity.acType,activity.acDetails);
-            }else if(activityType=='公告'){
-                await managerDAO.updateActivity(activity.acId,activity.acName,activity.acStartDate,activity.acType,activity.acDetails);
-            }
-            ctx.body={code:200,"message":activityType+"文章更新成功",data:activity};
-
-        }catch(e){
-            ctx.body = {code:500,"message":"服务器出错"+e.toString(),data:[]};
+        // try {
+        //     let activity = ctx.request.body;
+        //     let activityType = activity.acType;
+        //     if(activityType=='商品'){
+        //         await managerDAO.updateGoodsActivity(activity.acId,activity.acName,activity.acStartDate,activity.acEndDate,activity.acType,activity.acDetails);
+        //     }else if(activityType=='公告'){
+        //         await managerDAO.updateActivity(activity.acId,activity.acName,activity.acStartDate,activity.acType,activity.acDetails);
+        //     }
+        //     ctx.body={code:200,"message":activityType+"文章更新成功",data:activity};
+        //
+        // }catch(e){
+        //     ctx.body = {code:500,"message":"服务器出错"+e.toString(),data:[]};
+        // }
+        try{
+            var form = new formidable.IncomingForm();
+            form.uploadDir = '../public/activityEdit';
+            var filename = "";
+            var src = "";
+            var fileDes ="";
+            form.parse(ctx.req,async function (err, fields, files) {
+                filename = files.filename.name;
+                src = path.join(__dirname, files.filename.path);
+                fileDes = path.basename(filename, path.extname(filename)) + moment(new Date()).format("YYYYMMDDHHMMSS") + path.extname(filename);
+                fs.rename(src, path.join(path.parse(src).dir, fileDes));
+                console.log("文件名");
+                console.log(fileDes);
+                let str = `/activityEdit/${fileDes}`;
+                console.log(str);
+                console.log(fields);
+                console.log(fields.activityId);
+                // console.log("acName"+fields.acName);
+                let success = await managerDAO.updateActivity(fields.activityId,fields.acName, fields.acStartDate, fields.acType, fields.acDetails, str);
+                console.log(success);
+                ctx.body = {code: 200, "message": "插入成功,插入的数据是：", data: success};
+            });
+        }catch (e) {
+            ctx.body = {code: 500, "message": "服务器出错" + e.toString(), data: []};
         }
+
     },
     uploadActivityImage:async(ctx,next)=>{
         const form = new formidable.IncomingForm();
