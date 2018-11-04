@@ -36,6 +36,10 @@ router.get('/activityManagerment/classfic/:dif',async(ctx,next)=>{
 router.get('/activityManagerment/delete/:activityId',async(ctx,next)=>{
     await managerController.deleteActivity(ctx,next);
 });
+//根据id查询一篇文章
+router.get('/activityManagerment/message/:activityId',async(ctx,next)=>{
+    await managerController.getActivityById(ctx,next);
+});
 //修改已发布过的文章
 router.post('/activityManagerment/update',async(ctx,next)=>{
     await managerController.updateActivity(ctx,next);
@@ -61,5 +65,8 @@ router.post('/activityImageUpload',async(ctx,next)=>{
         ctx.body = {errno:0,data:data};
     })
 })
+router.post('/activityOneImageUpload',async(ctx,next)=>{
+   await managerController.uploadActivityOneImage(ctx,next);
+});
 
 module.exports = router;
