@@ -162,11 +162,17 @@ class DB {
         return DAO('update postcard set cardLike=cardLike-1 where cardId= ?',[cardId]);
     }
     //postcard === 地图上显示发送方和收取方两地
-    showPath(sendUserId, receiveUserId) {
+    showPath1(sendUserId) {
         return DAO("select userId, userAddress\n" +
                     "from userinfo\n" +
-                    "where userId = ? or userId = ?", [sendUserId, receiveUserId]);
+                    "where userId = ?", [sendUserId]);
     }
+    showPath2(receiveUserId) {
+        return DAO("select userId, userAddress\n" +
+            "from userinfo\n" +
+            "where userId = ?", [receiveUserId]);
+    }
+
 
 
     //receive --- 根据输入明信片的id，更新postcard中明信片的照片

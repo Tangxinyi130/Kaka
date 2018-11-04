@@ -189,7 +189,9 @@ module.exports = {
     //receive === 提供两个用户的地址，由前端进行距离计算
     calculateDistance: async (ctx, next) => {
         try {
-            let path = await postcardDAO.showPath(ctx.params.sendUserId, ctx.params.receiveUserId);
+            let path1 = await postcardDAO.showPath1(ctx.params.sendUserId);
+            let path2 = await postcardDAO.showPath2(ctx.params.receiveUserId);
+            let path = [path1[0], path2[0]];
             ctx.body = {"code": 200, "message": "ok", data: path};
         } catch (e) {
             ctx.body = {"code": 500, "message": e.toString(), data: []};
