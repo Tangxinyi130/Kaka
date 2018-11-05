@@ -24,9 +24,14 @@ class DB {
     deleteActivity(activityId){
         return DAO('DELETE FROM activity WHERE activityId = ?',[activityId]);
     }
+    //获取某篇文章的所有信息
+    getActivityById(activityId){
+        return DAO('SELECT activityId,activityName,activityStartDate,activityDetails,activityImage,activityType FROM activity WHERE activityId=?',[activityId]);
+    }
+
     //活动发布-公告类文章
-    activityEdit(acName,acStartDate,acType,acDetails){
-        return DAO('insert into activity(activityName, activityStartDate, activityType, activityDetails) values(?,?,?,?)',[acName,acStartDate,acType,acDetails]);
+    activityEdit(acName,acStartDate,acType,acDetails,acImage){
+        return DAO('insert into activity(activityName, activityStartDate, activityType, activityDetails,activityImage) values(?,?,?,?,?)',[acName,acStartDate,acType,acDetails,acImage]);
     }
     //活动发布-商品类文章
     activityGoodsEdit(acName,acStartDate,acEndDate,acType,acDetails){
@@ -34,14 +39,8 @@ class DB {
             'values(?,?,?,?,?)',[acName,acStartDate,acEndDate,acType,acDetails]);
     }
     //修改发布过的活动-公告类
-    updateActivity(activityId,acName,acStartDate,acType,acDetails){
-        return DAO('UPDATE activity \n' +
-            'SET activityName = ?,\n' +
-            'activityStartDate = ?,\n' +
-            'activityType = ?,\n' +
-            'activityDetails = ? \n' +
-            'WHERE\n' +
-            '\tactivityId = ?',[acName,acStartDate,acType,acDetails,activityId]);
+    updateActivity(activityId,acName,acStartDate,acType,acDetails,acImage){
+        return DAO('UPDATE activity SET activityName = ?, activityStartDate=?, activityType=?,activityDetails =?, activityImage=? WHERE activityId = ?;',[acName,acStartDate,acType,acDetails,acImage,activityId]);
     }
     //修改发布过的活动-商品类
     updateGoodsActivity(activityId,acName,acStartDate,acEndDate,acType,acDetails){
