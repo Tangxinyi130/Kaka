@@ -4,7 +4,8 @@ const moment = require("moment");
 const myactivityDAO =require('../model/myactivityDAO');
 const formidable = require("formidable");
 const path = require('path');
-const fs = require("fs")
+const fs = require("fs");
+const crypto = require("crypto");
 module.exports = {
     //后台管理登录
     doLogin:async(ctx,next)=> {
@@ -30,10 +31,16 @@ module.exports = {
                 // ctx.body = '用户名不存在';
             }
             else if (adminName[0].managerId === username) {
+
+                const hash=crypto.createHash("md5");
+                hash.update(password);
+                var npwd=hash.digest("hex");
+                console.log("用户输入的密码进行加密后的密码"+npwd);
+
                 let adminPwd = await  managerDAO.getAdminPwd(username);
                 console.log('数据库里的密码：');
                 // console.log(adminPwd[0].managerPwd);
-                if (await  adminPwd[0].managerPwd === password) {
+                if (await  adminPwd[0].managerPwd === npwd) {
                     data.loginSucess = true;
                     // ctx.body = '登陆成功';
                 } else {
@@ -72,9 +79,9 @@ module.exports = {
             let info={};
             let activityId = ctx.params.activityId;
             let type = await managerDAO.getActivityTypeById(activityId);
-            let myactivity = await  myactivityDAO.getMyactivityByAcId(activityId);
+            // let myactivity = await  myactivityDAO.getMyactivityByAcId(activityId);
             //如果用户参与了该项活动，则不允许删除
-            if(myactivity.length==0){
+            // if(myactivity.length==0){
                 //如果删除的文章是商品类，则先删除商品信息
                 if(type[0].activityType=='商品'){
                     //删除相关商品
@@ -86,10 +93,10 @@ module.exports = {
                     await managerDAO.deleteActivity(activityId);
                     info.delete = "success";
                 }
-            }else {
-                info.reject = "reject";
-                info.delete = "fail";
-            }
+            // }else {
+            //     info.reject = "reject";
+            //     info.delete = "fail";
+            // }
             ctx.body = {code:200,"message":"删除成功",data:info}
         }catch(e){
             ctx.body = {code:500,"message":"服务器出错"+e.toString(),data:[]}
